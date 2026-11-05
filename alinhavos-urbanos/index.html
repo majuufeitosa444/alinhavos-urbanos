@@ -1,0 +1,844 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Alinhavos Urbanos – Medidor do nível da água</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+ .leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; } .leaflet-container { overflow: hidden; } .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow { -webkit-user-select: none; -moz-user-select: none; user-select: none; -webkit-user-drag: none; } .leaflet-tile::selection { background: transparent; } .leaflet-safari .leaflet-tile { image-rendering: -webkit-optimize-contrast; } .leaflet-safari .leaflet-tile-container { width: 1600px; height: 1600px; -webkit-transform-origin: 0 0; } .leaflet-marker-icon, .leaflet-marker-shadow { display: block; } .leaflet-container .leaflet-overlay-pane svg { max-width: none !important; max-height: none !important; } .leaflet-container .leaflet-marker-pane img, .leaflet-container .leaflet-shadow-pane img, .leaflet-container .leaflet-tile-pane img, .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; width: auto; padding: 0; } .leaflet-container img.leaflet-tile { mix-blend-mode: plus-lighter; } .leaflet-container.leaflet-touch-zoom { -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; } .leaflet-container.leaflet-touch-drag { -ms-touch-action: pinch-zoom; touch-action: none; touch-action: pinch-zoom; } .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom { -ms-touch-action: none; touch-action: none; } .leaflet-container { -webkit-tap-highlight-color: transparent; } .leaflet-container a { -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4); } .leaflet-tile { filter: inherit; visibility: hidden; } .leaflet-tile-loaded { visibility: inherit; } .leaflet-zoom-box { width: 0; height: 0; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 800; } .leaflet-overlay-pane svg { -moz-user-select: none; } .leaflet-pane { z-index: 400; } .leaflet-tile-pane { z-index: 200; } .leaflet-overlay-pane { z-index: 400; } .leaflet-shadow-pane { z-index: 500; } .leaflet-marker-pane { z-index: 600; } .leaflet-tooltip-pane { z-index: 650; } .leaflet-popup-pane { z-index: 700; } .leaflet-map-pane canvas { z-index: 100; } .leaflet-map-pane svg { z-index: 200; } .leaflet-vml-shape { width: 1px; height: 1px; } .lvml { display: inline-block; position: absolute; } .leaflet-control { position: relative; z-index: 800; pointer-events: visiblePainted; pointer-events: auto; } .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; } .leaflet-top { top: 0; } .leaflet-right { right: 0; } .leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; } .leaflet-control { float: left; clear: both; } .leaflet-right .leaflet-control { float: right; } .leaflet-top .leaflet-control { margin-top: 10px; } .leaflet-bottom .leaflet-control { margin-bottom: 10px; } .leaflet-left .leaflet-control { margin-left: 10px; } .leaflet-right .leaflet-control { margin-right: 10px; } .leaflet-fade-anim .leaflet-popup { opacity: 0; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear; transition: opacity 0.2s linear; } .leaflet-fade-anim .leaflet-map-pane .leaflet-popup { opacity: 1; } .leaflet-zoom-animated { -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0; transform-origin: 0 0; } svg.leaflet-zoom-animated { will-change: transform; } .leaflet-zoom-anim .leaflet-zoom-animated { -webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1); -moz-transition: -moz-transform 0.25s cubic-bezier(0,0,0.25,1); transition: transform 0.25s cubic-bezier(0,0,0.25,1); } .leaflet-zoom-anim .leaflet-tile, .leaflet-pan-anim .leaflet-tile { -webkit-transition: none; -moz-transition: none; transition: none; } .leaflet-zoom-anim .leaflet-zoom-hide { visibility: hidden; } .leaflet-interactive { cursor: pointer; } .leaflet-grab { cursor: -webkit-grab; cursor: -moz-grab; cursor: grab; } .leaflet-crosshair, .leaflet-crosshair .leaflet-interactive { cursor: crosshair; } .leaflet-popup-pane, .leaflet-control { cursor: auto; } .leaflet-dragging .leaflet-grab, .leaflet-dragging .leaflet-grab .leaflet-interactive, .leaflet-dragging .leaflet-marker-draggable { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; cursor: grabbing; } .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-image-layer, .leaflet-pane > svg path, .leaflet-tile-container { pointer-events: none; } .leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path { pointer-events: visiblePainted; pointer-events: auto; } .leaflet-container { background: #ddd; outline-offset: 1px; } .leaflet-container a { color: #0078A8; } .leaflet-zoom-box { border: 2px dotted #38f; background: rgba(255,255,255,0.5); } .leaflet-container { font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; font-size: 12px; font-size: 0.75rem; line-height: 1.5; } .leaflet-bar { box-shadow: 0 1px 5px rgba(0,0,0,0.65); border-radius: 4px; } .leaflet-bar a { background-color: #fff; border-bottom: 1px solid #ccc; width: 26px; height: 26px; line-height: 26px; display: block; text-align: center; text-decoration: none; color: black; } .leaflet-bar a, .leaflet-control-layers-toggle { background-position: 50% 50%; background-repeat: no-repeat; display: block; } .leaflet-bar a:hover, .leaflet-bar a:focus { background-color: #f4f4f4; } .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; } .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; } .leaflet-bar a.leaflet-disabled { cursor: default; background-color: #f4f4f4; color: #bbb; } .leaflet-touch .leaflet-bar a { width: 30px; height: 30px; line-height: 30px; } .leaflet-touch .leaflet-bar a:first-child { border-top-left-radius: 2px; border-top-right-radius: 2px; } .leaflet-touch .leaflet-bar a:last-child { border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; } .leaflet-control-zoom-in, .leaflet-control-zoom-out { font: bold 18px 'Lucida Console', Monaco, monospace; text-indent: 1px; } .leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out { font-size: 22px; } .leaflet-control-layers { box-shadow: 0 1px 5px rgba(0,0,0,0.4); background: #fff; border-radius: 5px; } .leaflet-control-layers-toggle { width: 36px; height: 36px; } .leaflet-retina .leaflet-control-layers-toggle { background-size: 26px 26px; } .leaflet-touch .leaflet-control-layers-toggle { width: 44px; height: 44px; } .leaflet-control-layers .leaflet-control-layers-list, .leaflet-control-layers-expanded .leaflet-control-layers-toggle { display: none; } .leaflet-control-layers-expanded .leaflet-control-layers-list { display: block; position: relative; } .leaflet-control-layers-expanded { padding: 6px 10px 6px 6px; color: #333; background: #fff; } .leaflet-control-layers-scrollbar { overflow-y: scroll; overflow-x: hidden; padding-right: 5px; } .leaflet-control-layers-selector { margin-top: 2px; position: relative; top: 1px; } .leaflet-control-layers label { display: block; font-size: 13px; font-size: 1.08333em; } .leaflet-control-layers-separator { height: 0; border-top: 1px solid #ddd; margin: 5px -10px 5px -6px; } .leaflet-default-icon-path { } .leaflet-container .leaflet-control-attribution { background: #fff; background: rgba(255, 255, 255, 0.8); margin: 0; } .leaflet-control-attribution, .leaflet-control-scale-line { padding: 0 5px; color: #333; line-height: 1.4; } .leaflet-control-attribution a { text-decoration: none; } .leaflet-control-attribution a:hover, .leaflet-control-attribution a:focus { text-decoration: underline; } .leaflet-attribution-flag { display: inline !important; vertical-align: baseline !important; width: 1em; height: 0.6669em; } .leaflet-left .leaflet-control-scale { margin-left: 5px; } .leaflet-bottom .leaflet-control-scale { margin-bottom: 5px; } .leaflet-control-scale-line { border: 2px solid #777; border-top: none; line-height: 1.1; padding: 2px 5px 1px; white-space: nowrap; -moz-box-sizing: border-box; box-sizing: border-box; background: rgba(255, 255, 255, 0.8); text-shadow: 1px 1px #fff; } .leaflet-control-scale-line:not(:first-child) { border-top: 2px solid #777; border-bottom: none; margin-top: -2px; } .leaflet-control-scale-line:not(:first-child):not(:last-child) { border-bottom: 2px solid #777; } .leaflet-touch .leaflet-control-attribution, .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { box-shadow: none; } .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { border: 2px solid rgba(0,0,0,0.2); background-clip: padding-box; } .leaflet-popup { position: absolute; text-align: center; margin-bottom: 20px; } .leaflet-popup-content-wrapper { padding: 1px; text-align: left; border-radius: 12px; } .leaflet-popup-content { margin: 13px 24px 13px 20px; line-height: 1.3; font-size: 13px; font-size: 1.08333em; min-height: 1px; } .leaflet-popup-content p { margin: 17px 0; margin: 1.3em 0; } .leaflet-popup-tip-container { width: 40px; height: 20px; position: absolute; left: 50%; margin-top: -1px; margin-left: -20px; overflow: hidden; pointer-events: none; } .leaflet-popup-tip { width: 17px; height: 17px; padding: 1px; margin: -10px auto 0; pointer-events: auto; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); } .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: white; color: #333; box-shadow: 0 3px 14px rgba(0,0,0,0.4); } .leaflet-container a.leaflet-popup-close-button { position: absolute; top: 0; right: 0; border: none; text-align: center; width: 24px; height: 24px; font: 16px/24px Tahoma, Verdana, sans-serif; color: #757575; text-decoration: none; background: transparent; } .leaflet-container a.leaflet-popup-close-button:hover, .leaflet-container a.leaflet-popup-close-button:focus { color: #585858; } .leaflet-popup-scrolled { overflow: auto; } .leaflet-oldie .leaflet-popup-content-wrapper { -ms-zoom: 1; } .leaflet-oldie .leaflet-popup-tip { width: 24px; margin: 0 auto; -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)"; filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678); } .leaflet-oldie .leaflet-control-zoom, .leaflet-oldie .leaflet-control-layers, .leaflet-oldie .leaflet-popup-content-wrapper, .leaflet-oldie .leaflet-popup-tip { border: 1px solid #999; } .leaflet-div-icon { background: #fff; border: 1px solid #666; } .leaflet-tooltip { position: absolute; padding: 6px; background-color: #fff; border: 1px solid #fff; border-radius: 3px; color: #222; white-space: nowrap; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.4); } .leaflet-tooltip.leaflet-interactive { cursor: pointer; pointer-events: auto; } .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { position: absolute; pointer-events: none; border: 6px solid transparent; background: transparent; content: ""; } .leaflet-tooltip-bottom { margin-top: 6px; } .leaflet-tooltip-top { margin-top: -6px; } .leaflet-tooltip-bottom:before, .leaflet-tooltip-top:before { left: 50%; margin-left: -6px; } .leaflet-tooltip-top:before { bottom: 0; margin-bottom: -12px; border-top-color: #fff; } .leaflet-tooltip-bottom:before { top: 0; margin-top: -12px; margin-left: -6px; border-bottom-color: #fff; } .leaflet-tooltip-left { margin-left: -6px; } .leaflet-tooltip-right { margin-left: 6px; } .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { top: 50%; margin-top: -6px; } .leaflet-tooltip-left:before { right: 0; margin-right: -12px; border-left-color: #fff; } .leaflet-tooltip-right:before { left: 0; margin-left: -12px; border-right-color: #fff; } @media print { .leaflet-control { -webkit-print-color-adjust: exact; print-color-adjust: exact; } } 
+/* Layout: painel técnico à esquerda + mapa cartográfico monocromático (foto em cinza, água em azul, etiquetas HUD com linhas de chamada) */
+:root{
+  --bg:#eceef4; --panel:#f6f7fa; --fg:#0f1638; --muted:#5b6385; --line:#d3d8e6;
+  --accent:#2a37a3; --accent-ink:#ffffff; --chip:#e4e8f3; --ink-deep:#141c4f;
+  --signal:#ff4b1f; --warn:#b4441b;
+  --canal:#2330b6; --chuva:#7d9bff; --mapbg:#efefed;
+  --im-sea:#cdd3dc; --im-land:#e4e5e8; --im-rec:#f6f6f4; --im-water:#9aaad0;
+  --f-display:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#090e22; --panel:#0e1430; --fg:#e2e6f5; --muted:#8e96b8; --line:#232b4e;
+  --accent:#93a5ff; --accent-ink:#0a0f24; --chip:#151d3d; --ink-deep:#c9d1ff;
+  --signal:#ff6a42; --warn:#f0a074; --im-sea:#0b1129; --im-land:#141a35; --im-rec:#1d2445; --im-water:#3c4f8f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#090e22; --panel:#0e1430; --fg:#e2e6f5; --muted:#8e96b8; --line:#232b4e;
+  --accent:#93a5ff; --accent-ink:#0a0f24; --chip:#151d3d; --ink-deep:#c9d1ff;
+  --signal:#ff6a42; --warn:#f0a074; --im-sea:#0b1129; --im-land:#141a35; --im-rec:#1d2445; --im-water:#3c4f8f; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.45}
+.app{display:grid;grid-template-columns:minmax(310px,390px) 1fr;height:100%}
+.panel{background:var(--panel);border-right:1px solid var(--line);overflow-y:auto;
+  padding-block:22px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:20px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.mapwrap{position:relative;min-width:0;height:100%}
+#map{height:100%;min-height:320px;background:var(--mapbg)}
+#v3d{position:absolute;inset:0;z-index:1001;background:var(--mapbg)}
+#v3d canvas{display:block}
+.vt{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:1002;background:rgba(12,18,48,.78);border-color:rgba(255,255,255,.4)}
+.vt button{color:#fff}.vt button[aria-pressed="true"]{background:#fff;color:#10173a}
+.v3-ui{position:absolute;top:12px;right:max(12px,env(safe-area-inset-right,0px));display:flex;gap:8px;align-items:center;background:rgba(12,18,48,.78);padding:6px 8px;color:#fff}
+.v3-ui .k{color:#c9d1ff}.v3-ui .seg{border-color:rgba(255,255,255,.4)}.v3-ui .seg button{color:#fff}.v3-ui .seg button[aria-pressed="true"]{background:#fff;color:#10173a}
+.v3-note{position:absolute;left:max(12px,env(safe-area-inset-left,0px));bottom:12px;max-width:min(460px,80%);margin:0;background:rgba(12,18,48,.78);color:#fff;font-family:var(--f-data);font-size:10.5px;line-height:1.5;padding:8px 10px}
+.v3-msg{position:absolute;inset:0;display:grid;place-items:center;margin:0;font-family:var(--f-data);color:var(--muted);pointer-events:none}
+.v3-msg:empty{display:none}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto}
+  .mapwrap{grid-row:1;height:60vh} #map{height:60vh}
+  .panel{grid-row:2;border-right:0;border-top:1px solid var(--line);overflow:visible;padding-right:max(16px,env(safe-area-inset-right,0px))}
+}
+.k{font-family:var(--f-data);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:7px}
+.k::before{content:"";width:7px;height:7px;background:var(--signal);flex:none}
+h1{font-family:var(--f-display);font-stretch:75%;font-weight:800;font-size:2.55rem;line-height:.92;margin:8px 0 0;letter-spacing:-.005em;text-transform:uppercase;color:var(--ink-deep);text-wrap:balance}
+.sub{color:var(--muted);margin:10px 0 0;font-size:.86rem;max-width:42ch}
+section{display:flex;flex-direction:column;gap:10px}
+.h1b{font-family:var(--f-display);font-stretch:75%;font-weight:500;font-size:1.35rem;line-height:1.05;margin:4px 0 0;text-transform:uppercase;letter-spacing:.01em;color:var(--accent)}
+h2{font-family:var(--f-data);font-weight:500;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin:0;color:var(--fg);display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+h2::before{content:"";width:7px;height:7px;background:var(--signal);flex:none}
+.ctl{display:flex;flex-direction:column;gap:7px;padding:2px 0 14px;border-bottom:1px solid var(--line)}
+.ctl-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ctl-head label{font-weight:600}
+.val{font-family:var(--f-data);font-size:1rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.swatch{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:baseline}
+.hint{color:var(--muted);font-size:.8rem;margin:0}
+.hint a{color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=range]:disabled{opacity:.5}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.field{display:flex;flex-direction:column;gap:3px;flex:1 1 110px;min-width:0}
+.field span{font-size:.76rem;color:var(--muted)}
+input[type=number]{font-family:var(--f-data);font-size:.95rem;padding:6px 8px;border:1px solid var(--line);border-radius:2px;background:var(--bg);color:var(--fg);width:100%}
+button{font:inherit;font-weight:600;padding:7px 12px;border-radius:2px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.ghost{background:transparent;color:var(--accent)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:transparent;color:var(--fg);font-weight:500;padding:6px 12px;font-family:var(--f-data);font-size:.78rem;letter-spacing:.04em}
+.seg button[aria-pressed="true"]{background:var(--ink-deep);color:var(--panel)}
+details{border-bottom:1px solid var(--line);padding:0 0 12px}
+details summary{cursor:pointer;font-weight:600}
+details[open] summary{margin-bottom:8px}
+.result{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin:0}
+.result .big{grid-column:1/-1;display:flex;flex-direction:column;gap:2px;padding-bottom:8px}
+.result .big b{font-family:var(--f-display);font-stretch:100%;font-weight:400;font-size:3.6rem;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.result .big span{color:var(--muted);font-size:.86rem}
+.result dt{color:var(--muted);font-size:.84rem}
+.result dd{margin:0;font-family:var(--f-data);font-variant-numeric:tabular-nums;text-align:right}
+.bar{grid-column:1/-1;height:6px;background:var(--line);display:flex;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%}
+.layers{display:grid;grid-template-columns:1fr 1fr;gap:5px 10px}
+.layers label{display:flex;gap:6px;align-items:center;font-size:.84rem;min-width:0}
+.probe{font-family:var(--f-data);font-size:.78rem;padding:10px 12px;border-left:2px solid var(--signal);background:var(--chip);min-height:3.2em}
+ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.84rem}
+.src{font-size:.76rem;color:var(--muted)}
+.warn{color:var(--warn)}
+.pix{image-rendering:pixelated}
+.orto-gray{filter:grayscale(1) contrast(1.08) brightness(1.06)}
+.mare-nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mare-nav #m-date{font-weight:600;min-width:9.5em;text-align:center}
+button.sq{padding:4px 10px;font-size:1rem;line-height:1}
+#m-curve{width:100%;height:auto;touch-action:none;cursor:crosshair;display:block}
+#m-curve .ax{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3}
+#m-curve text{fill:var(--muted);font-family:var(--f-data);font-size:9px}
+#m-curve .tide{fill:none;stroke:var(--canal);stroke-width:1.8}
+#m-curve .area{fill:var(--canal);opacity:.12}
+#m-curve .now{stroke:var(--signal);stroke-width:1;stroke-dasharray:3 3}
+#m-curve .sel{stroke:var(--fg);stroke-width:1}
+#m-curve .dot{fill:var(--signal)}
+#m-curve .ev{fill:var(--canal)}
+.mare-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:3px;font-size:.84rem}
+.mare-list li{display:flex;justify-content:space-between;gap:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mare-list li span:first-child{color:var(--muted)}
+.mare-list li b{font-family:var(--f-data);font-weight:500}
+.chk{display:flex;gap:8px;align-items:center;font-weight:600}
+.chk:has(input:disabled){opacity:.55}
+/* mapa: etiquetas HUD, legenda, norte, escala (ficam sobre a foto, por isso cores fixas) */
+.leaflet-container{font-family:var(--f-body)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{border-radius:2px}
+.leaflet-popup-content{font-size:.82rem;line-height:1.4;margin:10px 12px}
+.hud-icon{pointer-events:none}
+.hud{position:absolute;left:0;top:0}
+.hud .dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;background:#fff;box-shadow:0 0 0 1px rgba(15,22,56,.6)}
+.hud .ln{position:absolute;left:0;width:1px;background:rgba(255,255,255,.9);bottom:0;height:var(--h,56px)}
+.hud .bx{position:absolute;bottom:var(--h,56px);left:0;min-width:128px;padding:7px 10px 8px;background:rgba(12,18,48,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border:1px solid rgba(255,255,255,.55);color:#fff;white-space:nowrap}
+.hud.left .bx{left:auto;right:0}
+.hud .t{font-family:var(--f-data);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;display:flex;align-items:center;gap:6px;opacity:.95}
+.hud .t::before{content:"";width:6px;height:6px;background:#ff4b1f}
+.hud .v{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1.02;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hud .s{font-family:var(--f-data);font-size:9.5px;opacity:.85}
+@media (max-width:760px){.keyl{display:none}.hud .v{font-size:22px}.hud .bx{min-width:100px;padding:5px 8px}}
+.maplegend{background:rgba(12,18,48,.72);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;padding:8px 10px;border:1px solid rgba(255,255,255,.4);font-family:var(--f-data);font-size:10px;letter-spacing:.04em;line-height:1.7}
+.maplegend i{display:inline-block;width:9px;height:9px;margin-right:7px;vertical-align:-1px}
+.maplegend .ramp{height:7px;width:140px;margin:4px 0 2px;background:linear-gradient(90deg,#fdfdfe,#f6f7f8 12%,#e8e9eb 20%,#d4d5d8 28%,#bbbcc0 36%,#a2a3a7 45%,#8a8b8f 55%,#6c6d70 75%,#535456)}
+.maplegend .ticks{display:flex;justify-content:space-between;width:140px}
+.north{background:rgba(12,18,48,.72);color:#fff;font-family:var(--f-data);font-size:10px;text-align:center;padding:4px 7px;border:1px solid rgba(255,255,255,.4);line-height:1.1}
+.north b{display:block;font-size:14px}
+.leaflet-control-scale-line{background:rgba(12,18,48,.72);color:#fff;border-color:#fff;font-family:var(--f-data);font-size:10px}
+.leaflet-bar a{border-radius:0!important}
+.im-sea{fill:var(--im-sea)}.im-land{fill:var(--im-land)}.im-rec{fill:var(--im-rec)}
+.im-riv{fill:none;stroke:var(--im-water);stroke-width:55;stroke-linejoin:round}.im-can{fill:none;stroke:var(--im-water);stroke-width:28;stroke-linejoin:round}
+.im-lim{fill:none;stroke:var(--ink-deep);stroke-width:70;stroke-dasharray:260 170}
+.im-mark{fill:var(--signal)}.im-lbl{font-family:var(--f-data);font-size:560px;letter-spacing:.08em;fill:var(--ink-deep);paint-order:stroke;stroke:var(--im-rec);stroke-width:160px;stroke-linejoin:round}
+.im-name{font-family:var(--f-display);font-stretch:75%;font-weight:800;font-size:2600px;fill:var(--ink-deep);opacity:.12;letter-spacing:.02em}
+/* ---------- entrada em rolagem (blocos de cor, título gigante, faixa corrida, roda de etapas) ---------- */
+.landing{position:fixed;inset:0;z-index:2000;overflow-y:auto;overflow-x:hidden;background:var(--panel);color:var(--fg);scroll-behavior:smooth;transition:transform .7s cubic-bezier(.7,0,.2,1)}
+.landing.leaving{transform:translateY(-100%)}
+.landing[hidden]{display:none!important}
+.landing .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.l-top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding-block:12px;background:var(--signal);color:#10173a;border-bottom:2px solid #10173a}
+.l-top .k{color:#10173a}.l-top .k::before{background:#10173a}
+.l-top button{background:#10173a;border-color:#10173a;color:#fff;font-family:var(--f-data);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
+.hero{background:var(--signal);color:#10173a;position:relative;overflow:hidden;min-height:min(86vh,820px);display:flex;flex-direction:column;justify-content:flex-end}
+.hero .hero-map{position:absolute;right:-4%;top:2%;height:96%;width:auto;max-width:62%;opacity:.95}
+.hero .hero-map .im-sea{fill:transparent}.hero .hero-map .im-land{fill:transparent}.hero .hero-map .im-rec{fill:#ff7a52}
+.hero .hero-map .im-riv,.hero .hero-map .im-can{stroke:#10173a;opacity:.55}.hero .hero-map .im-lim{stroke:#10173a}
+.hero .hero-map .im-mark{fill:#10173a;transform-box:fill-box;transform-origin:center;animation:pulse 1.8s ease-in-out infinite}
+.hero .hero-map .im-lbl{fill:#10173a;stroke:#ff7a52}.hero .hero-map .im-name{display:none}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+.hero-copy{position:relative;z-index:2;padding-block:24px 18px;display:flex;flex-direction:column;gap:12px}
+.hero-copy .k{color:#10173a}.hero-copy .k::before{background:#10173a}
+.giant{font-family:var(--f-display);font-stretch:75%;font-weight:800;text-transform:uppercase;line-height:.84;letter-spacing:-.01em;margin:0;font-size:clamp(3.4rem,13.5vw,12.5rem);color:#10173a}
+.giant span{display:block}
+.hero-sub{font-family:var(--f-display);font-stretch:80%;font-weight:600;text-transform:uppercase;font-size:clamp(1.1rem,2.6vw,1.9rem);margin:0;max-width:30ch}
+.scrollcue{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:22px;z-index:3;width:30px;height:48px;border:2px solid #10173a;border-radius:16px;display:flex;justify-content:center}
+.scrollcue i{width:4px;height:9px;background:#10173a;border-radius:2px;margin-top:8px;animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(0);opacity:1}80%{transform:translateY(16px);opacity:0}100%{opacity:0}}
+.ticker{background:#10173a;color:#fff;overflow:hidden;white-space:nowrap;border-block:2px solid #10173a}
+.ticker .track{display:inline-flex;gap:0;animation:marq 38s linear infinite;padding-block:12px}
+.ticker .track span{font-family:var(--f-display);font-stretch:80%;font-weight:700;text-transform:uppercase;font-size:clamp(1.05rem,2.2vw,1.6rem);padding-right:2.2em;display:inline-flex;align-items:center;gap:.6em}
+.ticker .track span::before{content:"";width:.5em;height:.5em;background:var(--signal)}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.how{position:relative;height:520vh;background:var(--panel)}
+.how-pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:2vw;overflow:hidden}
+.how-head{display:flex;flex-direction:column;gap:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-left:max(48px,8vw)}
+.how-head h3{font-family:var(--f-display);font-stretch:75%;font-weight:800;text-transform:uppercase;font-size:clamp(2.2rem,5vw,4.2rem);line-height:.9;margin:0;color:var(--ink-deep)}
+.how-head h3 em{font-style:normal;font-weight:400;display:block}
+.dots{position:absolute;left:max(16px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line);transition:background .3s,transform .3s}
+.dots i.on{background:var(--signal);transform:scale(1.4)}
+.wheel-box{position:relative;height:100vh;min-width:0}
+.wheel{position:absolute;inset:0}
+.wheel .node{position:absolute;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;border:3px solid var(--ink-deep);background:var(--panel);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.5rem;color:var(--ink-deep);transition:width .4s,height .4s,margin .4s,border-color .4s,font-size .4s}
+.wheel .node.on{width:150px;height:150px;margin:-75px 0 0 -75px;border:5px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(135deg,var(--signal),var(--canal)) border-box;font-size:3.4rem;color:var(--canal)}
+.wheel svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wheel svg circle{fill:none;stroke:var(--ink-deep);stroke-width:1.5}
+.step-text{position:absolute;max-width:min(420px,34vw);display:flex;flex-direction:column;gap:8px;transition:opacity .35s}
+.step-text .k{color:var(--signal)}.step-text .k::before{background:var(--signal)}
+.step-text b{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1;text-transform:uppercase;color:var(--ink-deep)}
+.step-text p{margin:0;font-size:1.02rem;color:var(--fg)}
+.step-text .rule{height:2px;width:56px;background:var(--canal)}
+@media (max-width:760px){.how-pin{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start}.how-head{padding-left:max(40px,10vw);padding-top:72px}.wheel-box{height:58vh}.wheel svg{display:none}.step-text{max-width:none;right:16px}}
+.ask{background:#10173a;color:#fff;padding-block:12vh 14vh;display:flex;flex-direction:column;gap:22px}
+.ask .k{color:#c9d1ff}
+.ask h3{font-family:var(--f-display);font-stretch:75%;font-weight:800;text-transform:uppercase;font-size:clamp(2.4rem,7vw,6rem);line-height:.88;margin:0;max-width:16ch;text-wrap:balance}
+.ask .intro-opts{max-width:980px}
+.ask .opt{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;padding:22px 22px 24px;transition:background .25s,transform .25s}
+.ask .opt b{font-size:clamp(1.6rem,3vw,2.4rem)}
+.ask .opt span:last-child{color:rgba(255,255,255,.75)}
+.ask .opt .k{color:#c9d1ff}
+.ask .opt:hover{transform:translateY(-4px);background:rgba(255,255,255,.06)}
+.ask .opt.primary{background:var(--signal);border-color:var(--signal);color:#10173a}
+.ask .opt.primary span:last-child{color:rgba(16,23,58,.82)}.ask .opt.primary .k{color:#10173a}.ask .opt.primary .k::before{background:#10173a}
+.ask .opt.primary:hover{background:#ff6a42}
+.intro-opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.intro-opts{grid-template-columns:1fr}}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-width:0}
+.opt b{font-family:var(--f-display);font-stretch:80%;font-weight:700;line-height:1;text-transform:uppercase}
+.opt:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.l-foot{background:#10173a;color:rgba(255,255,255,.6);font-family:var(--f-data);font-size:.72rem;padding-block:18px;border-top:1px solid rgba(255,255,255,.15)}
+@media (prefers-reduced-motion: reduce){.ticker .track,.scrollcue i,.hero .hero-map .im-mark{animation:none}.landing{transition:none}}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:8px;padding:16px 16px 18px;border:1px solid var(--line);background:var(--bg);color:var(--fg);min-width:0}
+.opt b{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.45rem;line-height:1.05;text-transform:uppercase}
+.opt span:last-child{color:var(--muted);font-size:.86rem}
+.opt:hover{border-color:var(--accent)}
+.opt:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+.opt.primary{background:var(--ink-deep);color:var(--panel);border-color:var(--ink-deep)}
+.opt.primary span:last-child{color:color-mix(in srgb,var(--panel) 78%,transparent)}
+.opt.primary .k{color:color-mix(in srgb,var(--panel) 85%,transparent)}
+.mode{margin-top:14px}
+.live{margin:0;font-family:var(--f-data);font-size:.74rem;letter-spacing:.02em;padding:6px 8px;background:var(--chip);border-left:2px solid var(--signal)}
+.st-label{pointer-events:none}
+.st-label span{position:absolute;left:0;top:0;transform:translate(-50%,-50%) rotate(var(--a));white-space:nowrap;font-family:var(--f-body);font-size:10.5px;color:#6d7280;letter-spacing:.01em;text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff}
+.st-label.r1 span,.st-label.r0 span{font-weight:600;color:#5f6472}
+.leaflet-control-attribution{font-family:var(--f-data);font-size:9px!important;background:rgba(255,255,255,.8)!important}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="landing" id="landing" aria-label="Apresentação">
+  <div class="l-top wrap"><span class="k">Alinhavos Urbanos · Recife</span><button type="button" id="l-skip">Ir para o mapa</button></div>
+  <section class="hero">
+    <svg class="hero-map" viewBox="0 0 20742 29277" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<rect width="20742" height="29277" class="im-sea"/>
+<path class="im-land" d="M18379,13885 L18829,14400 L17144,13144 L17443,11545 L16760,11555 L16682,10839 L16005,10168 L14279,9680 L12768,8463 L12501,8209 L12922,7068 L13388,3366 L12754,2466 L11715,2228 L11072,2466 L9435,1800 L6836,3122 L5906,2878 L5509,3161 L4651,3066 L3358,1805 L2434,3550 L3387,3903 L3175,5522 L4199,5428 L5561,6252 L7514,6644 L7320,8349 L7597,8732 L7215,10496 L7550,11576 L7126,11570 L5153,13558 L4282,13052 L3760,13697 L4139,14184 L4105,14997 L1800,15794 L3147,16649 L3885,16341 L5018,17847 L5937,18374 L6523,18307 L6274,19053 L6785,19442 L7423,22304 L9553,24733 L11961,25042 L12753,25481 L13205,27477 L12707,29277 L0,29277 L0,0 L20742,0 L20742,10833 L18545,13522 L18379,13885Z"/>
+<path class="im-rec" d="M4651,3066 L5509,3161 L5906,2878 L6836,3122 L9435,1800 L11072,2466 L11715,2228 L12754,2466 L13388,3366 L12922,7068 L12501,8209 L12768,8463 L14279,9680 L16005,10168 L16682,10839 L16760,11555 L17443,11545 L17144,13144 L18490,14131 L18829,14400 L18942,14841 L16726,19477 L13205,27477 L12753,25481 L11961,25042 L9553,24733 L7423,22304 L6785,19442 L6274,19053 L6523,18307 L5937,18374 L5018,17847 L3885,16341 L3147,16649 L1800,15794 L4105,14997 L4139,14184 L3760,13697 L4282,13052 L5153,13558 L6355,12329 L7126,11570 L7550,11576 L7215,10496 L7597,8732 L7320,8349 L7514,6644 L5561,6252 L4199,5428 L3175,5522 L3387,3903 L2434,3550 L3358,1805 L4651,3066Z"/>
+<path class="im-riv" d="M7577,11748 L7612,11872 L8444,12090 L8547,12059 L8668,11993 L8767,11860 L8826,11828 L8984,11858 L9171,11830 L9344,11895 L9507,12053 L9634,12126 L9728,12103 L9817,12144 L9924,12136 L9945,12130 L9997,12065 L10064,12085 L10146,12073M5118,14128 L5169,14156 L5225,14152 L5262,14171 L5285,14216 L5293,14292 L5342,14450 L5421,14516 L5516,14499 L5561,14452 L5590,14439 L5673,14453 L5762,14441 L5857,14459 L5915,14423 L5962,14430 L6028,14415 L6059,14384 L6035,14335 L6106,14302 L6180,14238 L6194,14151 L6260,14120 L6303,14046 L6338,14041 L6407,14060 L6526,14054 L6590,13993 L6779,13883 L6860,13860 L7007,13751 L7112,13692 L7139,13686 L7183,13707 L7212,13703 L7296,13645 L7464,13593 L7522,13514 L7572,13283 L7645,13278 L7677,13262 L7682,13232 L7662,13183 L7869,12930 L7942,12901 L7967,12871 L8194,13012M6691,6280 L6760,6307 L6801,6357 L6855,6384 L6936,6384 L7028,6339 L7097,6253 L7178,6193 L7211,6145 L7276,6092 L7453,6136 L7650,6247 L7802,6405 L7868,6447 L7913,6459 L8017,6387 L8181,6318 L8244,6307 L8390,6342 L8420,6405 L8411,6524 L8420,6584 L8498,6710 L8558,6839 L8569,6893 L8558,7004 L8570,7039 L8557,7063 L8584,7116 L8586,7148 L8617,7159 L8632,7146 L8636,7165 L8668,7165 L8677,7216 L8708,7223 L8725,7202 L8787,7211 L8829,7190 L8835,7156 L8869,7166 L8868,7196 L8926,7206 L8954,7237 L8974,7233 L8983,7263 L9028,7249 L9104,7272 L9112,7424 L9070,7476 L9081,7506 L9062,7531 L9076,7557 L9047,7558 L9054,7575 L9077,7578 L9057,7601 L9117,7751 L9092,7759 L9109,7802 L9076,7812 L9069,7837 L9119,7828 L9122,7890 L9151,7916 L9222,7932 L9317,7916 L9332,7926 L9399,7921 L9415,7965 L9439,7953 L9462,7980 L9487,7975 L9506,7954 L9557,7952 L9590,7933 L9615,7943 L9648,7985 L9680,7979 L9775,7999 L9809,7990 L9839,7954 L9886,7935 L9903,7957 L9941,7972 L9954,7987 L9947,8000 L9990,8024 L10032,8020 L10036,8039 L10136,8115 L10278,8093 L10428,8107 L10495,8083 L10638,8171 L10700,8132 L10761,8182M10761,8182 L10802,8192 L10889,8160 L11122,8220 L11170,8248 L11248,8386 L11264,8451 L11261,8507 L11301,8590 L11375,8668 L11451,8620 L11549,8735 L11643,8913 L11739,9153 L11740,9226 L11844,9293 L11931,9410 L11985,9450 L12033,9463 L12051,9493 L12040,9536 L12095,9597 L12254,9666 L12279,9691 L12318,9696 L12452,9772 L12485,9812 L12527,9800 L12571,9819 L12608,9843 L12645,9897 L12662,9966 L12721,9950 L12744,9959 L12766,9982 L12765,10006 L12879,10060 L12880,10121 L12950,10127 L12991,10174 L13075,10225 L13140,10241 L13165,10226 L13298,10239 L13365,10276 L13421,10337 L13522,10349 L13618,10341 L13719,10358 L13758,10332 L14118,10195 L14129,10155 L14171,10099 L14228,10072 L14502,9804 L14617,9719M10883,23083 L10901,23004 L10887,22964 L10899,22984 L10916,22957 L10917,22912 L10778,22770 L10762,22724 L10784,22713 L10776,22687 L10788,22646 L10736,22493 L10734,22428 L10706,22393 L10713,22374 L10700,22327 L10672,22309 L10665,22259 L10648,22255 L10631,22186 L10588,22119 L10581,22082 L10473,21847 L10344,21606 L10333,21533 L10379,21446 L10534,21364 L10578,21363 L10652,21400 L10673,21374 L10695,21393 L10724,21388 L10734,21351 L10764,21376 L10804,21364 L10784,21394 L10800,21404 L10841,21416 L10886,21404 L10934,21414 L10957,21396 L10950,21369 L10998,21372 L10989,21317 L11005,21294 L11114,21293 L11181,21255 L11219,21274 L11234,21256 L11225,21240 L11243,21233 L11249,21206 L11290,21188 L11309,21135 L11307,21077 L11329,20993 L11322,20901 L11399,20867M11399,20867 L11400,20867M4139,15103 L4158,15221 L4180,15269 L4225,15302 L4313,15334 L4373,15413 L4379,15608 L4437,15797 L4494,15904 L4530,15951 L4580,15986 L4714,16001 L4874,16064 L5099,16210 L5302,16133 L5478,16035 L5612,16023 L5741,16040 L5791,16033 L5830,16007 L5857,15901 L5899,15835 L5969,15756 L6027,15715 L6284,15628 L6473,15547 L6549,15506 L6782,15336 L6977,15219 L7119,15175 L7311,15084 L7387,14995 L7543,14663 L7564,14552 L7717,14333 L7723,14193 L7795,13981 L7882,13808 L7914,13613 L8002,13460 L8194,13012M8194,13012 L8269,12843 L8341,12762 L8537,12742 L8629,12719 L8731,12672 L9073,12630 L9276,12583 L9489,12594 L9713,12587 L9791,12572 L10154,12592 L10234,12587 L10518,12530 L10771,12502 L10867,12518 L10983,12570 L11125,12760 L11239,12879 L11381,13076 L11476,13232 L11512,13325 L11533,13439 L11540,13731 L11566,13814 L11606,13876 L11757,13967 L11918,14005 L11999,14044 L12330,14255 L12413,14295 L12488,14320 L12656,14341 L12789,14322 L12926,14263 L13027,14166 L13191,13926 L13395,13721 L13508,13664 L13584,13659 L13663,13673 L13802,13771 L13877,13864 L13905,13944 L13932,14269 L13955,14357 L14072,14591 L14080,14708 L14050,14886 L13970,15121 L13968,15196 L13993,15385 L14047,15648 L14096,15742 L14157,15816 L14323,15956 L14358,16018 L14389,16120 L14397,16193 L14361,16642 L14379,16785 L14426,16921 L14468,16987 L14555,17035 L14664,17041 L14831,17011 L14940,17017 L15081,17070 L15585,17363 L15722,17389 L15785,17371 L15856,17308 L15921,17204 L16001,16859 L16058,16799 L16162,16723 L16371,16648 L16455,16597 L16503,16542 L16581,16375 L16723,16155 L16838,16017 L16974,15936 L17109,15933 L17193,15984 L17234,16054 L17240,16147 L17221,16325 L17173,16548 L17189,16767 L17230,16899 L17485,17102M14015,17717 L14084,17557 L14285,17186 L14320,17124 L14413,17023 L14447,16954M14237,16893 L14183,16807 L14128,16802 L14086,16821 L14000,16962 L13951,17020 L13900,17063 L13791,17121 L13733,17241 L13745,17360 L13736,17395 L13760,17461 L13913,17551 L14015,17717M14453,18738 L14324,18589 L14285,18484 L14265,18376 L14176,18135 L14009,17851 L14003,17791 L14015,17717M14415,21879 L14426,21826 L14419,21783 L14340,21691 L14320,21647 L14293,21422 L14265,21383 L14226,21363 L14087,21325 L13978,21228 L13964,21185 L13965,21106 L14003,21014 L14017,20889 L13994,20841 L13889,20713 L13792,20511 L13713,20385 L13625,20143 L13613,20043 L13620,19900 L13662,19791 L13720,19704 L13775,19657 L13885,19601 L13943,19538 L13988,19448 L14037,19318 L14056,19206 L14060,19029 L14102,18887M14102,18887 L14453,18738M14453,18738 L14833,18628 L14927,18628 L15398,18738 L15712,18654 L16422,18314 L16986,17944 L17485,17102M17485,17102 L17787,16506 L18018,15862 L18216,15357 L18481,14815 L18692,14605 L18954,14549M7268,9114 L7499,9225 L7722,9287 L7954,9322 L8011,9313 L8091,9280 L8253,9176 L8569,8905 L8676,8845 L8766,8809 L9040,8772 L9131,8734 L9183,8740 L9476,8683 L9584,8685 L9884,8791 L9856,8887 L9866,8902 L9933,8922 L10029,8926 L10093,8882 L10193,8839 L10250,8824 L10304,8837 L10403,8800 L10461,8691 L10457,8656 L10484,8625 L10485,8556 L10507,8495 L10761,8182M1406,3926 L1465,3846 L1561,3798 L1643,3785 L1722,3752 L1894,3640 L1975,3624 L2054,3584 L2139,3561 L2300,3588 L2769,3676 L2985,3762 L3155,3775 L3207,3807 L3364,3859 L3470,3874 L3585,3861 L3743,3880 L3845,3959 L3906,3953 L3996,3986 L4233,3973 L4303,4014 L4356,4084 L4534,4127 L4714,4232 L4818,4262 L4877,4245 L4918,4265 L4946,4301 L5020,4316 L5079,4357 L5127,4364 L5239,4308 L5270,4321 L5278,4374 L5301,4405 L5337,4392 L5370,4428 L5476,4410 L5522,4359 L5551,4352 L5995,4353 L5996,4396 L6027,4396 L6049,4422 L6050,4376 L6098,4359 L6202,4409 L6243,4455 L6246,4509 L6317,4584 L6317,4653 L6335,4708 L6384,4734 L6438,4726 L6504,4762 L6547,4762 L6591,4712 L6639,4683 L6687,4696 L6718,4754 L6787,4699 L6815,4709 L6812,4755 L6833,4785 L6883,4810 L6870,4853 L6882,4871 L6929,4847 L7002,4866 L7113,4937 L7161,4943 L7145,4886 L7307,4802 L7385,4722 L7424,4723 L7421,4661 L7437,4636 L7491,4641 L7495,4587 L7514,4561 L7467,4497 L7503,4455 L7543,4320 L7572,4322 L7602,4348 L7643,4350 L7679,4335 L7747,4335 L7775,4309 L7909,4330 L7952,4374 L7980,4478 L7992,4601 L8049,4612 L8071,4645 L8089,4782 L8154,4808 L8176,4855 L8199,4871 L8285,4873 L8411,4827 L8459,4833 L8495,4879 L8553,4912 L8624,4922 L8651,4952 L8663,4998 L8798,5086 L8864,5088 L8929,5147 L9049,5124 L9112,5126 L9169,5193 L9215,5210 L9271,5274 L9307,5279 L9314,5253 L9340,5238 L9361,5243 L9369,5179 L9491,5191 L9593,5230 L9679,5442 L9708,5489 L9748,5524 L9754,5567 L9820,5613 L9836,5650 L9953,5657 L10045,5639 L10132,5601 L10188,5609 L10211,5642 L10205,5695 L10173,5736 L10169,5783 L10210,5829 L10290,5862 L10317,5967 L10491,6005 L10530,6048 L10578,6166 L10601,6182 L10631,6182 L10624,6215 L10659,6245 L10644,6281 L10667,6319 L10662,6374 L10685,6435 L10690,6524 L10747,6557 L10833,6557 L10929,6619 L11001,6625 L11098,6698 L11110,6753 L11146,6790 L11187,6753 L11235,6747 L11281,6772 L11447,6711 L11486,6728 L11542,6802 L11562,6800 L11575,6842 L11611,6838 L11597,6888 L11620,6903 L11659,6991 L11666,6978 L11713,6980 L11729,6963 L11816,6947 L11847,7016 L11842,7031 L11865,7050 L11922,7019 L11930,7001 L12044,7014 L12031,7036 L12058,7060 L12104,7057 L12140,7028 L12177,7073 L12202,7081 L12186,7108 L12210,7126 L12230,7174 L12247,7140 L12286,7150 L12322,7135 L12332,7153 L12321,7211 L12355,7239 L12361,7290 L12298,7317 L12291,7355 L12314,7405 L12305,7434 L12314,7462 L12375,7492 L12429,7544 L12458,7552 L12471,7601 L12519,7610 L12550,7630 L12566,7677 L12591,7666 L12617,7687 L12623,7738 L12651,7771 L12647,7787 L12630,7795 L12619,7854 L12628,7878 L12586,7879 L12574,7900 L12576,7915 L12614,7941 L12639,8005 L12609,8058 L12565,8074 L12577,8127 L12551,8173 L12545,8225 L12554,8236 L12588,8226 L12603,8234 L12622,8267 L12975,8520 L13047,8548 L13331,8716 L13370,8748 L13415,8834 L13508,8963 L13611,9049 L13624,9091 L13653,9112 L13660,9175 L13728,9253 L13799,9276 L13836,9323 L14508,9748 L14549,9754 L14649,9698 L14688,9698 L14733,9716 L14916,9848 L14960,9861 L15155,9886 L15218,9909 L15342,9914 L15434,9902 L15569,9997 L15654,9997 L15812,10127 L15939,10148 L15999,10174 L16087,10266 L16159,10380 L16230,10465 L16278,10501 L16372,10534 L16454,10584 L16643,10784 L16668,10912 L16677,11137 L16702,11236 L16705,11365 L16743,11513 L16785,11579 L16892,11629 L17119,11671 L17389,11762 L17447,11769M5916,17214 L5990,17221 L6052,17213 L6090,17193 L6177,17188 L6227,17229 L6288,17240 L6324,17229 L6403,17275 L6490,17240 L6545,17191 L6602,17182 L6624,17092 L6743,16891 L6877,16869 L6902,16822 L7003,16817 L7005,16772 L6962,16682 L7089,16575 L7107,16502 L7124,16494 L7155,16504 L7197,16479 L7287,16464 L7393,16584 L7512,16808 L7570,16847 L7700,16869 L7799,16970 L7975,17008 L8003,16985 L8124,16981 L8221,16940 L8312,16941 L8355,16919 L8383,16887 L8432,16889 L8462,16857 L8506,16854 L8641,16931 L8762,17043 L8834,17086 L9005,17124 L9026,17168 L8990,17202 L9038,17253 L9007,17368 L9024,17442 L9001,17467 L9035,17586 L8899,17817 L8866,17839 L8864,17877 L8830,17963 L8798,17995 L8770,18082M7097,17039 L7142,17081 L7184,17174 L7237,17194 L7270,17193 L7299,17157 L7330,17142 L7381,17202 L7468,17183 L7525,17208 L7552,17235 L7605,17241 L7651,17282 L7761,17287 L7807,17256 L7897,17253 L7934,17268 L7987,17324 L8015,17315 L8146,17338 L8228,17318 L8303,17340 L8366,17340 L8382,17356 L8397,17438 L8420,17491 L8493,17505 L8517,17565 L8510,17599 L8530,17665 L8602,17790 L8626,17876 L8679,17954 L8713,17979 L8730,18073 L8745,18082 L8785,18085 L8823,18114 L8852,18116 L8860,18135 L9055,18085 L9105,18103 L9190,18102 L9210,18127 L9208,18156 L9236,18168 L9269,18236 L9299,18263 L9544,18328 L9567,18355 L9682,18349 L9752,18288 L9882,18140 L10193,17989 L10376,18031 L10510,18030 L10613,18155 L10675,18138 L10715,18184 L10770,18192 L10813,18220 L10864,18200 L10944,18226 L10985,18205 L11042,18212 L11162,18258 L11182,18301 L11226,18339 L11230,18370 L11284,18443 L11327,18555 L11364,18570 L11394,18617 L11537,18721 L11562,18770 L11722,18831 L11781,18834 L11810,18815 L11838,18759 L11931,18681 L11946,18687 L11961,18719 L11912,18776 L11913,18790 L11937,18807 L11964,18806 L12013,18767 L12035,18767 L12183,18841 L12322,18879 L12479,18949 L12536,19007 L12600,19117 L12616,19168 L12617,19275 L12636,19353M5833,18203 L5930,18220 L5936,18344 L5955,18361 L5971,18339 L5990,18341 L6028,18403 L6046,18395 L6055,18412 L6012,18473 L6042,18483 L6087,18461 L6119,18380 L6158,18329 L6290,18322 L6326,18226 L6365,18243 L6445,18219 L6562,18239 L6559,18289 L6492,18358 L6529,18391 L6601,18506 L6605,18574 L6655,18624 L6644,18652 L6608,18684 L6593,18795 L6606,18842 L6516,18974 L6386,19048 L6350,19124 L6388,19200 L6392,19237 L6493,19285 L6545,19326 L6579,19321 L6607,19261 L6723,19245 L6726,19313 L6798,19317 L6776,19368 L6783,19381 L6816,19407 L6924,19421 L6963,19410 L7048,19315 L7201,19298 L7281,19350 L7560,19393 L7607,19433 L7670,19466 L7674,19528 L7749,19650 L7940,19607 L8052,19540 L8090,19563 L8114,19597 L8141,19716 L8176,19747 L8239,19731 L8366,19754 L8410,19746 L8468,19757 L8593,19742 L8665,19763 L8716,19807 L9085,19983 L9223,20113 L9290,20154 L9407,20179 L9517,20222 L9773,20553 L9866,20613 L10024,20661 L10076,20704 L10126,20790 L10186,20847 L10297,21082 L10347,21125 L10389,21130 L10484,21109 L10734,21140 L10943,21116 L11037,21066 L11155,20962 L11303,20874 L11399,20867M11399,20867 L11723,20797 L11830,20684 L11993,20467 L12070,20322 L12151,20263 L12244,20227 L12287,20167 L12275,20053 L12350,19826 L12355,19562 L12377,19449 L12413,19411 L12496,19366 L12552,19352 L12636,19353M12636,19353 L12752,19366 L12913,19356 L13033,19293 L13095,19217 L13314,18832 L13390,18735 L13433,18711 L13532,18716 L13743,18805 L14102,18887"/>
+<path class="im-can" d="M12520,8327 L12580,8226M12287,11160 L12246,11279 L12183,11348 L12100,11493 L12081,11566 L12112,11647M16293,12238 L16604,12093 L16744,12020 L16812,11978M16812,11978 L17258,11717M16841,12240 L16841,12154 L16812,11978M16812,11978 L16812,11978M16028,11698 L16501,11970 L16731,12026M15818,12212 L16051,12293 L16085,12313 L16098,12336M15494,13128 L15533,13099 L15561,13045 L15569,12789 L15587,12725M14608,12981 L14785,12745 L15000,12634M12926,11419 L12994,11470 L13053,11544 L13165,11567 L13191,11585M13973,11477 L14016,11550 L14079,11747M14262,11833 L14225,11957 L14233,11994M14233,11994 L14233,11994M14649,11975 L14531,12111M14587,10777 L14667,10838 L14804,11032M14061,10907 L14117,10894 L14282,10973 L14339,11021 L14481,11081 L14644,11085M15849,10474 L16077,10310 L16110,10305M14449,10079 L14328,10026M13810,9640 L13852,9551M13064,8786 L13073,8766 L13125,8739 L13204,8643M12655,8547 L12739,8458M12463,10683 L12507,10614 L12518,10552 L12558,10478 L12686,10420M12663,10729 L12699,10681 L12751,10651 L12882,10619 L12914,10566 L12963,10532 L12974,10477M11002,9726 L11243,9580 L11319,9511 L11374,9487 L11399,9490 L11548,9616M10845,8963 L11033,8810 L11173,8624 L11144,8546 L11265,8506M10248,9924 L10281,10054 L10312,10110M11168,11612 L11148,11629M11148,11629 L11121,11639 L11056,11626 L11012,11632 L10934,11708M11717,10797 L11694,10915 L11593,11177 L11591,11289M13185,26849 L13257,26679 L13400,26397 L13592,25913 L13834,25399 L13996,25018 L14196,24350 L14203,24258 L14193,24141 L14262,23906 L14300,23657 L14375,22554 L14460,22060 L14461,21955 L14416,21874M12901,25861 L12929,25776 L12882,25763 L12876,25728 L12757,25576 L12776,25511M11038,25234 L11474,25165 L12138,25202 L12534,25383 L12776,25511M12776,25511 L12811,25511 L12855,25488 L12921,25375 L13230,25192 L13239,25138 L13179,24979 L13195,24943 L13437,24975 L13553,24893 L13578,24842 L13582,24605 L13568,24554M12715,21495 L12723,21369 L12690,21215 L12647,21152 L12566,21085 L12493,21071 L12122,21092 L12006,21053M11784,21434 L11739,21127 L11761,21090M11474,21479 L11448,21389 L11405,21367 L11302,21365 L11272,21336 L11286,21292 L11219,21273M11244,20621 L11245,20699 L11330,20726 L11372,20755 L11357,20869M7938,23066 L7967,23115 L7942,23210 L7913,23253 L7868,23392 L7809,23423 L7828,23488 L7794,23540 L7835,23664 L7981,23807 L8029,23875 L8062,24149M8062,24149 L8082,24354 L8127,24397 L8179,24527 L8272,24695M8272,24695 L8269,24701M8484,23577 L8478,23593 L8439,23588 L8426,23627 L8357,23696 L8331,23739M8431,23960 L8434,23946 L8412,23935 L8271,23893M8271,23893 L8271,23893M8741,22445 L8812,22652 L8906,22783 L8972,23528 L9040,23681M9606,23743 L9613,23770 L9592,23860 L9522,23898 L9482,23876 L9448,23889 L9425,23957 L9428,23986 L9410,23996 L9337,24128 L9214,24229 L9191,24241 L9181,24229M15149,15017 L15511,14545 L15594,14474 L16525,14032M16525,14032 L16764,13919 L17120,13750M17120,13750 L17236,13695M17236,13695 L17492,13574M17139,13567 L17236,13695M17236,13695 L17236,13695M16521,13656 L16584,13742 L16698,13950M16361,13754 L16525,14032M16525,14032 L16525,14032M16911,14126 L16954,14094 L17046,14063 L17143,14009 L17157,13952 L17144,13852 L17158,13834 L17120,13750M17120,13750 L17120,13750M12716,13198 L12840,13390M13505,13366 L13322,13575M8552,10730 L8619,10793 L8644,10843 L8685,11068 L8682,11156M8096,11106 L8161,11170 L8245,11221 L8350,11191 L8398,11189 L8638,11244M8638,11244 L8642,11286 L8700,11401 L8760,11433M5935,13899 L6041,13953 L6102,13959 L6151,13989 L6252,14002 L6301,14048M3800,13485 L3860,13430 L3845,13398 L3847,13357 L3867,13335 L3840,13311 L3840,13259 L3926,13247 L4032,13194 L4054,13211 L4083,13212 L4085,13175 L4073,13166 L4094,13119 L4160,13145 L4202,13127 L4216,13099 L4298,13058 L4322,13083 L4332,13138M5589,13318 L5612,13320 L5646,13294 L5685,13304 L5709,13286 L5781,13312 L5883,13298 L5895,13314 L5936,13308 L5951,13355 L6082,13330 L6100,13376 L6273,13348 L6311,13370 L6354,13372 L6408,13392 L6423,13461 L6474,13487 L6496,13519 L6521,13526 L6538,13555 L6570,13549 L6581,13591 L6677,13620 L6694,13696 L6724,13707 L6749,13775 L6883,13819 L6960,13788M7591,12170 L7629,12159 L7702,12104 L7811,11923M7791,14500 L7847,14423 L7853,14354 L7824,14327 L7717,14333M8482,13465 L8366,13371 L8274,13336 L8231,13274 L8085,13245M9414,13601 L9450,13549 L9501,13368 L9493,12958 L9481,12856 L9489,12594M11099,13590 L11536,13652M10283,13811 L10832,13985 L10997,14070M11040,14503 L11050,14406 L10988,14277 L10978,14217 L10928,14135 L10997,14070M10997,14070 L11080,14064 L11110,14085M11744,15317 L11907,15012 L12136,15135 L12192,15043 L12273,15006M15322,17523 L15388,17248M14852,17608 L14823,17527 L14444,17555 L14398,17527 L14374,17528 L14334,17488 L14232,17485 L14211,17436 L14161,17424M10318,15422 L10477,15648 L10509,15735 L10506,15840 L10566,15899 L10571,15927 L10420,16405 L10239,16706M10239,16706 L10240,16730M10129,15439 L9902,16408M9586,16375 L9721,16510 L9674,16589M10330,17622 L10558,17892 L10669,18112 L10672,18138M10359,15637 L10133,16607 L10153,16651 L10205,16673 L10239,16706M10958,16505 L10787,16564 L10662,16624 L10496,16733 L10355,16861 L10289,16869M10289,16869 L10289,16869M11042,17299 L10657,17161 L10329,17318M10792,17709 L10891,17923 L10988,17975 L11013,18004M13110,15301 L13122,15543 L13159,15632 L13070,15802M13070,15802 L13137,15817 L13190,15848 L13375,16068 L13364,16254 L13460,16738M11296,19123 L11313,19165 L11300,19202 L11310,19235 L11400,19354 L11450,19399 L11565,19445 L11623,19508 L11681,19548 L11745,19627 L11916,19719M13558,16762 L13619,16781 L13698,16912 L13834,17006M14447,17803 L14530,17803 L14590,17861 L14606,17934 L14567,18004M11927,16898 L12117,17009 L12174,17091 L12253,17117 L12287,17243 L12287,17330 L12413,17739M13098,17767 L13171,17770 L13231,17757 L13287,17668 L13404,17626 L13437,17564M12149,18500 L12176,18729M9156,18516 L9229,18494 L9259,18551 L9279,18551 L9521,18461M8393,19739 L8422,19463 L8475,19411 L8517,19336 L8526,19281 L8528,19208 L8480,19097 L8404,19077 L8358,19046 L8306,19048 L8204,18995 L8190,18973 L8155,18976 L8094,19023 L8060,19027 L7914,18898 L7878,18894 L7763,18797 L7637,18722M9598,22098 L9670,22127 L10043,22143 L10096,22162 L10137,22195 L10212,22351 L10208,22384 L10270,22481 L10325,22605 L10318,22667 L10364,22719 L10365,22763 L10593,22934 L10681,22938 L10769,22924 L10835,22873 L10833,22835M7989,21282 L7948,21292 L7927,21279 L7894,21288 L7874,21278 L7838,21244 L7772,21218 L7764,21162 L7691,21138 L7695,20980 L7712,20966 L7705,20931 L7725,20911 L7716,20886 L7725,20770 L7667,20700 L7662,20670 L7680,20593 L7663,20552 L7672,20507 L7700,20479M7244,20120 L7380,20033 L7456,20047 L7473,20037 L7501,20002 L7540,19907 L7525,19885 L7534,19875 L7561,19882 L7585,19862 L7648,19858 L7716,19815 L7811,19866 L7850,19873 L7982,19794M7982,19794 L8035,19756 L8140,19716M8558,18990 L8601,18958 L8621,18921 L8613,18855 L8627,18784 L8711,18731 L8802,18652 L8811,18598 L8801,18560 L8777,18539 L8944,18353M9178,18946 L9283,18858 L9462,18746 L9608,18852 L9627,18853 L9678,18794M9441,19217 L9544,19083 L9578,18958 L9678,18795M9857,18702 L9857,18702M9857,18702 L9750,18450 L9745,18385M10711,18970 L10687,18811 L10731,18730 L10707,18669 L10673,18647 L10653,18462 L10735,18438M10172,20550 L10207,20733 L10140,20800M10358,20170 L10349,20230 L10363,20292 L10422,20344 L10432,20538 L10513,20803 L10498,20904M9181,24229 L9123,24259 L8993,24377 L8793,24521 L8551,24603 L8528,24622 L8272,24695M8272,24695 L8272,24695M13491,11719 L13591,11774 L13772,11822 L14126,11955M14126,11955 L14233,11994M14233,11994 L14374,12052 L14557,12451M14202,17973 L14317,17933 L14374,18070M10081,17496 L10196,17758 L10167,17842 L10162,17942 L10177,17994M13927,16327 L13916,16456 L13965,16622 L14035,16740M12460,19839 L12353,19806M12398,10791 L12365,11004M15564,11502 L15603,11466 L15633,11462 L15760,11478 L15835,11525M15835,11525 L15862,11543 L15845,11587 L15858,11596M15858,11596 L15953,11635 L16028,11698M15354,13202 L15394,13191 L15494,13128M15587,12725 L15633,12583M14526,13101 L14608,12981M13191,11585 L13228,11566 L13296,11596 L13425,11591 L13456,11634M13456,11634 L13445,11714M13445,11714 L13491,11719M12365,11004 L12339,11102M12339,11102 L12287,11160M12112,11647 L12122,11669 L12081,11793 L12075,11860M12660,11427 L12698,11407 L12802,11448 L12850,11445 L12926,11419M15038,10749 L14912,10944 L14804,11032M14804,11032 L14783,11112M14783,11112 L14801,11253 L14792,11370 L14853,11481M14853,11481 L14926,11607M14926,11607 L14935,11635 L14917,11666 L14738,11811M14738,11811 L14649,11975M14531,12111 L14497,12144 L14452,12165 L14440,12192M14644,11085 L14714,11105M14714,11105 L14783,11112M14783,11112 L14783,11112M14360,10689 L14440,10725 L14516,10736 L14587,10777M14263,11725 L14262,11833M13959,11261 L13982,11324 L13973,11477M14079,11747 L14123,11829 L14115,11877 L14126,11955M14126,11955 L14126,11955M12075,11860 L12412,11891 L12599,11939 L12621,11959 L12641,12025 L12795,12153M12795,12153 L12939,12274 L12950,12305 L12940,12348 L13046,12495 L13380,12548M13380,12548 L13549,12541 L13688,12460 L13822,12432M13822,12432 L13912,12420 L14078,12459 L14557,12451M14557,12451 L14690,12496M14690,12496 L14937,12622 L15000,12634M15000,12634 L15633,12583M15633,12583 L15796,12535 L16049,12361 L16140,12315 L16293,12238M15735,10658 L15768,10611M15768,10611 L15807,10568M15807,10568 L15801,10507M15801,10507 L15849,10474M13851,9511 L13939,9381M13852,9551 L13839,9533 L13851,9511M13719,9814 L13752,9802 L13768,9780 L13810,9640M12986,8907 L13064,8786M12463,8747 L12548,8659 L12551,8625M12551,8625 L12585,8610 L12655,8547M12739,8458 L12807,8400M14328,10026 L14303,9997M12909,10207 L12958,10135M12686,10420 L12791,10392 L12896,10266 L12909,10207M12974,10477 L12976,10438 L13010,10352 L13097,10230M11621,9690 L11808,9725 L11832,9666 L11952,9582M11548,9616 L11621,9690M11952,9582 L12040,9536M14519,18022 L14246,18112 L14239,18114M14567,18004 L14519,18022M14239,18114 L14176,18135M14727,16409 L14757,16677 L14693,16832 L14693,16883 L14704,16949 L14771,17022M14989,15226 L14726,15597 L14693,15667 L14686,16051 L14727,16409M15149,15017 L14989,15226M17492,13574 L17607,13522 L17670,13512 L17796,13549 L17875,13616 L17884,13657 L17837,13791 L17833,13917 L17773,13990 L17742,14062 L17719,14199M16825,14275 L16826,14223 L16911,14126M17089,13445 L17117,13534 L17139,13567M16495,13623 L16521,13656M14035,16740 L14086,16821M12666,16240 L12713,16279 L12682,16332 L12733,16365M12733,16365 L12787,16403M12787,16403 L12866,16471M12866,16471 L12907,16512 L12974,16539M12974,16539 L13125,16601 L13244,16629 L13441,16728M13441,16728 L13463,16739 L13500,16752 L13558,16762M13834,17006 L13873,17038 L13875,17077M12707,15703 L12854,15754 L13070,15802M11779,17583 L11823,17572 L12413,17739M12413,17739 L13098,17767M13437,17564 L13448,17541 L13531,17525 L13586,17500 L13773,17470M11507,16637 L11806,16725M11806,16725 L11895,16755M11895,16755 L11880,16804 L11927,16898M12640,13047 L12683,13089M12683,13089 L12713,13128 L12716,13198M12914,13554 L12943,13573 L13290,13638M12873,13474 L12914,13554M12840,13390 L12873,13474M13322,13575 L13290,13638M13290,13638 L13370,13744M8502,14851 L8467,14848 L8463,14864 L8451,14861 L8440,14911M8440,14911 L8428,14948 L8359,14998 L8320,15143 L8277,15148 L8255,15203 L8263,15255 L8315,15365M8315,15365 L8360,15383 L8444,15317 L8563,15319M8563,15319 L8594,15323 L8707,15397 L8863,15448 L8934,15431 L8948,15218 L8935,15074 L8960,14979 L8994,14943 L9056,14911 L9189,14888 L9258,14889M9258,14889 L9320,14904 L9371,14994 L9401,15016M9573,15039 L9807,14927 L9862,14881 L9908,14795 L9972,14754M9401,15016 L9573,15039M9972,14754 L10857,14729 L10907,14711 L10944,14681 L11040,14503M11110,14085 L11315,14090 L11349,14080 L11375,14051 L11397,13977 L11421,13943 L11606,13876M10160,13907 L10185,13903 L10256,13850 L10283,13811M11443,11054 L11379,11036 L11323,11094M11323,11094 L11250,11378M11250,11378 L11207,11407 L11170,11466M11170,11466 L11187,11534 L11168,11612M11494,11736 L11299,11559M11591,11289 L11569,11374 L11549,11402 L11547,11461 L11566,11490 L11551,11511 L11554,11531M11554,11531 L11540,11551 L11556,11592 L11539,11659 L11494,11736M11299,11559 L11148,11629M11148,11629 L11148,11629M10462,10651 L10446,10666 L10488,10714 L10490,10769 L10510,10799M10484,10628 L10462,10651M10430,10463 L10460,10547 L10457,10588 L10484,10628M10419,10342 L10430,10463M10404,10295 L10419,10342M10312,10110 L10386,10234 L10404,10295M10217,9740 L10248,9924M5427,13536 L5420,13499 L5315,13430 L5142,13472 L5093,13501 L4963,13635 L4939,13638 L4867,13600M4722,13494 L4808,13576 L4867,13600M4722,13494 L4633,13391M4633,13391 L4604,13358 L4602,13336 L4562,13324 L4500,13234 L4487,13183 L4467,13165 L4416,13157M4416,13157 L4358,13162 L4332,13138M8015,11036 L8096,11106M8760,11433 L8800,11568 L8806,11632 L8819,11649 L8845,11829M8682,11156 L8638,11244M7538,12201 L7591,12170M5721,13856 L5735,13868 L5758,13859 L5770,13869 L5814,13848 L5851,13850 L5881,13858 L5905,13891 L5935,13899M7900,22237 L7994,22498 L7975,22573 L7863,22719 L7847,22760 L7859,22849 L7938,23066M9123,23944 L9156,23983 L9156,24174 L9181,24229M9040,23681 L9080,23779M9080,23779 L9113,23836 L9123,23944M8540,23971 L8503,23959 L8497,23977 L8431,23960M8249,23953 L8229,23985 L8133,24062 L8081,24159 L8071,24148 L8062,24149M8062,24149 L8062,24149M8331,23739 L8271,23893M8271,23893 L8249,23953M10275,24749 L10350,24702 L10397,24698 L10456,24801 L10544,24902M10544,24902 L10819,25206 L10924,25245 L11038,25234M13568,24554 L13282,24243 L13402,23503 L13439,23044M13439,23044 L13433,22978 L13449,22911 L13585,22708 L13625,22667 L13818,22565 L13868,22521 L14163,22198 L14262,22004 L14304,21977M12137,18345 L12149,18500M12176,18729 L12163,18829M11823,18059 L11846,18130M11846,18130 L11907,18356M11013,18004 L10951,18170 L10966,18211M10664,19105 L10709,19039M10709,19039 L10711,18970M10820,18390 L10826,18375 L10800,18295 L10811,18219M10735,18438 L10773,18420M10773,18420 L10820,18390M9500,16389 L9569,16560 L9648,16671 L9652,16675 L9656,16679 L9665,16687 L9685,16721 L9726,16761 L9771,16776 L9880,16879M9880,16879 L9893,16899M9893,16899 L10015,17070 L10227,17078M10227,17078 L10233,17080M10233,17080 L10157,17382 L10330,17621M10330,17621 L10330,17622M11236,17372 L11042,17299M10329,17318 L10312,17366 L10330,17621M10330,17621 L10330,17622M10240,16730 L10283,16819 L10289,16869M10289,16869 L10233,17080M9858,16639 L9854,16659 L9868,16663 L9880,16879M9902,16408 L9858,16639M9674,16589 L9650,16673M10382,19585 L10317,19314M10317,19314 L10283,19185 L10244,19139 L10239,19112M10239,19112 L10231,19099 L10118,19072 L10055,19035 L9979,18945 L9946,18881M9745,18385 L9745,18380M9745,18380 L9749,18290M9946,18881 L9857,18702M9678,18795 L9686,18780 L9857,18702M9857,18702 L9857,18702M8890,19068 L8926,18972 L9011,18974 L9072,19017 L9127,19035 L9178,18946M9521,18461 L9671,18396 L9745,18380M8944,18353 L9084,18210M9084,18210 L9195,18119M12642,19920 L12521,19867M12521,19867 L12460,19839M11916,19719 L11951,19750 L12019,19753 L12054,19739 L12188,19795 L12239,19847 L12247,19936 L12329,19901M12081,23056 L12082,22805 L12138,22769M12138,22769 L12199,22732M12199,22732 L12683,22304 L12697,22209M12697,22209 L12715,21495M12006,21053 L12005,21032 L11992,20986 L11990,20951 L12009,20870 L12000,20803 L11964,20755 L11889,20697 L11863,20639M11761,21090 L11832,21076 L11885,21080 L12006,21045M11149,20308 L11156,20324M11156,20324 L11085,20388 L11084,20401M11084,20401 L11220,20625 L11244,20621M10498,20904 L10500,20939 L10536,21016 L10619,21125M7791,20081 L7849,20072 L7865,20048 L7911,20022 L7924,19948 L7982,19794M8365,21552 L8236,21382 L8031,21276 L7989,21282M8767,21241 L8927,21198 L8974,21218 L9071,21301 L9123,21398 L9207,21513 L9248,21490M9248,21490 L9265,21484 L9282,21497 L9334,21545 L9335,21567 L9359,21569 L9462,21642 L9496,21648 L9511,21696M9511,21696 L9504,21899 L9515,21997 L9557,22077 L9598,22098M11421,21745 L11513,21728 L11474,21479M12273,15006 L12304,14984 L12412,14689 L12488,14320M11420,17905 L11396,18001 L11324,18188 L11213,18328M8647,15934 L8638,15951 L8564,15993M7268,9114 L7499,9225 L7722,9287 L7954,9322 L8080,9286 L8169,9234 L8288,9151 L8569,8905 L8766,8809 L8939,8794 L9040,8772 L9131,8734 L9183,8740 L9451,8686 L9525,8683 L9584,8685 L9884,8791 L9882,8818M5916,17214 L5990,17221 L6052,17213 L6090,17193 L6177,17188 L6227,17229 L6288,17240 L6324,17229 L6403,17275 L6490,17240 L6545,17191 L6602,17182 L6624,17092 L6743,16891 L6877,16869 L6902,16822 L7003,16817 L7005,16772 L6962,16682 L7089,16575 L7107,16502 L7124,16494 L7155,16504 L7197,16479 L7275,16463 L7304,16471 L7361,16535 L7512,16808 L7570,16847 L7700,16869 L7799,16970 L7975,17008 L8003,16985 L8124,16981 L8221,16940 L8312,16941 L8355,16919 L8383,16887 L8432,16889 L8462,16857 L8523,16856 L8641,16931 L8762,17043 L8834,17086 L9005,17124 L9026,17168 L8990,17202 L9019,17229M8496,16852 L8521,16727 L8594,16591 L8624,16574 L8644,16512 L8628,16451 L8636,16412 L8603,16304 L8539,16240 L8454,16240 L8402,16222 L8390,16163 L8397,16121 L8377,16097 L8403,16015 L8479,16032 L8564,15993M10281,8830 L10320,8834 L10403,8800 L10461,8691 L10457,8656 L10484,8625 L10485,8556 L10507,8495 L10761,8182M10281,8830 L10250,8824 L10193,8839 L10093,8882 L10029,8926 L9984,8926 L9896,8916 L9866,8902 L9856,8887 L9882,8818M9019,17229 L9038,17253 L9007,17368 L9024,17442 L9001,17467 L9035,17586 L8899,17817 L8866,17839 L8866,17869 L8849,17898M8849,17898 L8830,17963 L8798,17995 L8770,18082"/>
+<path class="im-lim" d="M4651,3066 L5509,3161 L5906,2878 L6836,3122 L9435,1800 L11072,2466 L11715,2228 L12754,2466 L13388,3366 L12922,7068 L12501,8209 L12768,8463 L14279,9680 L16005,10168 L16682,10839 L16760,11555 L17443,11545 L17144,13144 L18490,14131 L18829,14400 L18942,14841 L16726,19477 L13205,27477 L12753,25481 L11961,25042 L9553,24733 L7423,22304 L6785,19442 L6274,19053 L6523,18307 L5937,18374 L5018,17847 L3885,16341 L3147,16649 L1800,15794 L4105,14997 L4139,14184 L3760,13697 L4282,13052 L5153,13558 L6355,12329 L7126,11570 L7550,11576 L7215,10496 L7597,8732 L7320,8349 L7514,6644 L5561,6252 L4199,5428 L3175,5522 L3387,3903 L2434,3550 L3358,1805 L4651,3066Z"/>
+<g transform="translate(13494,22661)"><rect x="-260" y="-260" width="520" height="520" class="im-mark"/><text x="420" y="140" class="im-lbl">ARIE RIO JORDÃO</text></g>
+<text x="10815" y="13935" class="im-name" text-anchor="middle">RECIFE</text>
+</svg>
+    <div class="hero-copy wrap">
+      <span class="k">Protótipo 1 · ARIE Rio Jordão · Fazendinha</span>
+      <h1 class="giant"><span>Alinhavos</span><span>Urbanos</span></h1>
+      <p class="hero-sub">Medidor do nível da água</p>
+    </div>
+    <div class="scrollcue" aria-hidden="true"><i></i></div>
+  </section>
+  <div class="ticker" aria-label="Dados de agora"><div class="track" id="tick"></div></div>
+  <section class="how" id="how" aria-labelledby="how-t">
+    <div class="how-pin">
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="how-head"><span class="k">Como funciona</span><h3 id="how-t">O que o medidor <em>costura?</em></h3><p class="hint" style="max-width:34ch">Cinco camadas, alinhavadas sobre o mesmo pedaço de cidade. Role para passar por elas.</p></div>
+      <div class="wheel-box"><div class="wheel" id="wheel"><svg aria-hidden="true"><circle id="w-arc"/></svg></div><div class="step-text" id="step"><span class="k" id="st-k"></span><b id="st-t"></b><span class="rule"></span><p id="st-p"></p></div></div>
+    </div>
+  </section>
+  <section class="ask wrap" aria-labelledby="intro-t">
+    <span class="k">Escolha como entrar</span>
+    <h3 id="intro-t">Como você quer ver a água no território?</h3>
+    <div class="intro-opts">
+      <button type="button" class="opt primary" id="go-real"><span class="k">Agora</span><b>Ver a realidade</b><span>A maré de agora, pela tábua da Marinha, ligada ao canal, e a chuva das últimas 24 horas no Jordão, de um serviço de clima ao vivo (Xweather dentro do Claude, Open-Meteo fora dele).</span></button>
+      <button type="button" class="opt" id="go-sim"><span class="k">Cenários · prévia</span><b>Fazer uma simulação</b><span>Você escolhe o nível do canal, o dia e a hora da maré e a chuva, e vê o resultado. Esta parte será desenvolvida na próxima etapa.</span></button>
+    </div>
+  </section>
+  <div class="l-foot wrap">Limite municipal: IBGE · Rios e canais: Prefeitura do Recife · Altimetria: PE3D · Maré: Marinha do Brasil · Chuva: Vaisala Xweather e APAC</div>
+</div>
+<div class="app">
+  <aside class="panel" aria-label="Controles do protótipo">
+    <header>
+      <span class="k">Protótipo 1 · ARIE Rio Jordão · Recife</span>
+      <h1>Alinhavos Urbanos</h1>
+      <p class="h1b">Medidor do nível da água</p>
+      <p class="sub">Altimetria do PE3D (MDT de 1 m) cruzada com o nível do canal e com a chuva acumulada. Mostra onde a água tende a chegar no recorte do TG2 e no entorno de 400 m.</p>
+      <div class="row" style="margin-top:14px;align-items:center"><div class="seg" role="group" aria-label="Modo" style="margin:0"><button type="button" id="md-real" aria-pressed="true">Realidade agora</button><button type="button" id="md-sim" aria-pressed="false">Simulação · prévia</button></div><button type="button" class="ghost" id="md-home">Início</button></div>
+    </header>
+
+    <section aria-labelledby="h-cen">
+      <h2 id="h-cen">Cenário</h2>
+
+      <div class="ctl">
+        <div class="ctl-head"><label for="sl-canal"><span class="swatch" style="background:var(--canal)"></span>Nível d'água no canal</label><span class="val" id="v-canal">0,70 m</span></div>
+        <input type="range" id="sl-canal" min="0" max="4" step="0.05" value="0.7">
+        <p class="hint">Altitude na mesma referência do MDT. No dia do levantamento a lâmina do Canal do Jordão aparece entre 0,5 e 0,7 m. Pinta de azul o que fica abaixo desse nível <b>e</b> tem caminho livre até o canal.</p>
+      </div>
+
+      <div class="ctl" id="mare-card">
+        <div class="ctl-head"><label>Maré · Porto do Recife</label><span class="val" id="v-mare">—</span></div>
+        <div class="mare-nav">
+          <button type="button" class="ghost sq" id="m-prev" aria-label="Dia anterior">‹</button>
+          <span id="m-date">—</span>
+          <button type="button" class="ghost sq" id="m-next" aria-label="Próximo dia">›</button>
+          <button type="button" class="ghost" id="m-today">Hoje</button>
+        </div>
+        <svg id="m-curve" viewBox="0 0 320 128" role="img" aria-label="Curva da maré do dia"></svg>
+        <ol class="mare-list" id="m-list"></ol>
+        <p class="hint" id="m-hint">Previsão da Marinha do Brasil (Tábua de Marés 2026, Porto do Recife, nível médio 1,28 m). Toque ou arraste na curva para escolher a hora.</p>
+        <label class="chk" for="m-link"><input type="checkbox" id="m-link" disabled> Ligar a maré ao nível do canal</label>
+        <div class="row">
+          <label class="field" for="in-off"><span>Ajuste de referência (m)</span><input type="number" id="in-off" step="0.01" placeholder="a confirmar"></label>
+          <button type="button" class="ghost" id="m-est">Usar estimativa −1,28</button>
+        </div>
+        <p class="hint">A tábua mede a altura a partir de um zero próprio do porto (o nível de redução). O ajuste converte para a altitude do MDT. A estimativa −1,28 m supõe que o zero do MDT coincide com o nível médio do mar, o que ainda não foi confirmado. Ela também ignora a vazão do rio e o atraso da maré até o Jordão.</p>
+      </div>
+
+      <div class="ctl">
+        <div class="ctl-head"><label for="sl-chuva"><span class="swatch" style="background:var(--chuva)"></span>Chuva acumulada</label><span class="val" id="v-chuva">27 mm</span></div>
+        <input type="range" id="sl-chuva" min="0" max="250" step="1" value="27">
+        <p class="live" id="rain-src"></p>
+        <p class="hint">Valor dos boletins da <a href="https://www.apac.pe.gov.br/" target="_blank" rel="noopener">APAC</a> (por enquanto ajustado à mão). Começa em 27 mm, a chuva de 06 para 07/07/2023 nos postos do Recife. Pinta de ciano as depressões do terreno que enchem com a água que escorre de cada pequena bacia.</p>
+      </div>
+
+      <details>
+        <summary>Hipóteses do modelo de chuva</summary>
+        <div class="ctl-head"><label for="sl-c">Parte da chuva que escorre</label><span class="val" id="v-c">80%</span></div>
+        <input type="range" id="sl-c" min="0.3" max="1" step="0.05" value="0.8">
+        <div class="ctl-head"><label for="sl-d">Chuva levada pela drenagem</label><span class="val" id="v-d">5 mm</span></div>
+        <input type="range" id="sl-d" min="0" max="100" step="1" value="5">
+        <p class="hint">Calibração inicial, com um único evento. No boletim da APAC de 07/07/2023 os postos do Recife marcaram 24,5 mm (Alto da Brasileira) e 28,6 mm (Codecipe/Santo Amaro) em 24 horas. Com 27 mm, 80% escorrendo e 5 mm levados pela drenagem, o modelo molha 43 dos 75 relatos de alagamento do mapa (57%). Pontos sorteados ao acaso no mapa ficam molhados em cerca de 32% dos casos. Os 80% não foram calibrados, e um evento só não basta para fixar os valores.</p>
+        <p class="hint">Chuva que acumula = chuva × parte que escorre − drenagem = <b class="val" id="v-eff">17 mm</b></p>
+      </details>
+
+      <div class="ctl-head"><span>Mostrar a partir de</span>
+        <div class="seg" role="group" aria-label="Profundidade mínima"><button type="button" id="d10" aria-pressed="true">10 cm</button><button type="button" id="d30" aria-pressed="false">30 cm</button></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-res">
+      <h2 id="h-res">No recorte do TG2</h2>
+      <dl class="result">
+        <div class="big"><span class="k">Recorte com água</span><b id="r-pct">0%</b><span id="r-ha">0,0 ha com água</span></div>
+        <div class="bar" aria-hidden="true"><i id="b-canal" style="background:var(--canal);width:0"></i><i id="b-chuva" style="background:var(--chuva);width:0"></i></div>
+        <dt><span class="swatch" style="background:var(--canal)"></span>vinda do canal</dt><dd id="r-canal">0,0 ha</dd>
+        <dt><span class="swatch" style="background:var(--chuva)"></span>só da chuva</dt><dd id="r-chuva">0,0 ha</dd>
+        <dt>Comunidade Fazendinha (área CIS)</dt><dd id="r-faz">0%</dd>
+        <dt>Relatos de alagamento no mapa (Waze, 06/07/2023) que caem na água</dt><dd id="r-waze">0 de 0</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="h-pt">
+      <h2 id="h-pt">Ponto do mapa</h2>
+      <div class="probe" id="probe">Passe o mouse ou toque no mapa para ver a altitude do terreno.</div>
+    </section>
+
+    <section aria-labelledby="h-cam">
+      <h2 id="h-cam">Camadas</h2>
+      <div class="ctl-head"><span>Fundo</span>
+        <div class="seg" role="group" aria-label="Fundo do mapa"><button type="button" id="bg-orto" aria-pressed="true">Mapa</button><button type="button" id="bg-terr" aria-pressed="false">Relevo</button></div>
+      </div>
+      <div class="layers" id="layers"></div>
+    </section>
+
+    <details>
+      <summary>Como ler e o que ainda falta</summary>
+      <ul class="notes">
+        <li>É uma leitura do território, não uma previsão. Não serve como alerta para a comunidade: alertas oficiais são da APAC e da Defesa Civil.</li>
+        <li>O MDT tira prédios e árvores. Muros, galerias e bueiros não aparecem, então a água pode passar onde o mapa não deixa, e o contrário.</li>
+        <li>A drenagem é tratada como um valor único em milímetros. A rede (galerias e canaletas) aparece no mapa, mas não entra no cálculo.</li>
+        <li>As cotas da rede de drenagem da Prefeitura batem com o MDT (diferença típica de 6 cm), sinal de que usam a mesma referência de altitude.</li>
+        <li>Quando uma depressão transborda, a sobra não é repassada para a vizinha. Em chuvas fortes o modelo tende a mostrar menos água do que o real.</li>
+        <li class="warn">A mancha de inundação do Tejipió vem num arquivo chamado "10 anos", mas o atributo diz "TR 25 anos". Vale confirmar com a fonte.</li>
+        <li>Os relatos do Waze são todos de um único evento. O arquivo marca 06/07/2023 às 21h, o que pode ser 07/07 à meia-noite gravado em outro fuso. Servem para conferir o modelo, não como histórico.</li>
+        <li>No modo realidade, a chuva vem do conector Vaisala Xweather da conta de quem abre a página (soma das últimas 24 h, atualizada a cada 15 min). É uma estimativa do serviço para o ponto do Jordão, não medição de pluviômetro. Quem não tiver o conector vê a chuva digitada à mão.</li>
+        <li>A maré vem da tábua da Marinha, que é uma previsão astronômica publicada uma vez por ano. Ela não inclui vento, ressaca nem cheia do rio. Entre os horários da tábua, a curva é interpolada.</li>
+      </ul>
+    </details>
+
+    <p class="src">Fontes: Programa Pernambuco Tridimensional (PE3D), MDT 1:5.000, baixados com o complemento PE3D-Downloader · Prefeitura do Recife: canais, microdrenagem, microbacias, pontos de alagamento, abrigos, áreas verdes, mancha de inundação do Tejipió (PCR/PROMORAR/TPF), zonas hidráulicas · Atlas das CIS 2025 · Faixas marginais dos recursos hídricos · Relatos de alagamento Waze (06/07/2023) · Chuva ao vivo: Vaisala Xweather (no Claude) ou Open-Meteo.com (CC BY 4.0, fora do Claude). Marinha do Brasil, Tábua de Marés 2026, Porto do Recife · APAC, Boletins de Acompanhamento da Chuva de 06 e 07/07/2023. Arquivos enviados pela autora.</p>
+  </aside>
+  <div class="mapwrap">
+    <div id="map" role="region" aria-label="Mapa"></div>
+    <div id="v3d" role="region" aria-label="Vista 3D" hidden><div class="v3-ui"><span class="k">Relevo</span><div class="seg"><button type="button" id="ex1" aria-pressed="true">×1</button><button type="button" id="ex3" aria-pressed="false">×3</button></div></div><p class="v3-note" id="v3-note">Arraste para girar · role para aproximar · botão direito para mover. Edificações da Prefeitura do Recife, com cerca de 3 m por pavimento, sobre o MDT do PE3D. Em azul, as que ficam na água no cenário atual.</p><p class="v3-msg" id="v3-msg"></p></div>
+    <div class="vt seg" role="group" aria-label="Vista"><button type="button" id="vw-2d" aria-pressed="true">Mapa 2D</button><button type="button" id="vw-3d" aria-pressed="false">3D</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+(function(){
+const GRID={"W": -34.915556506279486, "S": -8.126748546609402, "E": -34.90071935129895, "N": -8.11196820053128, "nx": 815, "ny": 821};
+const fmt=(v,d=1)=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const $=id=>document.getElementById(id);
+const nx=GRID.nx, ny=GRID.ny, N=nx*ny;
+const bounds=[[GRID.S,GRID.W],[GRID.N,GRID.E]];
+const pxArea=((GRID.N-GRID.S)/ny*111320)*((GRID.E-GRID.W)/nx*111320*Math.cos((GRID.S+GRID.N)/2*Math.PI/180));
+
+const map=L.map('map',{zoomControl:true,attributionControl:true,minZoom:14,maxZoom:20,maxBounds:L.latLngBounds(bounds).pad(0.3)});
+map.fitBounds(bounds);
+map.attributionControl.setPrefix(false).addAttribution('Base: © colaboradores do OpenStreetMap (ODbL) · Altimetria: PE3D · Dados: Prefeitura do Recife');
+const base={orto:L.imageOverlay('base.png',bounds),terr:L.imageOverlay('terreno.jpg',bounds)};
+base.orto.addTo(map);
+
+const canvas=document.createElement('canvas'); canvas.width=nx; canvas.height=ny;
+const ctx=canvas.getContext('2d');
+const img=ctx.createImageData(nx,ny);
+const water=L.imageOverlay(canvas.toDataURL(),bounds,{className:'pix',opacity:0.82,interactive:false}).addTo(map);
+
+function decode(url){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=nx;c.height=ny;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);const d=x.getImageData(0,0,nx,ny).data;const v=new Uint16Array(N),b=new Uint8Array(N);for(let i=0;i<N;i++){v[i]=(d[i*4]<<8)|d[i*4+1];b[i]=d[i*4+2];}res({v,b});};im.onerror=()=>rej(new Error('Não consegui carregar '+url));im.src=url;});}
+
+let D=null;
+const st={H:0.7,R:27,C:0.8,Dr:5,deep:false};
+const css=getComputedStyle(document.documentElement);
+function rgb(name){const t=document.createElement('span');t.style.color=css.getPropertyValue(name);document.body.appendChild(t);const m=getComputedStyle(t).color.match(/\d+/g).map(Number);t.remove();return m;}
+let cCanal=rgb('--canal'), cChuva=rgb('--chuva');
+
+function reff(){return Math.max(0,st.R*st.C-st.Dr);}
+function render(){
+  if(!D) return;
+  const Hc=Math.round(st.H*100)+1000, Rm=reff();
+  const hv=st.deep?D.h30:D.h10, rv=st.deep?D.r30:D.r10;
+  const px=img.data;
+  let pa=0,pc=0,pr=0,fa=0,fw=0;
+  for(let i=0;i<N;i++){
+    const h=hv[i], r=rv[i], f=D.flags[i];
+    let k=0;
+    if(h<65534 && h<=Hc) k=1; else if(r<65535 && r<=Rm) k=2;
+    const j=i*4;
+    if(k===1){px[j]=cCanal[0];px[j+1]=cCanal[1];px[j+2]=cCanal[2];px[j+3]=230;}
+    else if(k===2){px[j]=cChuva[0];px[j+1]=cChuva[1];px[j+2]=cChuva[2];px[j+3]=230;}
+    else px[j+3]=0;
+    if(f&1){pa++; if(k===1)pc++; else if(k===2)pr++;}
+    if(f&2){fa++; if(k)fw++;}
+  }
+  ctx.putImageData(img,0,0); water.setUrl(canvas.toDataURL()); if(V3.on&&V3.update) V3.update();
+  const ha=p=>p*pxArea/10000;
+  const pct=pa?(pc+pr)/pa*100:0;
+  $('r-pct').textContent=fmt(pct,0)+'%';
+  $('r-ha').textContent=fmt(ha(pc+pr))+' ha com água, de '+fmt(ha(pa))+' ha';
+  $('r-canal').textContent=fmt(ha(pc))+' ha'; $('r-chuva').textContent=fmt(ha(pr))+' ha';
+  $('b-canal').style.width=(pa?pc/pa*100:0)+'%'; $('b-chuva').style.width=(pa?pr/pa*100:0)+'%';
+  $('r-faz').textContent=fa?fmt(fw/fa*100,0)+'%':'—';
+  setHud('rec',fmt(pct,0)+'%',fmt(ha(pc+pr))+' ha com água');
+  setHud('faz',fa?fmt(fw/fa*100,0)+'%':'—','da área com água');
+  setHud('can',fmt(st.H,2)+' m',mt.link?'nível ligado à maré':'nível d\'água no canal');
+  let hit=0; wazeIdx.forEach(i=>{ if(i>=0 && wet(i)) hit++; });
+  $('r-waze').textContent=hit+' de '+wazeIdx.length;
+  $('v-eff').textContent=fmt(Rm,0)+' mm';
+}
+function wet(i){ // ponto molhado se algum pixel num raio de 2 px estiver molhado
+  const x0=i%nx,y0=(i/nx)|0, Hc=Math.round(st.H*100)+1000, Rm=reff();
+  const hv=st.deep?D.h30:D.h10, rv=st.deep?D.r30:D.r10;
+  for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const x=x0+dx,y=y0+dy;if(x<0||y<0||x>=nx||y>=ny)continue;const k=y*nx+x;if((hv[k]<65534&&hv[k]<=Hc)||(rv[k]<65535&&rv[k]<=Rm))return true;}
+  return false;
+}
+let raf=0; const schedule=()=>{ if(!raf) raf=requestAnimationFrame(()=>{raf=0;render();}); };
+
+function idxOf(lat,lng){const x=Math.floor((lng-GRID.W)/(GRID.E-GRID.W)*nx), y=Math.floor((GRID.N-lat)/(GRID.N-GRID.S)*ny); return (x<0||y<0||x>=nx||y>=ny)?-1:y*nx+x;}
+
+// controles
+const bind=(id,key,out,fn)=>{const el=$(id);el.addEventListener('input',()=>{st[key]=parseFloat(el.value);$(out).textContent=fn(st[key]);schedule();});};
+bind('sl-canal','H','v-canal',v=>fmt(v,2)+' m');
+bind('sl-chuva','R','v-chuva',v=>fmt(v,0)+' mm');
+bind('sl-c','C','v-c',v=>fmt(v*100,0)+'%');
+bind('sl-d','Dr','v-d',v=>fmt(v,0)+' mm');
+function seg(a,b,on){$(a).setAttribute('aria-pressed',on);$(b).setAttribute('aria-pressed',!on);}
+$('d10').onclick=()=>{st.deep=false;seg('d10','d30',true);schedule();};
+$('d30').onclick=()=>{st.deep=true;seg('d10','d30',false);schedule();};
+$('bg-orto').onclick=()=>{map.removeLayer(base.terr);base.orto.addTo(map).bringToBack();seg('bg-orto','bg-terr',true);relief.remove();};
+$('bg-terr').onclick=()=>{map.removeLayer(base.orto);base.terr.addTo(map).bringToBack();seg('bg-orto','bg-terr',false);relief.addTo(map);};
+// ---------- maré (Tábua de Marés 2026, Porto do Recife, Marinha do Brasil) ----------
+const TABUA={"2026-01-01":[["0159",2.16],["0812",0.47],["1414",2.23],["2042",0.24]],"2026-01-17":[["0304",2.03],["0914",0.53],["1519",2.16],["2140",0.38]],"2026-01-02":[["0255",2.25],["0902",0.38],["1508",2.36],["2134",0.13]],"2026-01-18":[["0342",2.13],["0951",0.45],["1557",2.27],["2214",0.29]],"2026-01-03":[["0342",2.3],["0953",0.32],["1559",2.45],["2221",0.08]],"2026-01-19":[["0421",2.2],["1025",0.39],["1629",2.33],["2249",0.23]],"2026-01-04":[["0432",2.31],["1040",0.29],["1644",2.48],["2312",0.09]],"2026-01-20":[["0459",2.24],["1059",0.36],["1706",2.37],["2325",0.21]],"2026-01-05":[["0516",2.28],["1121",0.3],["1732",2.46],["2359",0.16]],"2026-01-21":[["0531",2.23],["1134",0.36],["1747",2.37]],"2026-01-06":[["0602",2.2],["1208",0.36],["1816",2.38]],"2026-01-22":[["0002",0.24],["0612",2.19],["1210",0.39],["1821",2.32]],"2026-01-07":[["0044",0.28],["0649",2.11],["1255",0.45],["1904",2.25]],"2026-01-23":[["0040",0.32],["0653",2.12],["1251",0.45],["1906",2.24]],"2026-01-08":[["0134",0.43],["0732",1.99],["1338",0.57],["1955",2.09]],"2026-01-24":[["0125",0.43],["0732",2.02],["1332",0.53],["1959",2.12]],"2026-01-09":[["0216",0.59],["0821",1.87],["1436",0.68],["2046",1.93]],"2026-01-25":[["0210",0.57],["0825",1.91],["1431",0.62],["2055",1.99]],"2026-01-10":[["0316",0.74],["0912",1.77],["1527",0.79],["2144",1.8]],"2026-01-26":[["0316",0.71],["0923",1.83],["1536",0.7],["2208",1.88]],"2026-01-11":[["0410",0.84],["1012",1.71],["1647",0.85],["2249",1.71]],"2026-01-27":[["0425",0.8],["1042",1.79],["1708",0.71],["2332",1.85]],"2026-01-12":[["0523",0.89],["1119",1.7],["1751",0.85],["2355",1.69]],"2026-01-28":[["0601",0.8],["1202",1.86],["1842",0.62]],"2026-01-13":[["0617",0.87],["1217",1.75],["1859",0.8]],"2026-01-29":[["0055",1.91],["0716",0.72],["1316",1.99],["1947",0.46]],"2026-01-14":[["0057",1.73],["0717",0.82],["1316",1.83],["1944",0.71]],"2026-01-30":[["0159",2.02],["0810",0.58],["1410",2.17],["2046",0.3]],"2026-01-15":[["0142",1.81],["0801",0.72],["1401",1.94],["2029",0.6]],"2026-01-31":[["0255",2.14],["0901",0.44],["1504",2.33],["2131",0.17]],"2026-01-16":[["0229",1.92],["0838",0.63],["1438",2.05],["2104",0.48]],"2026-02-01":[["0336",2.24],["0946",0.32],["1551",2.46],["2214",0.09]],"2026-02-17":[["0359",2.28],["1002",0.29],["1606",2.45],["2227",0.12]],"2026-02-02":[["0419",2.3],["1023",0.24],["1629",2.52],["2257",0.08]],"2026-02-18":[["0434",2.35],["1036",0.22],["1644",2.51],["2302",0.09]],"2026-02-03":[["0459",2.32],["1104",0.21],["1712",2.51],["2334",0.13]],"2026-02-19":[["0506",2.37],["1110",0.2],["1723",2.51],["2338",0.13]],"2026-02-04":[["0534",2.28],["1144",0.24],["1753",2.45]],"2026-02-20":[["0544",2.32],["1149",0.22],["1802",2.45]],"2026-02-05":[["0010",0.24],["0614",2.21],["1219",0.32],["1829",2.31]],"2026-02-21":[["0014",0.23],["0625",2.24],["1227",0.3],["1844",2.32]],"2026-02-06":[["0049",0.39],["0653",2.11],["1259",0.44],["1910",2.14]],"2026-02-22":[["0057",0.39],["0704",2.12],["1310",0.42],["1936",2.14]],"2026-02-07":[["0125",0.55],["0725",1.98],["1338",0.59],["1955",1.96]],"2026-02-23":[["0144",0.58],["0753",1.96],["1406",0.58],["2029",1.94]],"2026-02-08":[["0202",0.71],["0812",1.84],["1427",0.75],["2036",1.78]],"2026-02-24":[["0242",0.78],["0859",1.83],["1517",0.72],["2157",1.78]],"2026-02-09":[["0247",0.87],["0902",1.73],["1519",0.89],["2144",1.64]],"2026-02-25":[["0408",0.91],["1023",1.75],["1708",0.75],["2336",1.73]],"2026-02-10":[["0359",0.97],["1010",1.64],["1659",0.95],["2259",1.57]],"2026-02-26":[["0601",0.9],["1159",1.81],["1851",0.64]],"2026-02-11":[["0540",1.0],["1134",1.64],["1831",0.91]],"2026-02-27":[["0101",1.82],["0717",0.78],["1314",1.97],["1949",0.48]],"2026-02-12":[["0023",1.61],["0646",0.94],["1247",1.72],["1921",0.8]],"2026-02-28":[["0201",1.96],["0806",0.6],["1408",2.16],["2042",0.32]],"2026-02-13":[["0121",1.73],["0746",0.81],["1340",1.86],["2010",0.65]],"2026-02-14":[["0210",1.87],["0819",0.67],["1417",2.02],["2047",0.48]],"2026-02-15":[["0249",2.03],["0857",0.53],["1457",2.18],["2117",0.33]],"2026-02-16":[["0319",2.17],["0931",0.4],["1534",2.33],["2153",0.2]],"2026-03-01":[["0246",2.1],["0851",0.44],["1455",2.33],["2117",0.19]],"2026-03-17":[["0255",2.21],["0901",0.35],["1504",2.39],["2121",0.15]],"2026-03-02":[["0321",2.22],["0931",0.3],["1534",2.45],["2157",0.13]],"2026-03-18":[["0327",2.34],["0936",0.21],["1544",2.52],["2159",0.07]],"2026-03-03":[["0359",2.3],["1004",0.2],["1610",2.51],["2232",0.12]],"2026-03-19":[["0404",2.42],["1008",0.11],["1619",2.59],["2238",0.05]],"2026-03-04":[["0432",2.34],["1038",0.16],["1647",2.5],["2304",0.16]],"2026-03-20":[["0444",2.45],["1047",0.08],["1701",2.57],["2312",0.1]],"2026-03-05":[["0502",2.34],["1114",0.18],["1723",2.43],["2334",0.25]],"2026-03-21":[["0517",2.41],["1127",0.12],["1744",2.48],["2353",0.24]],"2026-03-06":[["0536",2.28],["1149",0.26],["1759",2.31]],"2026-03-22":[["0601",2.31],["1208",0.22],["1825",2.31]],"2026-03-07":[["0006",0.37],["0610",2.19],["1219",0.38],["1829",2.15]],"2026-03-23":[["0038",0.42],["0647",2.16],["1257",0.38],["1921",2.09]],"2026-03-08":[["0038",0.52],["0647",2.07],["1255",0.54],["1908",1.96]],"2026-03-24":[["0125",0.64],["0734",1.99],["1401",0.57],["2021",1.87]],"2026-03-09":[["0110",0.68],["0719",1.92],["1334",0.71],["1953",1.78]],"2026-03-25":[["0232",0.84],["0849",1.84],["1527",0.72],["2157",1.72]],"2026-03-10":[["0147",0.84],["0810",1.76],["1425",0.87],["2040",1.62]],"2026-03-26":[["0412",0.95],["1023",1.77],["1716",0.73],["2342",1.71]],"2026-03-11":[["0242",0.99],["0908",1.64],["1546",0.98],["2206",1.54]],"2026-03-27":[["0559",0.9],["1155",1.84],["1847",0.61]],"2026-03-12":[["0423",1.06],["1049",1.6],["1736",0.96],["2351",1.57]],"2026-03-28":[["0055",1.81],["0706",0.76],["1304",2.0],["1938",0.47]],"2026-03-13":[["0608",0.99],["1208",1.68],["1857",0.82]],"2026-03-29":[["0149",1.95],["0755",0.58],["1355",2.16],["2025",0.35]],"2026-03-14":[["0053",1.7],["0714",0.86],["1306",1.83],["1934",0.65]],"2026-03-30":[["0225",2.07],["0831",0.43],["1436",2.29],["2101",0.27]],"2026-03-15":[["0142",1.87],["0755",0.69],["1349",2.02],["2016",0.47]],"2026-03-31":[["0259",2.18],["0908",0.31],["1512",2.38],["2131",0.23]],"2026-03-16":[["0217",2.05],["0823",0.52],["1427",2.21],["2051",0.29]],"2026-04-01":[["0329",2.27],["0942",0.22],["1546",2.42],["2201",0.22]],"2026-04-17":[["0336",2.44],["0947",0.07],["1557",2.57],["2210",0.1]],"2026-04-02":[["0401",2.32],["1010",0.18],["1616",2.41],["2232",0.25]],"2026-04-18":[["0416",2.47],["1025",0.04],["1642",2.54],["2253",0.16]],"2026-04-03":[["0432",2.33],["1042",0.2],["1651",2.35],["2301",0.3]],"2026-04-19":[["0459",2.43],["1112",0.09],["1727",2.43],["2334",0.29]],"2026-04-04":[["0502",2.3],["1117",0.27],["1725",2.24],["2329",0.4]],"2026-04-20":[["0544",2.34],["1201",0.2],["1816",2.25]],"2026-04-05":[["0536",2.22],["1151",0.38],["1759",2.11]],"2026-04-21":[["0025",0.47],["0634",2.2],["1255",0.36],["1916",2.04]],"2026-04-06":[["0001",0.53],["0612",2.1],["1221",0.52],["1832",1.95]],"2026-04-22":[["0117",0.66],["0729",2.04],["1404",0.53],["2021",1.85]],"2026-04-07":[["0036",0.67],["0651",1.96],["1301",0.68],["1919",1.79]],"2026-04-23":[["0236",0.82],["0847",1.91],["1536",0.65],["2155",1.74]],"2026-04-08":[["0110",0.81],["0731",1.81],["1353",0.82],["2008",1.66]],"2026-04-24":[["0406",0.89],["1016",1.86],["1706",0.65],["2323",1.74]],"2026-04-09":[["0204",0.95],["0840",1.69],["1502",0.92],["2134",1.57]],"2026-04-25":[["0536",0.84],["1132",1.91],["1821",0.59]],"2026-04-10":[["0334",1.03],["0951",1.64],["1646",0.91],["2255",1.59]],"2026-04-26":[["0025",1.82],["0636",0.72],["1244",2.01],["1912",0.5]],"2026-04-11":[["0519",1.0],["1112",1.7],["1802",0.81]],"2026-04-27":[["0117",1.92],["0727",0.59],["1327",2.11],["1955",0.44]],"2026-04-12":[["0006",1.71],["0619",0.87],["1221",1.84],["1855",0.64]],"2026-04-28":[["0157",2.02],["0804",0.46],["1408",2.19],["2032",0.4]],"2026-04-13":[["0057",1.87],["0710",0.7],["1306",2.03],["1932",0.47]],"2026-04-29":[["0225",2.12],["0840",0.37],["1447",2.24],["2102",0.36]],"2026-04-14":[["0142",2.05],["0751",0.51],["1351",2.22],["2014",0.3]],"2026-04-30":[["0259",2.2],["0914",0.31],["1516",2.27],["2129",0.36]],"2026-04-15":[["0216",2.21],["0823",0.33],["1434",2.39],["2053",0.17]],"2026-04-16":[["0257",2.35],["0904",0.18],["1514",2.52],["2127",0.1]],"2026-05-01":[["0331",2.25],["0947",0.27],["1549",2.26],["2159",0.36]],"2026-05-17":[["0357",2.45],["1010",0.06],["1627",2.44],["2238",0.25]],"2026-05-02":[["0402",2.28],["1016",0.28],["1623",2.22],["2232",0.39]],"2026-05-18":[["0442",2.43],["1102",0.09],["1716",2.35],["2323",0.34]],"2026-05-03":[["0436",2.26],["1049",0.33],["1659",2.16],["2302",0.45]],"2026-05-19":[["0532",2.37],["1159",0.18],["1810",2.21]],"2026-05-04":[["0510",2.2],["1129",0.41],["1734",2.06],["2332",0.54]],"2026-05-20":[["0019",0.47],["0627",2.26],["1255",0.32],["1910",2.05]],"2026-05-05":[["0549",2.11],["1202",0.51],["1812",1.95]],"2026-05-21":[["0114",0.6],["0725",2.14],["1402",0.45],["2014",1.91]],"2026-05-06":[["0014",0.66],["0629",2.0],["1240",0.63],["1859",1.84]],"2026-05-22":[["0227",0.72],["0836",2.03],["1519",0.56],["2131",1.81]],"2026-05-07":[["0057",0.77],["0710",1.88],["1336",0.73],["1953",1.74]],"2026-05-23":[["0338",0.77],["0947",1.96],["1632",0.61],["2238",1.78]],"2026-05-08":[["0142",0.88],["0808",1.79],["1429",0.8],["2053",1.67]],"2026-05-24":[["0457",0.76],["1101",1.95],["1744",0.62],["2347",1.81]],"2026-05-09":[["0257",0.94],["0908",1.76],["1551",0.81],["2204",1.68]],"2026-05-25":[["0559",0.71],["1204",1.96],["1836",0.6]],"2026-05-10":[["0412",0.93],["1025",1.79],["1659",0.74],["2314",1.75]],"2026-05-26":[["0031",1.87],["0651",0.63],["1257",2.0],["1917",0.58]],"2026-05-11":[["0519",0.84],["1123",1.89],["1801",0.63]],"2026-05-27":[["0119",1.94],["0736",0.55],["1334",2.03],["1959",0.56]],"2026-05-12":[["0006",1.88],["0616",0.69],["1225",2.04],["1849",0.5]],"2026-05-28":[["0157",2.02],["0812",0.49],["1416",2.06],["2032",0.53]],"2026-05-13":[["0055",2.02],["0706",0.52],["1312",2.2],["1934",0.37]],"2026-05-29":[["0225",2.1],["0849",0.43],["1453",2.09],["2102",0.49]],"2026-05-14":[["0144",2.17],["0753",0.34],["1402",2.34],["2019",0.27]],"2026-05-30":[["0302",2.16],["0925",0.4],["1523",2.11],["2134",0.48]],"2026-05-15":[["0223",2.3],["0836",0.2],["1451",2.44],["2102",0.2]],"2026-05-31":[["0342",2.2],["0959",0.38],["1602",2.11],["2210",0.47]],"2026-05-16":[["0308",2.4],["0925",0.1],["1536",2.47],["2149",0.2]],"2026-06-01":[["0412",2.21],["1031",0.39],["1642",2.09],["2246",0.49]],"2026-06-17":[["0525",2.43],["1153",0.14],["1802",2.22]],"2026-06-02":[["0451",2.19],["1112",0.42],["1716",2.06],["2317",0.54]],"2026-06-18":[["0008",0.4],["0616",2.37],["1246",0.24],["1857",2.12]],"2026-06-03":[["0531",2.14],["1151",0.47],["1759",2.0],["2359",0.61]],"2026-06-19":[["0102",0.48],["0712",2.27],["1347",0.36],["1951",2.0]],"2026-06-04":[["0610",2.08],["1225",0.53],["1844",1.93]],"2026-06-20":[["0157",0.58],["0808",2.15],["1442",0.5],["2049",1.89]],"2026-06-05":[["0044",0.68],["0653",2.01],["1316",0.59],["1927",1.86]],"2026-06-21":[["0301",0.66],["0908",2.03],["1551",0.61],["2149",1.82]],"2026-06-06":[["0119",0.75],["0742",1.95],["1402",0.64],["2017",1.8]],"2026-06-22":[["0404",0.72],["1014",1.93],["1647",0.7],["2247",1.79]],"2026-06-07":[["0217",0.8],["0834",1.91],["1457",0.68],["2116",1.78]],"2026-06-23":[["0508",0.73],["1114",1.87],["1751",0.74],["2349",1.8]],"2026-06-08":[["0312",0.81],["0932",1.9],["1602",0.68],["2214",1.8]],"2026-06-24":[["0610",0.72],["1217",1.85],["1838",0.75]],"2026-06-09":[["0423",0.77],["1040",1.94],["1704",0.65],["2317",1.86]],"2026-06-25":[["0034",1.84],["0704",0.68],["1304",1.86],["1925",0.72]],"2026-06-10":[["0523",0.68],["1138",2.02],["1804",0.57]],"2026-06-26":[["0125",1.91],["0749",0.62],["1347",1.89],["2004",0.67]],"2026-06-11":[["0010",1.97],["0627",0.55],["1244",2.12],["1901",0.49]],"2026-06-27":[["0202",1.99],["0829",0.56],["1432",1.94],["2042",0.61]],"2026-06-12":[["0108",2.09],["0723",0.4],["1336",2.22],["1955",0.41]],"2026-06-28":[["0240",2.07],["0906",0.49],["1506",2.01],["2116",0.55]],"2026-06-13":[["0201",2.23],["0817",0.26],["1434",2.3],["2047",0.34]],"2026-06-29":[["0323",2.14],["0946",0.43],["1546",2.05],["2155",0.51]],"2026-06-14":[["0251",2.33],["0912",0.15],["1523",2.35],["2136",0.3]],"2026-06-30":[["0401",2.19],["1017",0.39],["1625",2.09],["2231",0.48]],"2026-06-15":[["0344",2.42],["1004",0.09],["1617",2.35],["2227",0.3]],"2026-06-16":[["0431",2.45],["1059",0.09],["1708",2.31],["2314",0.33]],"2026-07-01":[["0434",2.22],["1055",0.37],["1702",2.11],["2304",0.48]],"2026-07-17":[["0601",2.47],["1223",0.18],["1829",2.2]],"2026-07-02":[["0514",2.22],["1132",0.37],["1738",2.09],["2340",0.51]],"2026-07-18":[["0036",0.35],["0646",2.36],["1312",0.32],["1912",2.1]],"2026-07-03":[["0553",2.2],["1206",0.39],["1819",2.05]],"2026-07-19":[["0119",0.45],["0736",2.21],["1401",0.48],["2001",1.97]],"2026-07-04":[["0019",0.55],["0629",2.16],["1246",0.44],["1901",2.0]],"2026-07-20":[["0214",0.58],["0823",2.04],["1447",0.65],["2053",1.86]],"2026-07-05":[["0059",0.59],["0712",2.11],["1332",0.51],["1942",1.94]],"2026-07-21":[["0306",0.69],["0919",1.88],["1551",0.78],["2147",1.77]],"2026-07-06":[["0136",0.64],["0801",2.05],["1414",0.58],["2032",1.88]],"2026-07-22":[["0417",0.79],["1023",1.75],["1647",0.87],["2251",1.72]],"2026-07-07":[["0232",0.68],["0853",1.99],["1514",0.65],["2127",1.84]],"2026-07-23":[["0523",0.83],["1131",1.69],["1801",0.89],["2357",1.74]],"2026-07-08":[["0327",0.7],["0957",1.95],["1614",0.69],["2229",1.84]],"2026-07-24":[["0640",0.8],["1238",1.7],["1855",0.85]],"2026-07-09":[["0447",0.68],["1106",1.94],["1732",0.7],["2340",1.9]],"2026-07-25":[["0055",1.8],["0727",0.73],["1327",1.77],["1949",0.77]],"2026-07-10":[["0559",0.61],["1219",1.99],["1836",0.65]],"2026-07-26":[["0147",1.9],["0816",0.64],["1416",1.86],["2023",0.67]],"2026-07-11":[["0044",2.0],["0710",0.47],["1323",2.07],["1944",0.55]],"2026-07-27":[["0223",2.01],["0855",0.53],["1455",1.97],["2102",0.58]],"2026-07-12":[["0147",2.15],["0812",0.33],["1427",2.17],["2036",0.45]],"2026-07-28":[["0304",2.12],["0927",0.43],["1527",2.07],["2138",0.48]],"2026-07-13":[["0240",2.29],["0908",0.19],["1516",2.26],["2127",0.35]],"2026-07-29":[["0344",2.22],["1001",0.34],["1604",2.15],["2210",0.41]],"2026-07-14":[["0336",2.42],["1001",0.09],["1610",2.31],["2216",0.28]],"2026-07-30":[["0414",2.3],["1036",0.27],["1644",2.21],["2246",0.38]],"2026-07-15":[["0421",2.5],["1051",0.06],["1659",2.32],["2302",0.26]],"2026-07-31":[["0451",2.34],["1108",0.24],["1714",2.22],["2316",0.37]],"2026-07-16":[["0512",2.51],["1138",0.09],["1742",2.28],["2349",0.28]],"2026-08-01":[["0527",2.34],["1144",0.26],["1749",2.19],["2351",0.39]],"2026-08-17":[["0044",0.37],["0655",2.21],["1310",0.5],["1910",2.04]],"2026-08-02":[["0602",2.32],["1216",0.32],["1829",2.13]],"2026-08-18":[["0123",0.52],["0742",2.01],["1353",0.67],["1955",1.89]],"2026-08-03":[["0027",0.43],["0642",2.24],["1257",0.42],["1906",2.05]],"2026-08-19":[["0214",0.69],["0823",1.82],["1436",0.84],["2051",1.76]],"2026-08-04":[["0106",0.5],["0729",2.13],["1342",0.54],["1951",1.95]],"2026-08-20":[["0312",0.84],["0931",1.66],["1549",0.96],["2153",1.67]],"2026-08-05":[["0155",0.59],["0817",2.01],["1429",0.68],["2051",1.86]],"2026-08-21":[["0447",0.92],["1046",1.58],["1723",1.0],["2316",1.66]],"2026-08-06":[["0259",0.67],["0927",1.89],["1546",0.79],["2157",1.8]],"2026-08-22":[["0616",0.9],["1210",1.61],["1829",0.94]],"2026-08-07":[["0425",0.72],["1049",1.83],["1714",0.84],["2317",1.83]],"2026-08-23":[["0031",1.73],["0708",0.79],["1308",1.71],["1931",0.83]],"2026-08-08":[["0553",0.67],["1214",1.86],["1831",0.77]],"2026-08-24":[["0123",1.85],["0753",0.67],["1355",1.84],["2006",0.69]],"2026-08-09":[["0036",1.94],["0710",0.51],["1323",1.97],["1942",0.63]],"2026-08-25":[["0204",2.0],["0832",0.52],["1432",1.99],["2040",0.56]],"2026-08-10":[["0142",2.12],["0814",0.34],["1423",2.11],["2031",0.48]],"2026-08-26":[["0240",2.14],["0902",0.38],["1504",2.13],["2114",0.44]],"2026-08-11":[["0234",2.3],["0904",0.19],["1508",2.23],["2119",0.33]],"2026-08-27":[["0316",2.28],["0932",0.26],["1538",2.24],["2147",0.33]],"2026-08-12":[["0323",2.45],["0949",0.09],["1555",2.31],["2202",0.22]],"2026-08-28":[["0351",2.39],["1006",0.18],["1612",2.31],["2216",0.26]],"2026-08-13":[["0406",2.55],["1032",0.05],["1638",2.35],["2242",0.17]],"2026-08-29":[["0421",2.45],["1042",0.15],["1649",2.34],["2249",0.23]],"2026-08-14":[["0451",2.56],["1112",0.08],["1712",2.34],["2321",0.18]],"2026-08-30":[["0501",2.46],["1112",0.17],["1719",2.31],["2323",0.24]],"2026-08-15":[["0534",2.51],["1153",0.18],["1753",2.27]],"2026-08-31":[["0540",2.42],["1149",0.25],["1759",2.23]],"2026-08-16":[["0002",0.25],["0612",2.39],["1231",0.32],["1834",2.17]],"2026-09-01":[["0001",0.3],["0616",2.31],["1227",0.39],["1840",2.13]],"2026-09-17":[["0125",0.69],["0744",1.79],["1340",0.85],["1957",1.78]],"2026-09-02":[["0042",0.41],["0702",2.14],["1310",0.56],["1919",1.99]],"2026-09-18":[["0221",0.85],["0832",1.62],["1442",0.99],["2104",1.66]],"2026-09-03":[["0132",0.55],["0801",1.97],["1404",0.75],["2023",1.85]],"2026-09-19":[["0351",0.96],["1002",1.54],["1623",1.05],["2242",1.62]],"2026-09-04":[["0242",0.69],["0914",1.79],["1529",0.9],["2138",1.77]],"2026-09-20":[["0531",0.93],["1142",1.57],["1802",0.98],["2355",1.69]],"2026-09-05":[["0427",0.75],["1047",1.73],["1716",0.92],["2314",1.8]],"2026-09-21":[["0646",0.81],["1240",1.7],["1857",0.86]],"2026-09-06":[["0606",0.67],["1219",1.8],["1834",0.8]],"2026-09-22":[["0055",1.83],["0719",0.67],["1325",1.85],["1940",0.7]],"2026-09-07":[["0038",1.95],["0714",0.5],["1325",1.95],["1940",0.63]],"2026-09-23":[["0132",1.99],["0757",0.51],["1401",2.02],["2008",0.54]],"2026-09-08":[["0136",2.15],["0808",0.33],["1414",2.1],["2019",0.44]],"2026-09-24":[["0208",2.16],["0832",0.35],["1434",2.17],["2040",0.4]],"2026-09-09":[["0223",2.33],["0855",0.19],["1457",2.23],["2102",0.29]],"2026-09-25":[["0246",2.32],["0902",0.22],["1506",2.29],["2114",0.27]],"2026-09-10":[["0308",2.47],["0929",0.11],["1531",2.32],["2144",0.18]],"2026-09-26":[["0319",2.44],["0934",0.13],["1542",2.38],["2149",0.17]],"2026-09-11":[["0349",2.54],["1008",0.09],["1608",2.37],["2216",0.12]],"2026-09-27":[["0357",2.52],["1010",0.11],["1616",2.41],["2219",0.13]],"2026-09-12":[["0423",2.54],["1046",0.13],["1646",2.37],["2253",0.14]],"2026-09-28":[["0434",2.52],["1049",0.14],["1655",2.39],["2301",0.15]],"2026-09-13":[["0502",2.47],["1116",0.22],["1716",2.32],["2331",0.21]],"2026-09-29":[["0516",2.45],["1123",0.25],["1731",2.31],["2344",0.23]],"2026-09-14":[["0542",2.34],["1149",0.35],["1753",2.22]],"2026-09-30":[["0601",2.31],["1206",0.41],["1816",2.18]],"2026-09-15":[["0004",0.34],["0614",2.17],["1223",0.51],["1831",2.09]],"2026-09-16":[["0042",0.5],["0655",1.97],["1301",0.68],["1906",1.94]],"2026-10-01":[["0025",0.36],["0647",2.11],["1255",0.61],["1904",2.03]],"2026-10-17":[["0147",0.81],["0802",1.65],["1355",0.95],["2027",1.7]],"2026-10-02":[["0127",0.53],["0753",1.9],["1353",0.8],["2012",1.87]],"2026-10-18":[["0259",0.91],["0921",1.57],["1527",1.03],["2140",1.64]],"2026-10-03":[["0246",0.68],["0916",1.74],["1529",0.93],["2134",1.8]],"2026-10-19":[["0438",0.91],["1040",1.59],["1708",1.0],["2302",1.7]],"2026-10-04":[["0436",0.72],["1053",1.71],["1716",0.9],["2312",1.85]],"2026-10-20":[["0549",0.82],["1157",1.7],["1806",0.88]],"2026-10-05":[["0604",0.62],["1214",1.82],["1825",0.76]],"2026-10-21":[["0004",1.81],["0640",0.68],["1238",1.84],["1853",0.73]],"2026-10-06":[["0031",2.0],["0704",0.47],["1314",1.95],["1923",0.59]],"2026-10-22":[["0053",1.98],["0714",0.52],["1321",2.0],["1932",0.56]],"2026-10-07":[["0121",2.17],["0753",0.34],["1357",2.09],["2002",0.42]],"2026-10-23":[["0129",2.15],["0753",0.38],["1359",2.16],["2004",0.39]],"2026-10-08":[["0206",2.31],["0834",0.25],["1431",2.2],["2040",0.29]],"2026-10-24":[["0210",2.31],["0831",0.25],["1432",2.29],["2042",0.25]],"2026-10-09":[["0247",2.4],["0906",0.2],["1504",2.29],["2117",0.2]],"2026-10-25":[["0253",2.44],["0904",0.16],["1510",2.39],["2121",0.14]],"2026-10-10":[["0323",2.45],["0938",0.2],["1540",2.34],["2153",0.15]],"2026-10-26":[["0331",2.5],["0944",0.14],["1551",2.44],["2201",0.08]],"2026-10-11":[["0359",2.44],["1012",0.23],["1610",2.36],["2223",0.17]],"2026-10-27":[["0414",2.5],["1025",0.18],["1631",2.42],["2244",0.1]],"2026-10-12":[["0432",2.37],["1046",0.29],["1646",2.32],["2259",0.24]],"2026-10-28":[["0501",2.42],["1106",0.28],["1714",2.36],["2334",0.18]],"2026-10-13":[["0506",2.26],["1112",0.39],["1717",2.24],["2336",0.35]],"2026-10-29":[["0549",2.27],["1153",0.44],["1804",2.24]],"2026-10-14":[["0546",2.12],["1144",0.52],["1757",2.12]],"2026-10-30":[["0021",0.32],["0644",2.08],["1251",0.61],["1901",2.1]],"2026-10-15":[["0010",0.5],["0619",1.95],["1223",0.67],["1838",1.98]],"2026-10-31":[["0132",0.48],["0751",1.9],["1353",0.77],["2008",1.96]],"2026-10-16":[["0051",0.66],["0706",1.79],["1302",0.81],["1919",1.83]],"2026-11-01":[["0249",0.61],["0912",1.78],["1519",0.86],["2127",1.9]],"2026-11-17":[["0329",0.83],["0946",1.66],["1546",0.95],["2201",1.75]],"2026-11-02":[["0423",0.64],["1034",1.76],["1655",0.83],["2259",1.93]],"2026-11-18":[["0436",0.79],["1047",1.7],["1701",0.88],["2304",1.83]],"2026-11-03":[["0544",0.58],["1155",1.83],["1802",0.72]],"2026-11-19":[["0540",0.71],["1149",1.81],["1757",0.76]],"2026-11-04":[["0008",2.02],["0644",0.5],["1244",1.92],["1857",0.59]],"2026-11-20":[["0001",1.94],["0629",0.59],["1231",1.94],["1846",0.61]],"2026-11-05":[["0102",2.12],["0727",0.43],["1331",2.03],["1942",0.46]],"2026-11-21":[["0055",2.1],["0712",0.46],["1319",2.09],["1931",0.44]],"2026-11-06":[["0144",2.2],["0806",0.39],["1404",2.13],["2016",0.35]],"2026-11-22":[["0138",2.24],["0759",0.35],["1402",2.23],["2014",0.28]],"2026-11-07":[["0225",2.26],["0844",0.36],["1438",2.21],["2055",0.29]],"2026-11-23":[["0227",2.35],["0842",0.27],["1446",2.34],["2101",0.16]],"2026-11-08":[["0301",2.28],["0910",0.34],["1512",2.27],["2131",0.25]],"2026-11-24":[["0312",2.42],["0923",0.23],["1532",2.42],["2149",0.08]],"2026-11-09":[["0332",2.27],["0942",0.36],["1547",2.3],["2202",0.25]],"2026-11-25":[["0401",2.43],["1010",0.24],["1616",2.45],["2236",0.08]],"2026-11-10":[["0406",2.23],["1016",0.39],["1617",2.29],["2234",0.3]],"2026-11-26":[["0453",2.38],["1059",0.3],["1706",2.42],["2331",0.13]],"2026-11-11":[["0444",2.17],["1049",0.44],["1655",2.24],["2314",0.38]],"2026-11-27":[["0544",2.27],["1147",0.4],["1759",2.34]],"2026-11-12":[["0519",2.08],["1119",0.52],["1732",2.15],["2353",0.48]],"2026-11-28":[["0021",0.24],["0640",2.13],["1246",0.52],["1855",2.23]],"2026-11-13":[["0559",1.97],["1157",0.63],["1812",2.04]],"2026-11-29":[["0129",0.37],["0740",1.98],["1344",0.64],["1959",2.11]],"2026-11-14":[["0027",0.6],["0644",1.85],["1244",0.75],["1859",1.92]],"2026-11-30":[["0234",0.5],["0847",1.87],["1459",0.72],["2106",2.02]],"2026-11-15":[["0121",0.71],["0734",1.75],["1325",0.86],["1949",1.81]],"2026-11-16":[["0212",0.79],["0831",1.67],["1438",0.93],["2055",1.75]],"2026-12-01":[["0355",0.58],["0959",1.81],["1614",0.75],["2223",1.97]],"2026-12-17":[["0329",0.73],["0944",1.75],["1540",0.83],["2204",1.86]],"2026-12-02":[["0504",0.62],["1108",1.81],["1721",0.71],["2327",1.97]],"2026-12-18":[["0427",0.73],["1044",1.78],["1657",0.77],["2308",1.91]],"2026-12-03":[["0606",0.61],["1204",1.86],["1825",0.64]],"2026-12-19":[["0540",0.69],["1149",1.87],["1801",0.67]],"2026-12-04":[["0034",1.99],["0659",0.6],["1255",1.92],["1914",0.56]],"2026-12-20":[["0016",1.99],["0636",0.6],["1242",1.99],["1902",0.51]],"2026-12-05":[["0116",2.03],["0740",0.57],["1340",2.01],["1959",0.49]],"2026-12-21":[["0112",2.11],["0732",0.5],["1340",2.14],["1959",0.35]],"2026-12-06":[["0201",2.05],["0816",0.54],["1412",2.09],["2036",0.43]],"2026-12-22":[["0210",2.22],["0823",0.4],["1427",2.28],["2051",0.2]],"2026-12-07":[["0242",2.08],["0851",0.51],["1449",2.16],["2112",0.38]],"2026-12-23":[["0302",2.32],["0912",0.32],["1519",2.41],["2144",0.09]],"2026-12-08":[["0312",2.11],["0921",0.48],["1527",2.21],["2149",0.35]],"2026-12-24":[["0353",2.37],["1002",0.27],["1608",2.49],["2232",0.04]],"2026-12-09":[["0349",2.12],["0957",0.46],["1602",2.25],["2221",0.35]],"2026-12-25":[["0447",2.37],["1053",0.25],["1659",2.51],["2325",0.05]],"2026-12-10":[["0427",2.11],["1032",0.46],["1638",2.23],["2259",0.38]],"2026-12-26":[["0532",2.32],["1140",0.29],["1751",2.48]],"2026-12-11":[["0502",2.09],["1106",0.49],["1716",2.19],["2338",0.42]],"2026-12-27":[["0014",0.13],["0625",2.23],["1232",0.37],["1840",2.39]],"2026-12-12":[["0542",2.04],["1142",0.55],["1757",2.13]],"2026-12-28":[["0110",0.26],["0716",2.11],["1319",0.47],["1936",2.25]],"2026-12-13":[["0010",0.48],["0623",1.97],["1223",0.63],["1834",2.05]],"2026-12-29":[["0204",0.41],["0810",1.98],["1423",0.58],["2032",2.1]],"2026-12-14":[["0051",0.56],["0704",1.9],["1302",0.7],["1917",1.97]],"2026-12-30":[["0308",0.57],["0908",1.86],["1521",0.68],["2138",1.96]],"2026-12-15":[["0140",0.63],["0753",1.82],["1344",0.78],["2006",1.91]],"2026-12-31":[["0410",0.69],["1010",1.79],["1640",0.74],["2247",1.87]],"2026-12-16":[["0221",0.69],["0844",1.77],["1446",0.82],["2101",1.86]]};
+const DAY=1440, Y0=Date.UTC(2026,0,1);
+const ev=[]; // eventos em minutos desde 01/01/2026 00:00 (hora do Recife)
+Object.keys(TABUA).sort().forEach(k=>{const d=(Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10))-Y0)/60000;TABUA[k].forEach(([hm,h])=>ev.push([d+(+hm.slice(0,2))*60+(+hm.slice(2)),h]));});
+const tEnd=ev[ev.length-1][0];
+function tide(t){ // interpolação por cosseno entre preamar e baixa-mar
+  if(t<ev[0][0]||t>tEnd) return null;
+  let lo=0,hi=ev.length-1; while(hi-lo>1){const m=(lo+hi)>>1; if(ev[m][0]<=t) lo=m; else hi=m;}
+  const [t1,h1]=ev[lo],[t2,h2]=ev[hi]; if(t2===t1) return h1;
+  return h1+(h2-h1)*(1-Math.cos(Math.PI*(t-t1)/(t2-t1)))/2;
+}
+const recifeNow=()=>(Date.now()-3*3600e3-Y0)/60000; // Recife = UTC−3, sem horário de verão
+const WD=['dom','seg','ter','qua','qui','sex','sáb'];
+const hhmm=m=>{m=((m%DAY)+DAY)%DAY;return String(Math.floor(m/60)).padStart(2,'0')+'h'+String(Math.round(m%60)).padStart(2,'0');};
+const mt={day:Math.floor(recifeNow()/DAY), sel:null, link:false};
+function dayKey(d){const x=new Date(Y0+d*DAY*60000);return x.toISOString().slice(0,10);}
+function dayLabel(d){const x=new Date(Y0+d*DAY*60000);return WD[x.getUTCDay()]+', '+String(x.getUTCDate()).padStart(2,'0')+'/'+String(x.getUTCMonth()+1).padStart(2,'0')+'/'+x.getUTCFullYear();}
+const SVGNS='http://www.w3.org/2000/svg';
+const X0=30,X1=312,Yt=10,Yb=106,HMAX=2.8;
+const sx=m=>X0+(m/DAY)*(X1-X0), sy=h=>Yb-(h/HMAX)*(Yb-Yt);
+function el(tag,attrs,txt){const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;return e;}
+function drawTide(){
+  const svg=$('m-curve'); svg.replaceChildren();
+  const d=mt.day, key=dayKey(d), t0=d*DAY, ok=!!TABUA[key];
+  $('m-date').textContent=dayLabel(d);
+  $('m-prev').disabled=!TABUA[dayKey(d-1)]; $('m-next').disabled=!TABUA[dayKey(d+1)];
+  if(!ok){ $('m-list').innerHTML='<li>Sem previsão para este dia. A página tem a tábua de 2026; a de 2027 precisa ser adicionada.</li>'; $('v-mare').textContent='—'; return; }
+  [0,1,2].forEach(h=>{svg.append(el('line',{x1:X0,x2:X1,y1:sy(h),y2:sy(h),class:'ax'}));svg.append(el('text',{x:X0-4,y:sy(h)+3,'text-anchor':'end'},h+' m'));});
+  [0,6,12,18,24].forEach(h=>{svg.append(el('text',{x:sx(h*60),y:122,'text-anchor':'middle'},h+'h'));});
+  let p='',a='';
+  for(let m=0;m<=DAY;m+=10){const h=tide(t0+m); if(h==null) continue; const pt=sx(m).toFixed(1)+','+sy(h).toFixed(1); p+=(p?' L':'M')+pt; a+=(a?' L':'M')+pt;}
+  svg.append(el('path',{d:a+' L'+sx(DAY)+','+Yb+' L'+sx(0)+','+Yb+' Z',class:'area'}));
+  svg.append(el('path',{d:p,class:'tide'}));
+  TABUA[key].forEach(([hm,h])=>{const m=(+hm.slice(0,2))*60+(+hm.slice(2));svg.append(el('circle',{cx:sx(m),cy:sy(h),r:2.6,class:'ev'}));});
+  const now=recifeNow();
+  if(now>=t0&&now<t0+DAY){svg.append(el('line',{x1:sx(now-t0),x2:sx(now-t0),y1:Yt-4,y2:Yb,class:'now'}));svg.append(el('text',{x:sx(now-t0),y:Yt-5,'text-anchor':'middle'},'agora'));}
+  const s=mt.sel??((now>=t0&&now<t0+DAY)?now:t0+12*60), hs=tide(s);
+  svg.append(el('line',{x1:sx(s-t0),x2:sx(s-t0),y1:Yt,y2:Yb,class:'sel'}));
+  if(hs!=null) svg.append(el('circle',{cx:sx(s-t0),cy:sy(hs),r:4,class:'dot'}));
+  $('v-mare').textContent=hs==null?'—':hhmm(s-t0)+' · '+fmt(hs,2)+' m';
+  const evs=TABUA[key];
+  $('m-list').innerHTML=evs.map(([hm,h],i)=>{const alta=i>0?h>evs[i-1][1]:h>evs[1][1];return '<li><span>'+(alta?'Preamar':'Baixa-mar')+' '+hm.slice(0,2)+'h'+hm.slice(2)+'</span><b>'+fmt(h,2)+' m</b></li>';}).join('');
+  if(mt.link) applyTide(hs);
+}
+function offVal(){const v=parseFloat($('in-off').value);return isNaN(v)?null:v;}
+function applyTide(h){
+  const o=offVal(); if(h==null||o==null) return;
+  const v=Math.min(4,Math.max(0,h+o)); $('sl-canal').value=v; st.H=v; $('v-canal').textContent=fmt(v,2)+' m'+(h+o<0?' (maré abaixo de 0)':''); schedule();
+}
+function pickTime(e){
+  const svg=$('m-curve'), r=svg.getBoundingClientRect(), x=(e.clientX-r.left)/r.width*320;
+  const m=Math.min(DAY-1,Math.max(0,(x-X0)/(X1-X0)*DAY)); mt.sel=mt.day*DAY+m; drawTide();
+}
+let dragging=false;
+$('m-curve').addEventListener('pointerdown',e=>{dragging=true;$('m-curve').setPointerCapture(e.pointerId);pickTime(e);});
+$('m-curve').addEventListener('pointermove',e=>{if(dragging)pickTime(e);});
+$('m-curve').addEventListener('pointerup',()=>{dragging=false;});
+$('m-prev').onclick=()=>{mt.day--;mt.sel=null;drawTide();};
+$('m-next').onclick=()=>{mt.day++;mt.sel=null;drawTide();};
+$('m-today').onclick=()=>{mt.day=Math.floor(recifeNow()/DAY);mt.sel=null;drawTide();};
+const syncLink=()=>{const ok=offVal()!=null;$('m-link').disabled=!ok;if(!ok){$('m-link').checked=false;mt.link=false;}};
+$('in-off').addEventListener('input',()=>{syncLink();drawTide();});
+$('m-est').onclick=()=>{$('in-off').value='-1.28';syncLink();drawTide();};
+$('m-link').addEventListener('change',e=>{mt.link=e.target.checked;$('sl-canal').disabled=mt.link;drawTide();});
+setInterval(()=>{ if(mt.sel==null) drawTide(); },60000);
+drawTide();
+// ---------- modos: realidade agora / simulação ----------
+let realInit=false;
+function setRain(v){st.R=v;$('sl-chuva').value=v;$('v-chuva').textContent=fmt(v,0)+' mm';}
+function setMode(m){
+  st.mode=m; seg('md-real','md-sim',m==='real'); document.body.dataset.mode=m;
+  if(m==='real'){
+    if(offVal()==null) $('in-off').value='-1.28';
+    syncLink(); $('m-link').checked=true; mt.link=true; $('sl-canal').disabled=true;
+    mt.day=Math.floor(recifeNow()/DAY); mt.sel=null;
+    if(!realInit){ setRain(0); realInit=true; }
+    liveRain();
+  } else {
+    mt.link=false; $('m-link').checked=false; $('sl-canal').disabled=false; $('sl-chuva').disabled=false;
+    $('rain-src').textContent='Simulação: o valor é escolhido por você.';
+  }
+  drawTide(); schedule();
+}
+// ---------- chuva ao vivo (Vaisala Xweather, conector da conta de quem abre a página) ----------
+const XW='Vaisala Xweather', LOC='-8.1194,-34.9081';
+const CEU={'Clear':'céu limpo','Mostly Clear':'céu quase limpo','Sunny':'ensolarado','Mostly Sunny':'quase sempre ensolarado','Partly Cloudy':'parcialmente nublado','Mostly Cloudy':'quase todo nublado','Cloudy':'nublado','Rain':'chuva','Light Rain':'chuva fraca','Heavy Rain':'chuva forte','Showers':'pancadas de chuva','Light Showers':'pancadas fracas','Drizzle':'garoa','Thunderstorms':'trovoadas','Fog':'neblina','Haze':'névoa seca'};
+let mcpP=null, liveTimer=null, liveBusy=false, liveRetried=false;
+function rainMsg(t){$('rain-src').textContent=t;}
+function manualFallback(t){$('sl-chuva').disabled=false; rainMsg(t+' Enquanto isso, a chuva pode ser digitada à mão (boletim da APAC).');}
+// fora do Claude (ex.: GitHub Pages): chuva da Open-Meteo, sem chave (dados CC BY 4.0)
+const WMO={0:'céu limpo',1:'quase limpo',2:'parcialmente nublado',3:'nublado',45:'neblina',48:'neblina',51:'garoa fraca',53:'garoa',55:'garoa forte',61:'chuva fraca',63:'chuva',65:'chuva forte',80:'pancadas fracas',81:'pancadas de chuva',82:'pancadas fortes',95:'trovoadas',96:'trovoadas',99:'trovoadas'};
+async function openMeteoRain(){
+  const u='https://api.open-meteo.com/v1/forecast?latitude=-8.1194&longitude=-34.9081&hourly=precipitation&current=precipitation,temperature_2m,weather_code&past_hours=24&forecast_hours=0&timezone=America%2FRecife';
+  const r=await fetch(u); if(!r.ok) throw new Error('Open-Meteo '+r.status);
+  const j=await r.json(); const pr=(j.hourly&&j.hourly.precipitation)||[];
+  if(!pr.length) throw new Error('sem dados');
+  const mm=pr.reduce((a,b)=>a+(b||0),0), c=j.current||{};
+  return {mm, ate:(j.hourly.time.slice(-1)[0]||'').slice(11,13)+'h', agora:(WMO[c.weather_code]||'')+(typeof c.temperature_2m==='number'?', '+fmt(c.temperature_2m,0)+' °C':''), fonte:'Open-Meteo'};
+}
+async function liveRainOpen(){
+  try{
+    rainMsg('Buscando a chuva das últimas 24 h na Open-Meteo…');
+    const o=await openMeteoRain(); if(st.mode!=='real') return;
+    setRain(Math.round(o.mm)); $('sl-chuva').disabled=true; lastRain=o.mm; updTicker(); schedule();
+    rainMsg('Chuva ao vivo (Open-Meteo): '+fmt(o.mm,1)+' mm nas 24 h até '+o.ate+'.'+(o.agora?' Agora: '+o.agora+'.':'')+' É uma estimativa de modelos meteorológicos para o ponto do Jordão, não a medição de um pluviômetro.');
+  }catch(e){ manualFallback('Não consegui buscar a chuva ao vivo agora.'); }
+}
+async function liveRain(){
+  if(!(window.claude&&window.claude.use)){ return liveRainOpen(); }
+  if(st.mode!=='real'||liveBusy) return;
+  liveBusy=true;
+  try{
+    mcpP=mcpP||(window.claude&&window.claude.use?window.claude.use('mcp'):Promise.resolve(null));
+    const mcp=await mcpP;
+    if(!mcp){ liveBusy=false; return liveRainOpen(); }
+    rainMsg('Buscando a chuva das últimas 24 h no Xweather…');
+    const end=new Date(); end.setUTCMinutes(0,0,0); const start=new Date(end.getTime()-24*3600e3);
+    const iso=d=>d.toISOString().slice(0,19)+'Z';
+    const [agg,cur]=await Promise.all([
+      mcp.callTool(XW,'xweather_get_aggregated_weather_conditions',{location:LOC,start_datetime:iso(start),end_datetime:iso(end),aggregation_field:'precip_mm',aggregation_operator:'sum'},{cache:{staleTime:600000,gcTime:1800000}}),
+      mcp.callTool(XW,'xweather_get_current_weather',{location:LOC},{cache:{staleTime:600000,gcTime:1800000}}).catch(()=>null)
+    ]);
+    if(st.mode!=='real') return;
+    const r=agg&&agg.payload&&agg.payload.results&&agg.payload.results[0];
+    const mm=r&&typeof r.value==='number'?r.value:null;
+    if(mm==null){ manualFallback('O Xweather respondeu, mas sem o total de chuva.'); return; }
+    setRain(Math.round(mm)); $('sl-chuva').disabled=true; schedule(); lastRain=mm; updTicker();
+    const w=cur&&cur.payload&&cur.payload.weather;
+    const agora=w?(' Agora: '+(CEU[w.weather_primary]||w.weather_primary||'—')+(typeof w.temp_c==='number'?', '+fmt(w.temp_c,0)+' °C':'')+'.'):'';
+    const hh=String((end.getUTCHours()+21)%24).padStart(2,'0')+'h';
+    rainMsg('Chuva ao vivo (Vaisala Xweather): '+fmt(mm,1)+' mm nas 24 h até '+hh+'.'+agora+' É uma estimativa do serviço para o ponto do Jordão, não a medição de um pluviômetro.');
+  }catch(e){
+    const c=e&&e.code;
+    if(c==='server_not_connected'||c==='server_not_found') manualFallback('Para ver a chuva ao vivo, conecte o Vaisala Xweather em claude.ai → Configurações → Conectores.');
+    else if(c==='needs_reauth') manualFallback('A conexão com o Vaisala Xweather expirou. Reconecte em claude.ai → Configurações → Conectores.');
+    else if(c==='not_in_manifest'||c==='approval_required'||c==='consent_required') manualFallback('A página precisa da sua permissão para usar o Vaisala Xweather. Volte para "Realidade agora" para pedir de novo.');
+    else if(c==='selection_required') manualFallback('Há mais de uma conexão Xweather na sua conta. Escolha uma no aviso do Claude.');
+    else if(c==='not_granted'||c==='capability_disabled'||c==='capability_removed') manualFallback('Chuva ao vivo indisponível nesta visualização.');
+    else if(e&&e.retryable&&!liveRetried){ liveRetried=true; rainMsg('O Xweather não respondeu. Tentando de novo em instantes…'); setTimeout(()=>{liveBusy=false;liveRain();},(e.retryAfterMs||4000)+Math.random()*2000); return; }
+    else manualFallback('Não consegui buscar a chuva no Xweather agora ('+(c||'erro')+').');
+  }finally{ liveBusy=false; }
+}
+clearInterval(liveTimer); liveTimer=setInterval(()=>{ if(st.mode==='real'){liveRetried=false;liveRain();} },15*60000);
+$('md-real').onclick=()=>setMode('real');
+$('md-sim').onclick=()=>setMode('sim');
+// ---------- entrada em rolagem ----------
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const landing=$('landing');
+function openApp(m){
+  setMode(m);
+  if(RM){landing.hidden=true;map.invalidateSize();$(m==='real'?'md-real':'md-sim').focus();return;}
+  landing.classList.add('leaving');
+  setTimeout(()=>{landing.hidden=true;landing.classList.remove('leaving');map.invalidateSize();$(m==='real'?'md-real':'md-sim').focus();},720);
+}
+$('go-real').onclick=()=>openApp('real');
+$('go-sim').onclick=()=>openApp('sim');
+$('l-skip').onclick=()=>openApp(st.mode||'real');
+$('md-home').onclick=()=>{landing.hidden=false;landing.scrollTop=0;};
+// faixa corrida com dados do momento
+let lastRain=null;
+function updTicker(){
+  const now=recifeNow(), h=tide(now), h2=tide(now+15);
+  let nextEv=null; for(const e of ev){ if(e[0]>now){nextEv=e;break;} }
+  const items=[];
+  if(h!=null) items.push('Maré agora '+fmt(h,2)+' m '+(h2>h?'↑ subindo':'↓ descendo'));
+  if(nextEv){const prev=ev[ev.indexOf(nextEv)-1]; items.push((nextEv[1]>(prev?prev[1]:0)?'Próxima preamar ':'Próxima baixa-mar ')+hhmm(nextEv[0])+' · '+fmt(nextEv[1],2)+' m');}
+  items.push(lastRain==null?'Chuva 24 h: abra “Ver a realidade”':'Chuva 24 h '+fmt(lastRain,1)+' mm · Xweather');
+  items.push('Metade do recorte abaixo de 2 m');
+  items.push('28 ha de recorte');
+  items.push('75 relatos de alagamento em 06/07/2023');
+  items.push('Porto do Recife · nível médio 1,28 m');
+  const one=items.map(t=>'<span>'+t+'</span>').join('');
+  $('tick').innerHTML=one+one;
+}
+updTicker(); setInterval(updTicker,60000);
+// roda de etapas (fica parada enquanto a página rola)
+const STEPS=[
+ ['A','Terreno','A altimetria do PE3D, com 1 m de detalhe, mostra o chão do recorte: metade dele fica abaixo de 2 m de altitude.'],
+ ['B','Maré','A tábua da Marinha diz, hora a hora, quanto o mar empurra a água pelo Canal do Jordão.'],
+ ['C','Chuva','A chuva das últimas 24 horas chega de um serviço de clima ao vivo. Os boletins da APAC servem para calibrar o modelo.'],
+ ['D','Água','O mapa pinta onde a água sobe do canal e onde a chuva empoça nas partes baixas.'],
+ ['E','Gente','E mostra quem mora ali: a Fazendinha, as outras comunidades e os relatos de quem já viu a rua alagar.']];
+const wheel=$('wheel'), nodes=STEPS.map(([l])=>{const d=document.createElement('div');d.className='node';d.textContent=l;wheel.appendChild(d);return d;});
+const dots=STEPS.map(()=>{const i=document.createElement('i');$('dots').appendChild(i);return i;});
+let curStep=-1;
+function layoutWheel(){
+  const how=$('how'), r=how.getBoundingClientRect(), vh=innerHeight;
+  const p=Math.min(1,Math.max(0,-r.top/Math.max(1,how.offsetHeight-vh)));
+  const box=wheel.getBoundingClientRect(), W=box.width, H=box.height;
+  const f=p*(STEPS.length-1), k=Math.round(f), stp=$('step');
+  if(W<560){ // celular: as etapas correm na horizontal
+    const cx=W/2, cy=90;
+    nodes.forEach((n,i)=>{n.style.transform='translate('+(cx+(i-f)*96)+'px,'+cy+'px)'; n.classList.toggle('on',i===k);});
+    stp.style.left='max(40px,10vw)'; stp.style.top='190px';
+  } else {
+    const R=Math.min(H*0.42, W*0.55), cx=Math.min(W*0.18, R*0.35), cy=H/2;
+    const arc=$('w-arc'); arc.setAttribute('cx',cx-R);arc.setAttribute('cy',cy);arc.setAttribute('r',R);
+    const gap=0.42;
+    nodes.forEach((n,i)=>{const a=(i-f)*gap; n.style.transform='translate('+(cx-R+R*Math.cos(a))+'px,'+(cy+R*Math.sin(a))+'px)'; n.classList.toggle('on',i===k);});
+    stp.style.left=(cx+110)+'px'; stp.style.top=(cy-60)+'px';
+  }
+  dots.forEach((d,i)=>d.classList.toggle('on',i===k));
+  if(k!==curStep){curStep=k; $('st-k').textContent='Etapa '+STEPS[k][0]; $('st-t').textContent=STEPS[k][1]; $('st-p').textContent=STEPS[k][2];}
+}
+let wraf=0; const wsched=()=>{if(!wraf)wraf=requestAnimationFrame(()=>{wraf=0;layoutWheel();});};
+landing.addEventListener('scroll',wsched,{passive:true}); addEventListener('resize',wsched); layoutWheel();
+$('go-real').focus({preventScroll:true});
+// ---------- vista 3D: terreno do MDT, edificações por pavimento e água ----------
+const V3={on:false,ready:false,loading:false,ex:1};
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error(src));document.head.appendChild(s);});}
+const THREE_URL='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+const ORBIT_URL='https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js';
+async function init3D(){
+  if(V3.ready||V3.loading) return; V3.loading=true;
+  $('v3-msg').textContent='Carregando o 3D…';
+  try{
+    if(!window.THREE) await loadScript(THREE_URL);
+    if(!THREE.OrbitControls) await loadScript(ORBIT_URL);
+    const [pd,timg]=await Promise.all([fetch('predios.json').then(r=>r.json()),new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src='terreno.jpg';})]);
+    while(!D) await new Promise(r=>setTimeout(r,200));
+    build3D(pd,timg); V3.ready=true; $('v3-msg').textContent='';
+  }catch(e){ $('v3-msg').textContent='Não consegui carregar o 3D ('+e.message+').'; }
+  V3.loading=false;
+}
+function build3D(pd,timg){
+  const box=$('v3d'), Wm=pd.Wm, Hm=pd.Hm;
+  const renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setPixelRatio(Math.min(2,devicePixelRatio));
+  box.appendChild(renderer.domElement);
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--mapbg').trim()||'#efefed');
+  scene.fog=new THREE.Fog(scene.background,2400,5200);
+  const cam=new THREE.PerspectiveCamera(42,1,1,20000);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x9aa3c0,0.85));
+  const sun=new THREE.DirectionalLight(0xffffff,0.55); sun.position.set(-600,900,-400); scene.add(sun);
+  // terreno (malha a ~4 m) com a mancha d'água pintada por cima
+  const st2=2, gx=Math.floor(nx/st2), gy=Math.floor(ny/st2);
+  const tg=new THREE.PlaneGeometry(Wm,Hm,gx-1,gy-1); tg.rotateX(-Math.PI/2);
+  const tc=document.createElement('canvas'); tc.width=nx; tc.height=ny; const tx=tc.getContext('2d');
+  const tex=new THREE.CanvasTexture(tc); tex.anisotropy=4;
+  const terr=new THREE.Mesh(tg,new THREE.MeshLambertMaterial({map:tex})); scene.add(terr);
+  const wg=new THREE.PlaneGeometry(Wm,Hm,gx-1,gy-1); wg.rotateX(-Math.PI/2);
+  const water=new THREE.Mesh(wg,new THREE.MeshLambertMaterial({color:0x2a3fd0,transparent:true,opacity:0.5,depthWrite:false})); scene.add(water);
+  const vidx=new Int32Array(gx*gy); for(let j=0;j<gy;j++)for(let i=0;i<gx;i++) vidx[j*gx+i]=Math.min(ny-1,j*st2)*nx+Math.min(nx-1,i*st2);
+  // edificações (malha única, cor por vértice)
+  const pos=[], ranges=[];
+  for(const [base,h,fl,lay,xy] of pd.b){
+    const pts=[]; for(let k=0;k<xy.length;k+=2) pts.push(new THREE.Vector2(xy[k]-Wm/2, xy[k+1]-Hm/2));
+    if(THREE.ShapeUtils.isClockWise(pts)) pts.reverse();
+    const start=pos.length/3, n=pts.length, y0=0, y1=h;
+    let tris; try{tris=THREE.ShapeUtils.triangulateShape(pts,[]);}catch(e){tris=[];}
+    for(const t of tris){ for(const q of [t[0],t[2],t[1]]) pos.push(pts[q].x,y1,pts[q].y); }
+    for(let k=0;k<n;k++){const a=pts[k],b=pts[(k+1)%n]; pos.push(a.x,y0,a.y, b.x,y0,b.y, b.x,y1,b.y, a.x,y0,a.y, b.x,y1,b.y, a.x,y1,a.y);}
+    let cx=0,cz=0; for(const p of pts){cx+=p.x;cz+=p.y;} cx/=n; cz/=n;
+    const px=Math.floor((cx+Wm/2)/Wm*nx), py=Math.floor((cz+Hm/2)/Hm*ny);
+    ranges.push([start,pos.length/3-start,base,(py>=0&&py<ny&&px>=0&&px<nx)?py*nx+px:-1,fl]);
+  }
+  const bg=new THREE.BufferGeometry(); const P=new Float32Array(pos); bg.setAttribute('position',new THREE.BufferAttribute(P,3));
+  const C=new Float32Array(P.length); bg.setAttribute('color',new THREE.BufferAttribute(C,3)); bg.computeVertexNormals();
+  const bm=new THREE.Mesh(bg,new THREE.MeshLambertMaterial({vertexColors:true})); scene.add(bm);
+  const baseY=new Float32Array(P.length/3); ranges.forEach(([s,c,b])=>{for(let v=s;v<s+c;v++)baseY[v]=P[v*3+1];});
+  // contorno do recorte
+  let recLine=null;
+  const lyr=window.__LY; if(lyr){ const rc=lyr.recorte.features[0].geometry.coordinates[0];
+    const lp=rc.map(([lo,la])=>{const x=(lo-GRID.W)/(GRID.E-GRID.W)*Wm-Wm/2, z=(GRID.N-la)/(GRID.N-GRID.S)*Hm-Hm/2; return new THREE.Vector3(x,0,z);});
+    recLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints(lp),new THREE.LineDashedMaterial({color:0xff4b1f,dashSize:10,gapSize:6})); recLine.computeLineDistances(); scene.add(recLine); }
+  const ctl=new THREE.OrbitControls(cam,renderer.domElement); ctl.enableDamping=true; ctl.maxPolarAngle=1.48; ctl.minDistance=60; ctl.maxDistance=4500;
+  let tgt=new THREE.Vector3(0,0,0); if(recLine){const bx=new THREE.Box3().setFromObject(recLine); bx.getCenter(tgt); tgt.y=0;}
+  ctl.target.copy(tgt); cam.position.set(tgt.x+620,560,tgt.z+760);
+  function applyEx(){
+    const ex=V3.ex, tp=tg.attributes.position;
+    for(let k=0;k<gx*gy;k++){ tp.setY(k,(D.dem[vidx[k]]-1000)/100*ex); } tp.needsUpdate=true; tg.computeVertexNormals();
+    for(const [s,c,b] of ranges){ for(let v=s;v<s+c;v++) P[v*3+1]=baseY[v]+b*ex; }
+    bg.attributes.position.needsUpdate=true; bg.computeBoundingSphere();
+    if(recLine){const a=recLine.geometry.attributes.position; for(let k=0;k<a.count;k++){const x=a.getX(k),z=a.getZ(k);const px=Math.min(nx-1,Math.max(0,Math.floor((x+Wm/2)/Wm*nx))),py=Math.min(ny-1,Math.max(0,Math.floor((z+Hm/2)/Hm*ny)));a.setY(k,(D.dem[py*nx+px]-1000)/100*ex+1.5);} a.needsUpdate=true; recLine.computeLineDistances();}
+    update3D();
+  }
+  V3.applyEx=applyEx;
+  function update3D(){
+    tx.drawImage(timg,0,0,nx,ny); tx.globalAlpha=0.9; tx.drawImage(canvas,0,0); tx.globalAlpha=1; tex.needsUpdate=true;
+    const ex=V3.ex, Hc=Math.round(st.H*100)+1000, hv=st.deep?D.h30:D.h10, wp=wg.attributes.position;
+    for(let k=0;k<gx*gy;k++){ const i=vidx[k], h=hv[i], z=(D.dem[i]-1000)/100; wp.setY(k,(h<=Hc||(D.flags[i]&4))? Math.max(st.H,z)*ex+0.15 : z*ex-2); }
+    wp.needsUpdate=true;
+    const Rm=reff(), rv=st.deep?D.r30:D.r10;
+    for(const [s,c,b,pi,fl] of ranges){
+      let wet=false; if(pi>=0){ wet=(hv[pi]<65534&&hv[pi]<=Hc)||(rv[pi]<65535&&rv[pi]<=Rm)||(b<st.H); }
+      const col=wet?[0.42,0.5,0.95]:(fl>=4?[0.80,0.82,0.88]:[0.93,0.93,0.95]);
+      for(let v=s;v<s+c;v++){C[v*3]=col[0];C[v*3+1]=col[1];C[v*3+2]=col[2];}
+    }
+    bg.attributes.color.needsUpdate=true;
+  }
+  V3.update=update3D;
+  function size(){const w=box.clientWidth,h=box.clientHeight; if(!w||!h)return; renderer.setSize(w,h,false); renderer.domElement.style.width='100%'; renderer.domElement.style.height='100%'; cam.aspect=w/h; cam.updateProjectionMatrix();}
+  new ResizeObserver(size).observe(box); size();
+  (function loop(){ requestAnimationFrame(loop); if(!V3.on) return; ctl.update(); renderer.render(scene,cam); })();
+  applyEx();
+}
+function setView(v){
+  V3.on=(v==='3d'); $('v3d').hidden=!V3.on; seg('vw-2d','vw-3d',!V3.on);
+  if(V3.on){ init3D(); if(V3.ready&&V3.update) V3.update(); } else map.invalidateSize();
+}
+$('vw-2d').onclick=()=>setView('2d'); $('vw-3d').onclick=()=>setView('3d');
+$('ex1').onclick=()=>{V3.ex=1;seg('ex1','ex3',true);V3.applyEx&&V3.applyEx();};
+$('ex3').onclick=()=>{V3.ex=3;seg('ex1','ex3',false);V3.applyEx&&V3.applyEx();};
+
+
+const relief=L.control({position:'bottomright'});
+relief.onAdd=()=>{const d=L.DomUtil.create('div','maplegend');d.innerHTML='ALTITUDE DO TERRENO (MDT)<div class="ramp"></div><div class="ticks"><span>≤0</span><span>1</span><span>2</span><span>3</span><span>≥4 m</span></div>';return d;};
+const keyL=L.control({position:'bottomleft'});
+keyL.onAdd=()=>{const d=L.DomUtil.create('div','maplegend keyl');d.innerHTML='<div><i style="background:'+css.getPropertyValue('--canal')+'"></i>ÁGUA VINDA DO CANAL</div><div><i style="background:'+css.getPropertyValue('--chuva')+'"></i>ÁGUA DA CHUVA</div><div><i style="background:#ff4b1f"></i>RELATO DE ALAGAMENTO</div><div><i style="background:transparent;border:1.5px dashed #fff;width:7px;height:7px"></i>RECORTE DO TG2</div><div><i style="background:transparent;border:1.5px solid #fff;width:7px;height:7px"></i>COMUNIDADE FAZENDINHA (CIS)</div>';return d;};
+keyL.addTo(map);
+const north=L.control({position:'topright'});
+north.onAdd=()=>{const d=L.DomUtil.create('div','north');d.innerHTML='<b>▲</b>N';return d;};
+north.addTo(map);
+L.control.scale({imperial:false,position:'bottomright',maxWidth:120}).addTo(map);
+// grade tracejada (~220 m)
+(function(){const g=[],st=0.002;for(let x=Math.ceil(GRID.W/st)*st;x<GRID.E;x+=st)g.push([[GRID.S,x],[GRID.N,x]]);for(let y=Math.ceil(GRID.S/st)*st;y<GRID.N;y+=st)g.push([[y,GRID.W],[y,GRID.E]]);L.polyline(g,{color:'#1a2250',weight:0.8,opacity:0.28,dashArray:'3 6',interactive:false}).addTo(map);})();
+// etiquetas HUD presas aos lugares
+const huds={};
+function hud(id,ll,title,h,left){
+  const icon=L.divIcon({className:'hud-icon',iconSize:[0,0],iconAnchor:[0,0],html:'<div class="hud'+(left?' left':'')+'" style="--h:'+h+'px"><i class="ln"></i><i class="dot"></i><div class="bx"><div class="t">'+title+'</div><div class="v" data-v>—</div><div class="s" data-s></div></div></div>'});
+  const m=L.marker(ll,{icon,interactive:false,keyboard:false}); huds[id]=m; return m;
+}
+function setHud(id,v,s){const m=huds[id];if(!m||!m.getElement())return;m.getElement().querySelector('[data-v]').textContent=v;m.getElement().querySelector('[data-s]').textContent=s;}
+const hudLayer=L.layerGroup().addTo(map);
+
+// sonda
+function probe(e){
+  if(!D) return; const i=idxOf(e.latlng.lat,e.latlng.lng); if(i<0) return;
+  const z=(D.dem[i]-1000)/100, fl=D.flags[i];
+  if(fl&4){$('probe').innerHTML='Canal · lâmina d\'água no MDT ≈ '+fmt(z,2)+' m';return;}
+  const h=st.deep?D.h30[i]:D.h10[i], r=st.deep?D.r30[i]:D.r10[i], d=st.deep?'30 cm':'10 cm';
+  const hs=h>=65534?'não se liga ao canal no recorte':'com o canal a <b>'+fmt((h-1000)/100,2)+' m</b>';
+  const C=st.C, rs=r>=65535?'não acumula '+d+' (terreno sem depressão aqui)':'com <b>'+fmt(r,0)+' mm</b> de chuva que acumula (≈ '+fmt((r+st.Dr)/C,0)+' mm de chuva com as hipóteses atuais)';
+  $('probe').innerHTML='Terreno: <b>'+fmt(z,2)+' m</b>'+(fl&2?' · Fazendinha':'')+(fl&1?' · recorte':'')+'<br>Fica com '+d+' d\'água '+hs+'<br>ou '+rs;
+}
+map.on('mousemove',probe); map.on('click',probe);
+
+// camadas vetoriais
+let wazeIdx=[];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pop=(t,rows)=>'<b>'+esc(t)+'</b>'+rows.filter(r=>r[1]!=null&&r[1]!=='').map(r=>'<br>'+esc(r[0])+': '+esc(r[1])).join('');
+fetch('layers.json').then(r=>r.json()).then(Ly=>{
+  window.__LY=Ly;
+  const defs=[
+    ['hud','Etiquetas no mapa',true,()=>hudLayer],
+    ['recorte','Recorte do TG2',true,()=>L.geoJSON(Ly.recorte,{style:{color:'#141c4f',weight:2.2,fill:false,dashArray:'7 5'},interactive:false})],
+    ['cis','Comunidades (CIS 2025)',true,()=>L.geoJSON(Ly.cis,{style:f=>{const fz=/Fazendinha/.test(f.properties.nome);return {color:fz?'#141c4f':'#5b6385',weight:fz?2.4:0.8,opacity:fz?1:0.8,fillColor:'#141c4f',fillOpacity:fz?0.08:0.03};},onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.nome,[['Situação',p.status],['Bairro',p.bairro],['Implantação',p.implantacao],['Área',p.area_m2?fmt(p.area_m2,0)+' m²':null]]));}})],
+    ['canais','Canais',true,()=>L.geoJSON(Ly.canais,{style:{color:'#5d6fb8',weight:1.2,opacity:0.8},onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.NOME+' · trecho '+p.TRECHO,[['Largura',p.LARGURA!=null?fmt(p.LARGURA,0)+' m':null],['Profundidade',p.PROFUNDIDADE!=null?fmt(p.PROFUNDIDADE,1)+' m':null],['Seção',p.CLASSIFICACAO],['Revestimento',p.TIPO_REVESTIMENTO],['Conservação',p.ESTADO_CONSERVACAO],['Bacia',p.BACIA]]));}})],
+    ['waze','Relatos Waze 06/07/2023',true,()=>L.geoJSON(Ly.waze,{pointToLayer:(f,ll)=>L.marker(ll,{icon:L.divIcon({className:'',iconSize:[7,7],iconAnchor:[3.5,3.5],html:'<div style="width:7px;height:7px;background:#ff4b1f;box-shadow:0 0 0 1px rgba(255,255,255,.85)"></div>'})}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop('Alagamento relatado',[['Via',p.street],['Data',p.data],['Confirmações',p.nthumbsup]]));}})],
+    ['pontos','Pontos de alagamento PCR',false,()=>L.layerGroup([L.geoJSON(Ly.pontos_pcr,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:6,color:'#fff',weight:1.5,fillColor:'#7a1fa2',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop('Ponto de alagamento (PCR)',[['Via',p.logradouro],['Trecho',p.trecho],['Obra',p.status]]));}}),L.geoJSON(Ly.emlurb,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:6,color:'#fff',weight:1.5,fillColor:'#4a6b2a',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop('Ponto de alagamento (EMLURB)',[['Via',p.LOGRADOURO],['Situação',p.STATUS],['Classificação',p.CLASSIFICA]]));}})])],
+    ['mancha','Mancha de inundação Tejipió',false,()=>L.geoJSON(Ly.mancha,{style:{color:'#6d28d9',weight:1,fillOpacity:0.25},onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.Mancha,[['Período de retorno (atributo)',p.TR],['Autoria',p.Autoria]]));}})],
+    ['faixa','Faixa marginal do Jordão',false,()=>L.geoJSON(Ly.faixa,{style:{color:'#2f855a',weight:1,fillOpacity:0.18},onEachFeature:(f,l)=>{l.bindPopup(pop('Faixa marginal · '+f.properties.nome,[['Bacia',f.properties.bacia]]));}})],
+    ['zhc','Zona hidráulica ZHC-T4',false,()=>L.geoJSON(Ly.zhc,{style:{color:'#b7791f',weight:1,dashArray:'3 3',fillOpacity:0.12},onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.Layer,[['Tipo',p.Tipo],['Bacia',p.Bacia]]));}})],
+    ['micro','Microdrenagem',false,()=>L.geoJSON(Ly.microdrenagem,{style:{color:'#94a3b8',weight:1,opacity:0.9},interactive:false})],
+    ['microbacias','Limite de microbacia',false,()=>L.geoJSON(Ly.microbacias,{style:{color:'#e5e7eb',weight:2,dashArray:'8 5'},interactive:false})],
+    ['abrigos','Abrigos (2023)',false,()=>L.geoJSON(Ly.abrigos,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:7,color:'#fff',weight:2,fillColor:'#15803d',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.no_entidade,[['Uso',p.tipo_de_uso],['Bairro',p.no_bairro],['Salas',p.qt_salas_utilizadas]]));}})],
+    ['pracas','Praças e áreas verdes',false,()=>L.geoJSON(Ly.pracas,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:5,color:'#fff',weight:1,fillColor:'#65a30d',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.tipo+' '+p.nome,[]));}})],
+  ];
+  const box=$('layers');
+  defs.forEach(([id,label,on,mk])=>{
+    const lyr=mk(); if(on) lyr.addTo(map);
+    const lab=document.createElement('label'); lab.htmlFor='ly-'+id;
+    lab.innerHTML='<input type="checkbox" id="ly-'+id+'"'+(on?' checked':'')+'><span>'+label+'</span>';
+    box.appendChild(lab);
+    lab.querySelector('input').addEventListener('change',e=>{e.target.checked?lyr.addTo(map):map.removeLayer(lyr);});
+  });
+  fetch('labels.json').then(r=>r.json()).then(lb=>{
+    const minor=L.layerGroup(), major=L.layerGroup().addTo(map);
+    lb.forEach(o=>{const m=L.marker([o.lat,o.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:'st-label r'+o.r,iconSize:[0,0],html:'<span style="--a:'+o.a+'deg">'+esc(o.n)+'</span>'})});(o.r<=1?major:minor).addLayer(m);});
+    const z=()=>{map.getZoom()>=17?minor.addTo(map):minor.remove();}; map.on('zoomend',z); z();
+  }).catch(()=>{});
+  wazeIdx=Ly.waze.features.map(f=>idxOf(f.geometry.coordinates[1],f.geometry.coordinates[0]));
+  // âncoras das etiquetas
+  const rc=Ly.recorte.features[0].geometry.coordinates[0]; const cen=rc.reduce((a,c)=>[a[0]+c[1]/rc.length,a[1]+c[0]/rc.length],[0,0]);
+  hud('rec',cen,'Recorte TG2',70,false).addTo(hudLayer);
+  const fz=Ly.cis.features.find(f=>/Fazendinha/.test(f.properties.nome));
+  if(fz){const pts=[];(fz.geometry.type==='MultiPolygon'?fz.geometry.coordinates.flat(1):fz.geometry.coordinates).forEach(r=>r.forEach(c=>pts.push(c)));const c=pts.reduce((a,p)=>[a[0]+p[1]/pts.length,a[1]+p[0]/pts.length],[0,0]);hud('faz',c,'Fazendinha',46,true).addTo(hudLayer);}
+  const jd=Ly.canais.features.filter(f=>/Jordão/.test(f.properties.NOME));
+  if(jd.length){const g=jd[0].geometry, cs=g.type==='MultiLineString'?g.coordinates.flat(1):g.coordinates; const p=cs[Math.floor(cs.length*0.35)]; hud('can',[p[1],p[0]],'Canal do Jordão',84,false).addTo(hudLayer);}
+  schedule();
+}).catch(()=>{$('layers').textContent='Não consegui carregar as camadas vetoriais.';});
+
+Promise.all(['dem','h10','h30','r10','r30'].map(n=>decode(n+'.png'))).then(([dem,h10,h30,r10,r30])=>{
+  D={dem:dem.v,flags:dem.b,h10:h10.v,h30:h30.v,r10:r10.v,r30:r30.v}; render();
+}).catch(err=>{$('probe').textContent=err.message;});
+
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{cCanal=rgb('--canal');cChuva=rgb('--chuva');schedule();});
+})();
+</script>
+</body></html>
