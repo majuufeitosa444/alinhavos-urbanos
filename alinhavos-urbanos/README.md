@@ -13,3 +13,4 @@ Protótipo de leitura do território da ARIE Rio Jordão e da comunidade da Faze
 - Maré: Marinha do Brasil, Tábua de Marés 2026 – Porto do Recife
 - Chuva ao vivo: Open-Meteo.com (CC BY 4.0)
 - Chuva para calibração: APAC (boletins de 06 e 07/07/2023)
+- Calor (sensação térmica UTCI às 15h de 04/11/2026): SOLWEIG / UMEP, com MDT e MDE do PE3D, edificações da Prefeitura e clima do Vaisala Xweather
