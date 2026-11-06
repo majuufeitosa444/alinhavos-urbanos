@@ -396,6 +396,20 @@ body[data-tab="calor"] [data-tab="agua"],body:not([data-tab="calor"]) [data-tab=
 .trlist button:focus-visible{outline:2px solid var(--signal);outline-offset:-2px}
 .trlist i{width:12px;height:12px;display:block}
 .trlist small{font-family:var(--f-data);font-size:.72rem;color:var(--muted);text-align:right}
+
+/* cor de cada tópico = cor do retângulo da capa */
+.topic,.wfix button{--tcd:color-mix(in srgb,var(--tc,#10173a) 80%,#000)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .topic{--tcd:color-mix(in srgb,var(--tc) 65%,#fff)}}
+:root[data-theme="dark"] .topic{--tcd:color-mix(in srgb,var(--tc) 65%,#fff)}
+.topic .cp{background:color-mix(in srgb,var(--tc) 10%,var(--panel))}
+.topic .cp-h .k{color:var(--tcd)}.topic .cp-h .k::before{background:var(--tc)}
+.topic .cp-h h3{color:var(--tcd)}
+.topic .tbd p::before{background:var(--tc)}
+.topic .t-nav{background:var(--tcd)}
+.topic .lg .pg{color:var(--tcd)}
+.topic .now-cta{background:var(--tc);color:#fff}.topic .now-cta:hover{background:var(--tcd)}
+.wfix button{border-color:var(--tc);color:var(--tcd)}
+.wfix button.on{background:var(--tc);color:#fff;border:3px solid #fff;box-shadow:0 0 0 2.5px var(--tc);text-shadow:0 1px 2px rgba(0,0,0,.25)}
 </style>
 
 <div class="landing" id="landing" aria-label="Apresentação">
@@ -1250,6 +1264,7 @@ TOPICS.forEach((T,ti)=>{
   if(T.maps) h+='<div class="m-stage" aria-hidden="true">'+MAPS.map((m,i)=>'<img src="img/m'+String(i+1).padStart(2,'0')+'.jpg" alt="" loading="lazy" draggable="false"'+(i===0?' class="base"':'')+'>').join('')+'</div>';
   h+='<div class="strip" tabindex="-1">'+opener(ti+1,T.t,T.img,T.sq,HINT)+T.pages.join('')+'</div>';
   h+='<div class="t-nav"><button type="button" class="tp-prev" aria-label="Página anterior">‹</button><span aria-live="polite"></span><button type="button" class="tp-next" aria-label="Próxima página">›</button></div>';
+  T.c=T.sq.slice(0,7); sec.style.setProperty('--tc',T.c);
   sec.innerHTML=h; chaps.appendChild(sec); TEL.push(sec);
   const s=sec.querySelector('.strip'), n=s.children.length, cnt=sec.querySelector('.t-nav span'), pv=sec.querySelector('.tp-prev'), nx=sec.querySelector('.tp-next');
   const stage=sec.querySelector('.m-stage'), mimgs=stage?[...stage.children]:[];
@@ -1292,7 +1307,7 @@ TOPICS.forEach((T,ti)=>{
 });
 // roda fixa (a mesma roda de antes, agora numerada 1–5)
 const wfix=$('wfix'), wfl=$('wf-l');
-const wbtn=TOPICS.map((T,i)=>{const b=document.createElement('button');b.type='button';b.textContent=i+1;b.setAttribute('aria-label',(i+1)+' · '+T.t);b.onclick=()=>landing.scrollTo({top:TEL[i].offsetTop,behavior:RM?'auto':'smooth'});wfix.appendChild(b);return b;});
+const wbtn=TOPICS.map((T,i)=>{const b=document.createElement('button');b.type='button';b.textContent=i+1;b.setAttribute('aria-label',(i+1)+' · '+T.t);b.style.setProperty('--tc',T.sq.slice(0,7));b.onclick=()=>landing.scrollTo({top:TEL[i].offsetTop,behavior:RM?'auto':'smooth'});wfix.appendChild(b);return b;});
 let curT=-1;
 function layoutWheel(){
   const vh=landing.clientHeight, st=landing.scrollTop, tops=TEL.map(e=>e.offsetTop);
@@ -1310,7 +1325,7 @@ function layoutWheel(){
     wbtn.forEach((b,i)=>{const a=(i-f)*gap;b.style.transform='translate('+(cx-R+R*Math.cos(a))+'px,'+(cy+R*Math.sin(a))+'px)';b.classList.toggle('on',i===k);});
     wfl.style.transform='translate('+cx+'px,'+(cy+54)+'px) translateX(-50%)';
   }
-  if(k!==curT){curT=k; wfl.textContent=TOPICS[k].t;}
+  if(k!==curT){curT=k; wfl.textContent=TOPICS[k].t; wfl.style.background=TOPICS[k].sq.slice(0,7);}
 }
 let wraf=0; const wsched=()=>{if(!wraf)wraf=requestAnimationFrame(()=>{wraf=0;layoutWheel();});};
 landing.addEventListener('scroll',wsched,{passive:true}); addEventListener('resize',wsched); layoutWheel();
