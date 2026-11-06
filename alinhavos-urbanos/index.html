@@ -436,7 +436,7 @@ body[data-tab="calor"] [data-tab="agua"],body:not([data-tab="calor"]) [data-tab=
   <nav class="wfix" id="wfix" aria-label="Tópicos"><svg aria-hidden="true"><circle id="wf-arc"/></svg><span class="wl" id="wf-l"></span></nav>
   <div class="chaps" id="chaps"></div>
   <section class="q-open" aria-hidden="true">
-    <div class="op-photo"><img src="img/capd.jpg" alt="" loading="lazy" draggable="false"><div class="op-sq" style="--sq:#dad061b3"><b>?</b><span>A pergunta</span></div></div>
+    <div class="op-photo"><img src="capd.jpg" alt="" loading="lazy" draggable="false"><div class="op-sq" style="--sq:#dad061b3"><b>?</b><span>A pergunta</span></div></div>
   </section>
   <section class="final wrap" id="final" aria-labelledby="fin-t">
     <span class="k">A pergunta do TG2</span>
@@ -1237,13 +1237,13 @@ const MAPS=[
  ['Temperatura',[EDF,REC],null,['#ffffb2','#bd0026','29 °C','45 °C']]
 ];
 const TOPICS=[
- {t:'Introdução',img:'img/cap1.jpg',sq:'#f47643b3',pages:[
+ {t:'Introdução',img:'cap1.jpg',sq:'#f47643b3',pages:[
    cpage('1 · Introdução','<h3 class="huge">Agentes ecossistêmicos</h3>',TBD(3)),
    cpage('1 · Introdução','<h3>Em construção</h3>',TBD(4))]},
- {t:'Território',img:'img/cap2.jpg',sq:'#93255bb3',pages:[
-   cpage('2 · Território','<h3>Inserção no território</h3>','<figure class="fig spread" style="margin:0"><img src="img/terr16.jpg" alt="Inserção do recorte no Recife, página esquerda" loading="lazy" draggable="false"><img src="img/terr17.jpg" alt="Inserção do recorte no Recife, página direita" loading="lazy" draggable="false"></figure>'),
+ {t:'Território',img:'cap2.jpg',sq:'#93255bb3',pages:[
+   cpage('2 · Território','<h3>Inserção no território</h3>','<figure class="fig spread" style="margin:0"><img src="terr16.jpg" alt="Inserção do recorte no Recife, página esquerda" loading="lazy" draggable="false"><img src="terr17.jpg" alt="Inserção do recorte no Recife, página direita" loading="lazy" draggable="false"></figure>'),
    cpage('2 · Território','<h3>Em construção</h3>',TBD(4))]},
- {t:'Leituras',img:'img/cap3.jpg',sq:'#ea931fb3',maps:true,pages:MAPS.map((m,i)=>{
+ {t:'Leituras',img:'cap3.jpg',sq:'#ea931fb3',maps:true,pages:MAPS.map((m,i)=>{
    const [name,items,note,grad]=m;
    let lg='<div class="lg"><span class="pg">Mapa '+(i+1)+' de '+MAPS.length+' · todos no mesmo enquadramento</span>';
    if(items.length) lg+='<ul>'+items.map(([l,c,k])=>'<li>'+sw(c,k)+l+'</li>').join('')+'</ul>';
@@ -1251,17 +1251,17 @@ const TOPICS=[
    if(note) lg+='<p class="ov">'+note+'</p>';
    lg+='<p class="ov">Arraste devagar para ver um mapa se sobrepor ao outro.</p>'+TBD(1)+'</div>';
    return cpage('3 · Leituras','<h3>'+name+'</h3>',lg,'lg-page');})},
- {t:'Diagnóstico',img:'img/cap4.jpg',sq:'#4d787fb3',pages:[
-   cpage('4 · Diagnóstico','<h3>Condicionantes, deficiências e potencialidades</h3>','<figure class="fig" style="margin:0"><img src="img/dg_cdp.jpg" alt="Diagrama de bolhas da síntese CDP" loading="lazy" draggable="false"></figure>'+TBD(2)),
-   ...[['Condicionantes','c'],['Deficiências','d'],['Potencialidades','p']].map(([n,k])=>cpage('4 · Diagnóstico','<h3>'+n+'</h3>','<div class="diag"><img src="img/dg_'+k+'.jpg" alt="Diagrama de bolhas: '+n.toLowerCase()+'" loading="lazy" draggable="false"><img src="img/dm_'+k+'.jpg" alt="Mapa de '+n.toLowerCase()+'" loading="lazy" draggable="false">'+TBD(2)+'</div>'))]},
- {t:'E hoje?',img:'img/cap5.jpg',sq:'#3b3f77b3',pages:[
+ {t:'Diagnóstico',img:'cap4.jpg',sq:'#4d787fb3',pages:[
+   cpage('4 · Diagnóstico','<h3>Condicionantes, deficiências e potencialidades</h3>','<figure class="fig" style="margin:0"><img src="dg_cdp.jpg" alt="Diagrama de bolhas da síntese CDP" loading="lazy" draggable="false"></figure>'+TBD(2)),
+   ...[['Condicionantes','c'],['Deficiências','d'],['Potencialidades','p']].map(([n,k])=>cpage('4 · Diagnóstico','<h3>'+n+'</h3>','<div class="diag"><img src="dg_'+k+'.jpg" alt="Diagrama de bolhas: '+n.toLowerCase()+'" loading="lazy" draggable="false"><img src="dm_'+k+'.jpg" alt="Mapa de '+n.toLowerCase()+'" loading="lazy" draggable="false">'+TBD(2)+'</div>'))]},
+ {t:'E hoje?',img:'cap5.jpg',sq:'#3b3f77b3',pages:[
    cpage('5 · E hoje?','<h3 class="huge">E hoje?</h3>','<div style="display:flex;flex-direction:column;gap:14px;max-width:560px"><p style="margin:0;font-size:1.08rem">O medidor junta a maré de agora, pela tábua da Marinha, e a chuva das últimas 24 horas no Jordão, e mostra no mapa onde a água chega.</p><button type="button" class="now-cta" id="go-real"><b>Ver a água agora</b><span>Abre o mapa do recorte com a realidade de agora.</span></button><div class="now-live" id="now-live"></div></div>')]}
 ];
 const chaps=$('chaps'), TEL=[];
 TOPICS.forEach((T,ti)=>{
   const sec=document.createElement('section'); sec.className='topic'; sec.id='tp'+(ti+1); sec.setAttribute('aria-label',(ti+1)+' · '+T.t);
   let h='';
-  if(T.maps) h+='<div class="m-stage" aria-hidden="true">'+MAPS.map((m,i)=>'<img src="img/m'+String(i+1).padStart(2,'0')+'.jpg" alt="" loading="lazy" draggable="false"'+(i===0?' class="base"':'')+'>').join('')+'</div>';
+  if(T.maps) h+='<div class="m-stage" aria-hidden="true">'+MAPS.map((m,i)=>'<img src="m'+String(i+1).padStart(2,'0')+'.jpg" alt="" loading="lazy" draggable="false"'+(i===0?' class="base"':'')+'>').join('')+'</div>';
   h+='<div class="strip" tabindex="-1">'+opener(ti+1,T.t,T.img,T.sq,HINT)+T.pages.join('')+'</div>';
   h+='<div class="t-nav"><button type="button" class="tp-prev" aria-label="Página anterior">‹</button><span aria-live="polite"></span><button type="button" class="tp-next" aria-label="Próxima página">›</button></div>';
   T.c=T.sq.slice(0,7); sec.style.setProperty('--tc',T.c);
@@ -1352,12 +1352,12 @@ const DPANE={
   propoe:()=>'<h4>O que propõe</h4>'+TBD(2)+'<div class="ph2">'+PH('Antes · em construção')+PH('Depois · em construção')+'</div>',
   impacto:()=>'<h4>Impacto</h4>'+TBD(1)+'<div class="ph3">'+PH('Indicador em construção')+PH('Indicador em construção')+PH('Indicador em construção')+'</div>'};
 let dzI=0, dzTab='hoje', dzBack=null;
-$('cards').innerHTML=DIR.map((d,i)=>'<button type="button" data-i="'+i+'" aria-label="Diretriz '+(i+1)+': '+d.t+'"><img src="img/d'+(i+1)+'.svg" alt="" loading="lazy"></button>').join('');
+$('cards').innerHTML=DIR.map((d,i)=>'<button type="button" data-i="'+i+'" aria-label="Diretriz '+(i+1)+': '+d.t+'"><img src="d'+(i+1)+'.svg" alt="" loading="lazy"></button>').join('');
 $('dz-tabs').innerHTML=DTABS.map(([k,l])=>'<button type="button" role="tab" data-k="'+k+'" aria-selected="false">'+l+'</button>').join('');
 function dzRender(){
   const d=DIR[dzI]; $('dz').style.setProperty('--dc',d.c);
   $('dz-k').textContent='Diretriz '+(dzI+1)+' de 4 · '+d.s; $('dz-t').textContent=d.t; $('dz-s').textContent=d.p;
-  $('dz-img').src='img/d'+(dzI+1)+'.svg'; $('dz-img').alt='Cartão da diretriz '+(dzI+1);
+  $('dz-img').src='d'+(dzI+1)+'.svg'; $('dz-img').alt='Cartão da diretriz '+(dzI+1);
   [...$('dz-tabs').children].forEach(b=>{const on=b.dataset.k===dzTab;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;});
   $('dz-pane').innerHTML=DPANE[dzTab]();
 }
