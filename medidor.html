@@ -1792,8 +1792,8 @@ function setView(v){
 // ---------- calor às 15h (SOLWEIG) ----------
 const CG={"W": -34.913741679221125, "S": -8.124937621600422, "E": -34.902530611602735, "N": -8.113783622253676, "nx": 616, "ny": 620};
 const cB=[[CG.S,CG.W],[CG.N,CG.E]];
-const HIMG={}; function heatImg(k){ if(!HIMG[k]){ const im=new Image(); im.src={atual:'calor_atual.png',arvores:'calor_arvores.png',dif:'calor_dif.png'}[k]; HIMG[k]=im; } return HIMG[k]; }
-const heat={atual:L.imageOverlay('calor_atual.png',cB,{className:'pix',opacity:0.85,interactive:false}),arvores:L.imageOverlay('calor_arvores.png',cB,{className:'pix',opacity:0.85,interactive:false}),dif:L.imageOverlay('calor_dif.png',cB,{className:'pix',opacity:0.9,interactive:false})};
+const HIMG={}; function heatImg(k){ if(!HIMG[k]){ const im=new Image(); im.src={atual:'calor_atual_v2.png',arvores:'calor_arvores_v2.png',dif:'calor_dif.png'}[k]; HIMG[k]=im; } return HIMG[k]; }
+const heat={atual:L.imageOverlay('calor_atual_v2.png',cB,{className:'pix',opacity:0.85,interactive:false}),arvores:L.imageOverlay('calor_arvores_v2.png',cB,{className:'pix',opacity:0.85,interactive:false}),dif:L.imageOverlay('calor_dif.png',cB,{className:'pix',opacity:0.9,interactive:false})};
 let heatOn='off', HV=null;
 (function(){const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=CG.nx;c.height=CG.ny;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0);HV=x.getImageData(0,0,CG.nx,CG.ny).data;};im.src='calor_vals.png';})();
 function heatProbe(ll){
