@@ -483,6 +483,11 @@ body[data-mode="sim"] .realonly{display:none!important}
 .actlist .m{font-size:.74rem;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .actlist .go{all:unset;cursor:pointer;font-family:var(--f-data);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid currentColor}
 .actlist .go:focus-visible{outline:2px solid var(--signal)}
+.luz-ctl{display:flex;flex-direction:column;gap:4px;margin:0 0 12px 30px;font-size:.8rem}
+.luz-ctl[hidden]{display:none}
+.luz-ctl input{width:100%;accent-color:#c99700}
+.luz-ctl small{color:var(--muted);font-size:.72rem;line-height:1.35}
+.actlist .tag{font-family:var(--f-data);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:1px 5px}
 .sim-link{margin:18px 0 4px;font-family:var(--f-data);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;opacity:.65}.sim-link a{color:var(--muted)}
 body[data-mode="sim"] .sim-link{display:none}
 </style>
@@ -542,7 +547,7 @@ body[data-mode="sim"] .sim-link{display:none}
       <div class="eixo" style="--ec:#2f6fb0">
         <button type="button" class="eixo-h" id="tab-agua" aria-expanded="true" aria-controls="eb-agua"><span class="eixo-n">Água</span><span class="eixo-s">canal, maré, chuva e córrego</span></button>
         <div class="eixo-b" id="eb-agua" data-tab="agua">
-        <details class="acts simonly" open><summary>Ações das diretrizes neste eixo</summary><ol class="actlist" id="acts-agua"></ol><p class="hint">D1 a D4 são as diretrizes do capítulo 5; MA, ME e MI, as escalas macro, meso e micro. As ações marcadas com "simular" têm teste neste medidor.</p></details>
+        <details class="acts simonly" open><summary>Ações das diretrizes neste eixo</summary><ol class="actlist" id="acts-agua"></ol><p class="hint">D1 a D4 são as diretrizes do capítulo 5 (D1 Retecer a trama natural, D2 Bordar o que já existe, D3 Alinhavar as margens, D4 Arrematar o ponto); o número é o da ação dentro de cada diretriz. Aqui só aparecem as ações que já têm teste neste medidor: "simular" leva até ele.</p></details>
     <section class="realonly" aria-labelledby="h-dias" data-tab="agua">
       <h2 id="h-dias">Próximos 7 dias</h2>
       <p class="hint">Toque num dia para ver no mapa onde a água pode chegar no pior momento dele: a maré mais alta do dia, com toda a chuva prevista caindo nessa hora.</p>
@@ -768,7 +773,7 @@ body[data-mode="sim"] .sim-link{display:none}
       <div class="eixo" style="--ec:#4f7f52">
         <button type="button" class="eixo-h" id="tab-calor" aria-expanded="false" aria-controls="eb-calor"><span class="eixo-n">Habitat natural (calor)</span><span class="eixo-s">sombra, árvores e sensação térmica</span></button>
         <div class="eixo-b" id="eb-calor" data-tab="calor">
-        <details class="acts simonly" open><summary>Ações das diretrizes neste eixo</summary><ol class="actlist" id="acts-calor"></ol><p class="hint">D1 a D4 são as diretrizes do capítulo 5; MA, ME e MI, as escalas macro, meso e micro. As ações marcadas com "simular" têm teste neste medidor.</p></details>
+        <details class="acts simonly" open><summary>Ações das diretrizes neste eixo</summary><ol class="actlist" id="acts-calor"></ol><p class="hint">D1 a D4 são as diretrizes do capítulo 5 (D1 Retecer a trama natural, D2 Bordar o que já existe, D3 Alinhavar as margens, D4 Arrematar o ponto); o número é o da ação dentro de cada diretriz. Aqui só aparecem as ações que já têm teste neste medidor: "simular" leva até ele.</p></details>
     <section aria-labelledby="h-calor" data-tab="calor">
       <h2 id="h-calor">Calor às 15h</h2>
       <div class="seg" role="group" aria-label="Camada de calor" id="calor-seg">
@@ -1607,37 +1612,50 @@ function eixoClick(t){ if(document.body.dataset.tab===t){ const b=$('eb-'+t); b.
 $('tab-agua').onclick=()=>eixoClick('agua'); $('tab-calor').onclick=()=>eixoClick('calor');
 document.body.dataset.tab='agua';
 
+// ---------- alcance da luz dos postes (camada Iluminação pública) ----------
+const LUZ={r:15,P:null,c:null,ren:null};
+function luzDraw(){ if(!LUZ.P||!LUZ.c) return;
+  if(!LUZ.ren){ map.createPane('luz'); const p=map.getPane('luz'); p.style.zIndex=405; p.style.opacity='.42'; p.style.pointerEvents='none'; LUZ.ren=L.canvas({pane:'luz',padding:.3}); }
+  LUZ.c.clearLayers();
+  LUZ.P.features.forEach(f=>{ if(f.properties.t==='D') return; const c=f.geometry.coordinates;
+    L.circle([c[1],c[0]],{renderer:LUZ.ren,radius:LUZ.r,stroke:false,fillColor:'#ffd84d',fillOpacity:1,interactive:false}).addTo(LUZ.c); });
+  luzStat(); }
+// rua = folga entre as quadras: célula fora de qualquer lote e fora da água do canal (embaixo de viaduto também conta);
+// dentro da Fazendinha (que fica num lote só), as vielas são o chão entre as casas
+function ruaLivre(i){ const f=D.flags[i]; if(f&2) return D.bld[i]/10<=2.5; return D.lot[i]===0&&!(f&4); }
+function luzStat(){ const el=$('luz-stat'); if(!el||!LUZ.P) return;
+  if(!D){ el.textContent='Calculando…'; setTimeout(luzStat,800); return; }
+  const cx=(GRID.E-GRID.W)/nx*111320*Math.cos((GRID.S+GRID.N)/2*Math.PI/180), cy=(GRID.N-GRID.S)/ny*111320; // tamanho da célula em m
+  const rx=LUZ.r/cx, ry=LUZ.r/cy, lit=new Uint8Array(N);
+  LUZ.P.features.forEach(f=>{ if(f.properties.t==='D') return; const c=f.geometry.coordinates;
+    const x0=(c[0]-GRID.W)/(GRID.E-GRID.W)*nx, y0=(GRID.N-c[1])/(GRID.N-GRID.S)*ny;
+    for(let y=Math.floor(y0-ry);y<=Math.ceil(y0+ry);y++){ if(y<0||y>=ny) continue; const dy=(y+.5-y0)/ry;
+      for(let x=Math.floor(x0-rx);x<=Math.ceil(x0+rx);x++){ if(x<0||x>=nx) continue; const dx=(x+.5-x0)/rx; if(dx*dx+dy*dy<=1) lit[y*nx+x]=1; } } });
+  let fa=0,fl=0,ra=0,rl=0;
+  for(let i=0;i<N;i++){ const f=D.flags[i]; if(!(f&3)||!ruaLivre(i)) continue;
+    if(f&2){ fa++; if(lit[i]) fl++; } if(f&1){ ra++; if(lit[i]) rl++; } }
+  const p=(a,b)=>b?Math.round(a/b*100)+'%':'—';
+  el.innerHTML='Ruas e vielas a até '+LUZ.r+' m de um poste: <b>Fazendinha '+p(fl,fa)+'</b> · recorte do TG2 '+p(rl,ra)+'.';
+}
+
 // ---------- ações das diretrizes por eixo (aba Simulação) ----------
 const DCOR={D1:'#4f7f52',D2:'#b07d24',D3:'#2e3a78',D4:'#9a1f5a'};
+// numeração das ações revisadas em 17/11/2026; só entram as que já têm teste neste medidor
+// 4º campo: id da seção com o teste ("simular"); 'prep' (em preparação) ou vazio (sem teste ainda) também funcionam
 const ACTS={agua:[
- ['D1MA1','Requalificação ambiental do canal','Poder público','h-cr'],
- ['D1MA2','Regularização do abastecimento de água e do esgotamento sanitário','Poder público'],
- ['D1ME1','Barreiras de retenção de resíduos no canal','Poder público'],
- ['D1ME2','Retenção da água nos grandes lotes impermeáveis','Entorno privado','h-iv'],
- ['D1ME3','Faixas verdes de proteção','Poder público','h-cr'],
- ['D1ME4','Incentivos para soluções verdes dentro dos lotes','Poder público'],
- ['D4ME3','Reorganização habitacional no próprio lugar, preservando o córrego','Poder público'],
- ['D1MI1','Registro comunitário de cheias','Comunidade'],
- ['D2MI3','Agricultura urbana ligada à drenagem e à compostagem','Comunidade'],
- ['D3MI1','Pavimentação drenante e acessibilidade das vielas','Poder público']],
+ ['D1-05','Retenção da água nos grandes lotes impermeáveis','Entorno privado','h-iv'],
+ ['D1-08','Implantação de biovaletas e jardins de chuva nas ruas e vielas','Poder público','h-iv'],
+ ['D1-09','Renaturalização do córrego','Poder público','h-cr']],
  calor:[
- ['D1MA3','Inventário e proteção da vegetação existente','Sociedade civil'],
- ['D1ME3','Faixas verdes de proteção','Poder público'],
- ['D1ME4','Incentivos para soluções verdes dentro dos lotes','Poder público'],
- ['D1ME5','Arborização e iluminação dos espaços livres e percursos da ARIE','Poder público','h-tr'],
- ['D1ME6','Parque de uso público de baixo impacto na UCN','Poder público'],
- ['D1ME7','Barreira vegetal contra o ruído do metrô','Poder público'],
- ['D1ME8','Parque público em parte do lote do Residencial Boa Viagem I','Poder público'],
- ['D2ME6','Viveiro comunitário de mudas','Comunidade'],
- ['D1MI2','Superfícies frescas nas coberturas','Comunidade'],
- ['D2MI2','Hortas comunitárias e produtivas','Comunidade']]};
+ ['D1-07','Faixas verdes e arborização contra o calor','Poder público','h-tr']]};
 Object.entries(ACTS).forEach(([e,list])=>{ const ol=$('acts-'+e); if(!ol) return;
   list.forEach(([c,t,who,sim])=>{ const li=document.createElement('li');
     const sp=document.createElement('span'); sp.className='code'; sp.textContent=c; sp.style.setProperty('--dc',DCOR[c.slice(0,2)]);
     const tt=document.createElement('span'); tt.className='t'; tt.textContent=t;
     const m=document.createElement('span'); m.className='m'; m.textContent='Lidera: '+who;
-    if(sim){ const b=document.createElement('button'); b.type='button'; b.className='go'; b.textContent='simular'; b.setAttribute('aria-label','Simular '+c+' neste medidor');
+    if(sim&&sim!=='prep'){ const b=document.createElement('button'); b.type='button'; b.className='go'; b.textContent='simular'; b.setAttribute('aria-label','Simular '+c+' neste medidor');
       b.onclick=()=>{ const h=$(sim); if(h){ h.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); } }; m.appendChild(b); }
+    else { const g=document.createElement('span'); g.className='tag'; g.textContent=sim==='prep'?'em preparação':'sem teste ainda'; m.appendChild(g); }
     li.append(sp,tt,m); ol.appendChild(li); }); });
 function panUpd(){ const g=id=>$(id)?$(id).textContent:'—';
   $('pan-canal').textContent=g('v-canal'); $('pan-chuva').textContent=g('v-chuva'); $('pan-rec').textContent=g('r-pct'); $('pan-faz').textContent=g('r-faz'); }
@@ -2015,6 +2033,7 @@ fetch('layers.json').then(r=>r.json()).then(Ly=>{
     ['microbacias','Limite de microbacia',false,()=>L.geoJSON(Ly.microbacias,{style:{color:'#5b6385',weight:1.6,dashArray:'7 5',fill:false},interactive:false})],
     ['abrigos','Abrigos (2023)',false,()=>L.geoJSON(Ly.abrigos,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:7,color:'#fff',weight:2,fillColor:'#15803d',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.no_entidade,[['Uso',p.tipo_de_uso],['Bairro',p.no_bairro],['Salas',p.qt_salas_utilizadas]]));}})],
     ['pracas','Praças e áreas verdes',false,()=>L.geoJSON(Ly.pracas,{pointToLayer:(f,ll)=>L.circleMarker(ll,{radius:5,color:'#fff',weight:1,fillColor:'#65a30d',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop(p.tipo+' '+p.nome,[]));}})],
+    ['postes','Postes de iluminação pública',false,()=>{ const g=L.layerGroup(); fetch('postes.json').then(r=>r.json()).then(P=>{ LUZ.P=P; LUZ.c=L.layerGroup().addTo(g); luzDraw(); L.geoJSON(P,{pointToLayer:(f,ll)=>L.circleMarker(ll,{renderer:dR,radius:2.8,color:'#4a3b00',weight:0.8,fillColor:f.properties.t==='D'?'#9ca3af':'#f2b705',fillOpacity:1}),onEachFeature:(f,l)=>{const p=f.properties;l.bindPopup(pop('Poste de iluminação pública',[['Endereço',p.e],['Lâmpada',p.t==='D'?'desativada':'LED'+(p.w?' de '+p.w+' W':'')],['Fonte','Prefeitura do Recife, dados abertos, 2025']]));}}).addTo(g); }).catch(()=>{}); return g; }],
   ];
   const SW={ // amostra de cada camada (legenda)
     hud:'<rect x="3" y="2" width="20" height="10" fill="#141c4f" opacity=".8"/>',
@@ -2031,11 +2050,12 @@ fetch('layers.json').then(r=>r.json()).then(Ly=>{
     mancha:'<rect x="2" y="2" width="22" height="10" fill="#6d28d9" fill-opacity=".3" stroke="#6d28d9"/>',
     zhc:'<rect x="2" y="2" width="22" height="10" fill="#b7791f" fill-opacity=".15" stroke="#b7791f" stroke-dasharray="3 2"/>',
     abrigos:'<circle cx="13" cy="7" r="4.5" fill="#15803d" stroke="#fff" stroke-width="1.5"/>',
-    pracas:'<circle cx="13" cy="7" r="3.8" fill="#65a30d" stroke="#fff"/>'};
-  const NOTE={hud:'recorte, Fazendinha e canal; na simulação começam desligados',tubos:'linha mais grossa = cano maior; tracejado = sem diâmetro',bocas:'por onde a água da rua entra na rede',pontos:'PCR em roxo, EMLURB em verde',cis:'Fazendinha em destaque'};
+    pracas:'<circle cx="13" cy="7" r="3.8" fill="#65a30d" stroke="#fff"/>',
+    postes:'<circle cx="8" cy="7" r="3" fill="#f2b705" stroke="#4a3b00" stroke-width=".8"/><circle cx="18" cy="7" r="3" fill="#f2b705" stroke="#4a3b00" stroke-width=".8"/>'};
+  const NOTE={hud:'recorte, Fazendinha e canal; na simulação começam desligados',tubos:'linha mais grossa = cano maior; tracejado = sem diâmetro',bocas:'por onde a água da rua entra na rede',pontos:'PCR em roxo, EMLURB em verde',cis:'Fazendinha em destaque',postes:'cadastro da Prefeitura, 2025; nas vielas da Fazendinha não há nenhum'};
   // fixas, como num mapa tradicional (sem liga/desliga e fora da lista)
   const FIXED=['faixa','canais2','recorte','waze'];
-  const GROUPS=[['No mapa',['hud']],['Drenagem e comunidades',['tubos','bocas','pv','cis']]];
+  const GROUPS=[['No mapa',['hud']],['Drenagem e comunidades',['tubos','bocas','pv','cis']],['Iluminação pública',['postes']]];
   const byId={}; defs.forEach(d=>byId[d[0]]=d);
   const box=$('layers'), LYR={};
   FIXED.forEach(id=>{const lyr=byId[id][3](); LYR[id]=lyr; lyr.addTo(map);});
@@ -2057,6 +2077,11 @@ fetch('layers.json').then(r=>r.json()).then(Ly=>{
     fs.addEventListener('change',upd); upd();
     box.appendChild(fs);
   });
+  if(LYR.postes){ const w=document.createElement('div'); w.className='luz-ctl'; w.id='luz-ctl'; w.hidden=true;
+    w.innerHTML='<label for="luz-r">Alcance da luz de cada poste: <b id="luz-rv">'+LUZ.r+' m</b></label><input type="range" id="luz-r" min="5" max="30" step="1" value="'+LUZ.r+'"><small id="luz-stat">Calculando…</small><small>É uma estimativa: o cadastro não diz a altura dos postes. Os 15 m iniciais são a metade de um espaçamento de 3,5 vezes a altura da luminária (referência do manual de projetos de iluminação pública da CEMIG), supondo luminárias a uns 8 a 9 m do chão. Mexa na barra para testar outros alcances. Ruas e vielas = as folgas entre as quadras (o que fica fora dos lotes, sem o canal) e, dentro da Fazendinha, o chão entre as casas.</small>';
+    box.appendChild(w);
+    $('luz-r').addEventListener('input',e=>{ LUZ.r=+e.target.value; $('luz-rv').textContent=LUZ.r+' m'; luzDraw(); });
+    $('ly-postes').addEventListener('change',e=>{ w.hidden=!e.target.checked; if(e.target.checked) luzStat(); }); }
   fetch('labels.json').then(r=>r.json()).then(lb=>{
     const minor=L.layerGroup(), major=L.layerGroup().addTo(map);
     lb.forEach(o=>{const m=L.marker([o.lat,o.lon],{pane:'pts',interactive:false,keyboard:false,icon:L.divIcon({className:'st-label r'+o.r,iconSize:[0,0],html:'<span style="--a:'+o.a+'deg">'+esc(o.n)+'</span>'})});(o.r<=1?major:minor).addLayer(m);});
